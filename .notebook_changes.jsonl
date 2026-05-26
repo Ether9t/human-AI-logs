@@ -52,3 +52,51 @@
 {"changeType":"CHUNK_INSERT","cellId":"X34sZmlsZQ==","timestamp":"2026-05-26T21:48:57.898Z","content":"### Would non-linear models such as Random Forest outperform linear models, and why?"}
 {"changeType":"CELL_CREATED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T21:50:57.068Z"}
 {"changeType":"CHUNK_INSERT","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T21:50:57.069Z","content":"corr = df.drop(columns='target').corrwith(df['target']).abs().sort_values(ascending=False)\nprint(corr.head())\nprint(f\"\\nStrongest correlation: {corr.idxmax()} ({corr.max():.3f})\")"}
+{"changeType":"CELL_CREATED","cellId":"X36sZmlsZQ==","timestamp":"2026-05-26T21:59:53.818Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X36sZmlsZQ==","timestamp":"2026-05-26T21:59:53.818Z","content":"\nfrom sklearn.datasets import load_diabetes\nimport pandas as pd\n\ndata = load_diabetes()\ndf = pd.DataFrame(data.data, columns=data.feature_names)\ndf['target'] = data.target\n\ncorr = df.drop(columns='target').corrwith(df['target']).abs().sort_values(ascending=False)\nprint(corr.head())\nprint(f\"\\nStrongest correlation: {corr.idxmax()} ({corr.max():.3f})\")\n"}
+{"changeType":"CELL_CREATED","cellId":"X40sZmlsZQ==","timestamp":"2026-05-26T22:00:06.228Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X40sZmlsZQ==","timestamp":"2026-05-26T22:00:06.228Z","content":"\nfrom scipy import stats\n\nr, p = stats.pearsonr(df['bmi'], df['target'])\nprint(f\"BMI corr (abs): {corr['bmi']:.3f}  |  Pearson r: {r:.3f}  |  p-value: {p:.2e}\")\n"}
+{"changeType":"CELL_CREATED","cellId":"X41sZmlsZQ==","timestamp":"2026-05-26T22:00:48.064Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X41sZmlsZQ==","timestamp":"2026-05-26T22:00:48.065Z","content":"\nmeans = df.groupby(pd.qcut(df['bmi'], 4, labels=['Q1','Q2','Q3','Q4']))['target'].mean().round(1)\nprint(means)\nprint(f\"\\nYes — mean progression rises monotonically from Q1 to Q4 (r={r:.3f}, p={p:.2e}).\")\n"}
+{"changeType":"CELL_CREATED","cellId":"X42sZmlsZQ==","timestamp":"2026-05-26T22:02:05.484Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X42sZmlsZQ==","timestamp":"2026-05-26T22:02:05.484Z","content":"corr = df.drop(columns='target').corrwith(df['target']).abs().sort_values(ascending=False)\nprint(corr.head())\nprint(f\"\\nStrongest correlation: {corr.idxmax()} ({corr.max():.3f})\")"}
+{"changeType":"CELL_CREATED","cellId":"X43sZmlsZQ==","timestamp":"2026-05-26T22:02:05.484Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X43sZmlsZQ==","timestamp":"2026-05-26T22:02:05.484Z","content":"### Did patients with higher BMI generally show higher disease progression values?"}
+{"changeType":"CELL_CREATED","cellId":"X44sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X44sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z","content":"from scipy import stats\n\nr, p = stats.pearsonr(df['bmi'], df['target'])\nprint(f\"BMI corr (abs): {corr['bmi']:.3f}  |  Pearson r: {r:.3f}  |  p-value: {p:.2e}\")\n\nmeans = df.groupby(pd.qcut(df['bmi'], 4, labels=['Q1','Q2','Q3','Q4']))['target'].mean().round(1)\nprint(means)\nprint(f\"\\nYes — mean progression rises monotonically from Q1 to Q4 (r={r:.3f}, p={p:.2e}).\")"}
+{"changeType":"CELL_CREATED","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z","content":"### Was blood pressure (bp) evenly distributed across patients?"}
+{"changeType":"CELL_CREATED","cellId":"X46sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X46sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z","content":"### Which feature showed the greatest variance?"}
+{"changeType":"CELL_CREATED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z","content":"### Were there any obvious outliers in the dataset?"}
+{"changeType":"CELL_CREATED","cellId":"X51sZmlsZQ==","timestamp":"2026-05-26T22:02:05.485Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X51sZmlsZQ==","timestamp":"2026-05-26T22:02:05.486Z","content":"## Verification"}
+{"changeType":"CELL_CREATED","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:02:05.486Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:02:05.486Z","content":"### Was BMI truly more important than age in predicting disease progression?"}
+{"changeType":"CELL_CREATED","cellId":"X53sZmlsZQ==","timestamp":"2026-05-26T22:02:05.487Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X53sZmlsZQ==","timestamp":"2026-05-26T22:02:05.487Z","content":"### Did patients with higher blood pressure always experience more severe diabetes progression?"}
+{"changeType":"CELL_CREATED","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T22:02:05.487Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T22:02:05.488Z","content":"### Were the cholesterol-related features (s1–s6) strongly correlated with each other?"}
+{"changeType":"CELL_CREATED","cellId":"X55sZmlsZQ==","timestamp":"2026-05-26T22:02:05.488Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X55sZmlsZQ==","timestamp":"2026-05-26T22:02:05.488Z","content":"### Was the relationship between age and disease progression strong enough to be captured by a linear model?"}
+{"changeType":"CELL_CREATED","cellId":"X56sZmlsZQ==","timestamp":"2026-05-26T22:02:05.489Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X56sZmlsZQ==","timestamp":"2026-05-26T22:02:05.489Z","content":"### Did feature standardization significantly affect model performance?"}
+{"changeType":"CELL_CREATED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T22:02:05.489Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T22:02:05.489Z","content":"### Did using all features necessarily produce better predictions than using only a few important features?"}
+{"changeType":"CELL_CREATED","cellId":"X61sZmlsZQ==","timestamp":"2026-05-26T22:02:05.490Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X61sZmlsZQ==","timestamp":"2026-05-26T22:02:05.490Z","content":"### Did BMI and blood sugar related indicators (such as s5) jointly influence disease progression?"}
+{"changeType":"CELL_CREATED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T22:02:05.492Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T22:02:05.492Z","content":"## Exploratory"}
+{"changeType":"CELL_CREATED","cellId":"X63sZmlsZQ==","timestamp":"2026-05-26T22:02:05.492Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X63sZmlsZQ==","timestamp":"2026-05-26T22:02:05.493Z","content":"### If you could keep only one feature to predict disease progression, which would you choose and why?"}
+{"changeType":"CELL_CREATED","cellId":"X64sZmlsZQ==","timestamp":"2026-05-26T22:02:05.493Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X64sZmlsZQ==","timestamp":"2026-05-26T22:02:05.493Z","content":"### Would non-linear models such as Random Forest outperform linear models, and why?"}
+{"changeType":"CELL_CREATED","cellId":"X65sZmlsZQ==","timestamp":"2026-05-26T22:05:32.401Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X65sZmlsZQ==","timestamp":"2026-05-26T22:05:32.402Z","content":"Reuse BMI correlation from previous result. Confirm significance with Pearson r + p-value, then group by BMI quartiles to show the trend concretely."}
+{"changeType":"CELL_CREATED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T22:05:32.402Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T22:05:32.402Z","content":"from scipy import stats\n\nr, p = stats.pearsonr(df['bmi'], df['target'])\nprint(f\"BMI corr (abs): {corr['bmi']:.3f}  |  Pearson r: {r:.3f}  |  p-value: {p:.2e}\")\n\nmeans = df.groupby(pd.qcut(df['bmi'], 4, labels=['Q1','Q2','Q3','Q4']))['target'].mean().round(1)\nprint(means)\nprint(f\"\\nYes — mean progression rises monotonically from Q1 to Q4 (r={r:.3f}, p={p:.2e}).\")"}
+{"changeType":"CELL_CREATED","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T22:07:26.893Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T22:07:26.893Z","content":"**Method:** Reuse absolute correlation from the previous result, then run `scipy.stats.pearsonr` to get the signed r and p-value.\n\n**Pearson r** measures linear association between BMI and progression on a scale of −1 to 1. A positive r means higher BMI tends to go with higher progression; magnitude indicates strength (|r| > 0.5 is considered moderate-to-strong).\n\n**p-value** is the probability of observing a correlation this large by chance under the null hypothesis (no relationship). p < 0.05 is the conventional significance threshold; values like 1e-40 make the result effectively certain.\n\n**Quartile grouping** splits BMI into four equal-sized bins (Q1 = lowest, Q4 = highest) and computes mean progression per bin — a model-free way to confirm the trend is monotonic, not just driven by outliers."}
+{"changeType":"CELL_CREATED","cellId":"Y101sZmlsZQ==","timestamp":"2026-05-26T22:07:26.894Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y101sZmlsZQ==","timestamp":"2026-05-26T22:07:26.894Z","content":"from scipy import stats\n\nr, p = stats.pearsonr(df['bmi'], df['target'])\nprint(f\"BMI corr (abs): {corr['bmi']:.3f}  |  Pearson r: {r:.3f}  |  p-value: {p:.2e}\")\n\nmeans = df.groupby(pd.qcut(df['bmi'], 4, labels=['Q1','Q2','Q3','Q4']))['target'].mean().round(1)\nprint(means)\nprint(f\"\\nYes — mean progression rises monotonically from Q1 to Q4 (r={r:.3f}, p={p:.2e}).\")"}
