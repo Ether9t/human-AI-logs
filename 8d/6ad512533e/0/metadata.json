@@ -1,0 +1,256 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "8d6ad512533e",
+  "session_id": "edbc775d-ccf0-40b4-bc49-507e91ec0335",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T23:23:39.8577456Z",
+  "branch": "Titanic",
+  "checkpoints_count": 13,
+  "files_touched": [
+    ".specstory/.project.json",
+    ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md",
+    ".specstory/statistics.json"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "d160b2473f1f",
+  "token_usage": {
+    "input_tokens": 84,
+    "cache_creation_tokens": 121717,
+    "cache_read_tokens": 308943,
+    "output_tokens": 3335,
+    "api_call_count": 14
+  },
+  "session_metrics": {
+    "turn_count": 13
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T23:23:39.8256564Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 6215,
+    "human_modified": 144,
+    "human_removed": 0,
+    "total_committed": 6215,
+    "total_lines_changed": 6359,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 156,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 30,
+        ".notebook_summary.json": 32,
+        ".specstory/.project.json": 2,
+        ".vscode/settings.json": 3,
+        "notebook.ipynb": 89
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 99,
+      "user_lines_removed": 7,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 50,
+        ".notebook_summary.json": 49
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 169,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 73,
+        ".notebook_summary.json": 73,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 18,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 249,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 103,
+        ".notebook_summary.json": 109,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 32,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 291,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 121,
+        ".notebook_summary.json": 115,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 50,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 439,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 175,
+        ".notebook_summary.json": 181,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 78,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 464,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 175,
+        ".notebook_summary.json": 181,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 103,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 8,
+      "user_lines_added": 516,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 195,
+        ".notebook_summary.json": 187,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 129,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 9,
+      "user_lines_added": 625,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 235,
+        ".notebook_summary.json": 217,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 168,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 10,
+      "user_lines_added": 704,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 289,
+        ".notebook_summary.json": 217,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 193,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 11,
+      "user_lines_added": 791,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 321,
+        ".notebook_summary.json": 235,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 230,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 12,
+      "user_lines_added": 824,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 328,
+        ".notebook_summary.json": 247,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 244,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 13,
+      "user_lines_added": 866,
+      "user_lines_removed": 12,
+      "agent_lines_added": 188,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".notebook_changes.jsonl": 328,
+        ".notebook_summary.json": 247,
+        ".specstory/history/2026-05-26_20-41-56Z-code-for-extract-top.md": 286,
+        ".specstory/statistics.json": 5
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 7,
+        ".specstory/statistics.json": 5
+      }
+    }
+  ]
+}

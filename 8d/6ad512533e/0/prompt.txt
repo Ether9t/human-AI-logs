@@ -1,0 +1,57 @@
+code for extract  top 3 suvival rate for all class, only filter codee
+
+---
+
+how to devide age group (children, young adults, adults, elderly)
+
+---
+
+new col for the combination for SibSp and Parch
+
+---
+
+plt y axis fare x axis plass, red points not Survived, green points Survived
+
+---
+
+which one to import plt
+
+---
+
+how to group multiple cols
+
+---
+
+how to eval the importance(for influence the survival rate) for each features?
+
+---
+
+explain
+
+---
+
+how to test whether fare and plass are related? seems like fare is very related to survival rate but pclass is not? but when groupby plass, higher class has higher survival rate. why is that?
+
+---
+
+df.groupby('Survived').describe() how to do it for each features
+
+---
+
+features = df[['Pclass', 'Sex', 'Age', 'FamilySize']].copy()
+features['Sex'] = features['Sex'].map({'male': 0, 'female': 1})
+features = features.fillna(features.median(numeric_only=True))
+for col in features:
+    print(df.groupby(['Survived', col]).mean(), '\n')TypeError: agg function failed [how->mean,dtype->object]
+
+---
+
+tansfer family size into isalone, make a new col
+
+---
+
+should we still use random model to eval the rate or is there a better way to eval the effect of isalone
+
+---
+
+train a model based on first 80% of the data, test set is the lsat 20% - use the family size to raplace the sblings and parents
