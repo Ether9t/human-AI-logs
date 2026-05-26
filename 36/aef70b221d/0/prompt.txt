@@ -1,0 +1,20 @@
+work on question ### Did patients with higher BMI generally show higher disease progression values?
+
+- use corr from last problem
+- decide: do we need distribution check + significance testing?
+- decide: what stat tools we can use for this problem?
+- run the code for your edit, and check results for further induction
+- no more than three code cells
+- clear and simple implementation
+
+---
+
+compile your answer to a single cell under the corresponding question title
+
+---
+
+add a short md cell before code explaining method used briefly
+
+---
+
+redo last prompt; explain with more detail on math tools used and interpretation of r and p value
