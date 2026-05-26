@@ -1,0 +1,13 @@
+put each individual question to a 3rd title under the group
+
+---
+
+separate titles to individual cells
+
+---
+
+add code for Which feature had the strongest correlation with disease progression?
+
+- calculate correlation for each feature then sort
+- print answer with head 5 abs corr and answer to question
+- minimal implementation
