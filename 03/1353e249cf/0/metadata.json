@@ -1,0 +1,56 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "031353e249cf",
+  "session_id": "9535acc1-bade-4ec0-ae62-9b08dcf6112e",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-26T21:18:48.255352Z",
+  "branch": "Diabet",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".notebook_changes.jsonl",
+    ".notebook_summary.json",
+    ".specstory/.project.json",
+    ".specstory/history/2026-05-26_21-16-20Z-fact-which-feature-had.md",
+    "notebook.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "85547b8bc4f1",
+  "token_usage": {
+    "input_tokens": 6,
+    "cache_creation_tokens": 18694,
+    "cache_read_tokens": 53174,
+    "output_tokens": 1069,
+    "api_call_count": 4
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-26T21:18:48.252918Z",
+    "agent_lines": 283,
+    "agent_removed": 0,
+    "human_added": 13,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 296,
+    "total_lines_changed": 296,
+    "agent_percentage": 95.6081081081081,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 98,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".specstory/.project.json": 2,
+        ".specstory/history/2026-05-26_21-01-45Z.md": 80,
+        ".specstory/statistics.json": 13,
+        ".vscode/settings.json": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "031353e249cf",
+  "strategy": "manual-commit",
+  "branch": "Diabet",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".notebook_changes.jsonl",
+    ".notebook_summary.json",
+    ".specstory/.project.json",
+    ".specstory/history/2026-05-26_21-16-20Z-fact-which-feature-had.md",
+    "notebook.ipynb"
+  ],
+  "sessions": [
+    {
+      "metadata": "/03/1353e249cf/0/metadata.json",
+      "transcript": "/03/1353e249cf/0/full.jsonl",
+      "content_hash": "/03/1353e249cf/0/content_hash.txt",
+      "prompt": "/03/1353e249cf/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 6,
+    "cache_creation_tokens": 18694,
+    "cache_read_tokens": 53174,
+    "output_tokens": 1069,
+    "api_call_count": 4
+  }
+}
