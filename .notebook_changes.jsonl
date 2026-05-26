@@ -6,3 +6,49 @@
 {"changeType":"CHUNK_INSERT","cellId":"W2sZmlsZQ==","timestamp":"2026-05-26T21:16:59.621Z","content":"## Verification \n\nWas BMI truly more important than age in predicting disease progression? \n\nDid patients with higher blood pressure always experience more severe diabetes progression?\n\nWere the cholesterol-related features (s1–s6) strongly correlated with each other? \n\nWas the relationship between age and disease progression strong enough to be captured by a linear model? \n\nDid feature standardization significantly affect model performance? \n\nDid using all features necessarily produce better predictions than using only a few important features? \n\nDid BMI and blood sugar related indicators (such as s5) jointly influence disease progression? "}
 {"changeType":"CELL_CREATED","cellId":"W3sZmlsZQ==","timestamp":"2026-05-26T21:16:59.621Z"}
 {"changeType":"CHUNK_INSERT","cellId":"W3sZmlsZQ==","timestamp":"2026-05-26T21:16:59.621Z","content":"## Exploratory\n\nIf you could keep only one feature to predict disease progression, which would you choose and why?\n\nWould non-linear models such as Random Forest outperform linear models, and why? "}
+{"changeType":"CELL_CREATED","cellId":"W4sZmlsZQ==","timestamp":"2026-05-26T21:32:25.694Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W4sZmlsZQ==","timestamp":"2026-05-26T21:32:25.695Z","content":"from sklearn.datasets import load_diabetes\nimport pandas as pd\n\ndata = load_diabetes()\ndf = pd.DataFrame(data.data, columns=data.feature_names)\ndf['target'] = data.target\ndf.head()"}
+{"changeType":"CELL_CREATED","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T21:48:09.404Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T21:48:09.404Z","content":"from sklearn.datasets import load_diabetes\nimport pandas as pd\n\ndata = load_diabetes()\ndf = pd.DataFrame(data.data, columns=data.feature_names)\ndf['target'] = data.target\ndf.head()"}
+{"changeType":"CELL_CREATED","cellId":"W6sZmlsZQ==","timestamp":"2026-05-26T21:48:09.405Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W6sZmlsZQ==","timestamp":"2026-05-26T21:48:09.405Z","content":"## Fact\n\n### Which feature had the strongest correlation with disease progression? \n\n### Did patients with higher BMI generally show higher disease progression values? \n\n### Was blood pressure (bp) evenly distributed across patients? \n\n### Which feature showed the greatest variance? \n\n### Were there any obvious outliers in the dataset? "}
+{"changeType":"CELL_CREATED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T21:48:09.405Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T21:48:09.405Z","content":"## Verification \n\n### Was BMI truly more important than age in predicting disease progression? \n\n### Did patients with higher blood pressure always experience more severe diabetes progression?\n\n### Were the cholesterol-related features (s1–s6) strongly correlated with each other? \n\n### Was the relationship between age and disease progression strong enough to be captured by a linear model? \n\n### Did feature standardization significantly affect model performance? \n\n### Did using all features necessarily produce better predictions than using only a few important features? \n\n### Did BMI and blood sugar related indicators (such as s5) jointly influence disease progression? "}
+{"changeType":"CELL_CREATED","cellId":"X11sZmlsZQ==","timestamp":"2026-05-26T21:48:09.405Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X11sZmlsZQ==","timestamp":"2026-05-26T21:48:09.405Z","content":"## Exploratory\n\n### If you could keep only one feature to predict disease progression, which would you choose and why?\n\n### Would non-linear models such as Random Forest outperform linear models, and why? "}
+{"changeType":"CELL_CREATED","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T21:48:57.894Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T21:48:57.894Z","content":"## Fact"}
+{"changeType":"CELL_CREATED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T21:48:57.894Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T21:48:57.894Z","content":"### Which feature had the strongest correlation with disease progression?"}
+{"changeType":"CELL_CREATED","cellId":"X14sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X14sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z","content":"### Did patients with higher BMI generally show higher disease progression values?"}
+{"changeType":"CELL_CREATED","cellId":"X15sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X15sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z","content":"### Was blood pressure (bp) evenly distributed across patients?"}
+{"changeType":"CELL_CREATED","cellId":"X16sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X16sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z","content":"### Which feature showed the greatest variance?"}
+{"changeType":"CELL_CREATED","cellId":"X20sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X20sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z","content":"### Were there any obvious outliers in the dataset?"}
+{"changeType":"CELL_CREATED","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z","content":"## Verification"}
+{"changeType":"CELL_CREATED","cellId":"X22sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X22sZmlsZQ==","timestamp":"2026-05-26T21:48:57.895Z","content":"### Was BMI truly more important than age in predicting disease progression?"}
+{"changeType":"CELL_CREATED","cellId":"X23sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X23sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z","content":"### Did patients with higher blood pressure always experience more severe diabetes progression?"}
+{"changeType":"CELL_CREATED","cellId":"X24sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X24sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z","content":"### Were the cholesterol-related features (s1–s6) strongly correlated with each other?"}
+{"changeType":"CELL_CREATED","cellId":"X25sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X25sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z","content":"### Was the relationship between age and disease progression strong enough to be captured by a linear model?"}
+{"changeType":"CELL_CREATED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z","content":"### Did feature standardization significantly affect model performance?"}
+{"changeType":"CELL_CREATED","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z","content":"### Did using all features necessarily produce better predictions than using only a few important features?"}
+{"changeType":"CELL_CREATED","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T21:48:57.896Z","content":"### Did BMI and blood sugar related indicators (such as s5) jointly influence disease progression?"}
+{"changeType":"CELL_CREATED","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T21:48:57.897Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T21:48:57.897Z","content":"## Exploratory"}
+{"changeType":"CELL_CREATED","cellId":"X33sZmlsZQ==","timestamp":"2026-05-26T21:48:57.897Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X33sZmlsZQ==","timestamp":"2026-05-26T21:48:57.897Z","content":"### If you could keep only one feature to predict disease progression, which would you choose and why?"}
+{"changeType":"CELL_CREATED","cellId":"X34sZmlsZQ==","timestamp":"2026-05-26T21:48:57.898Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X34sZmlsZQ==","timestamp":"2026-05-26T21:48:57.898Z","content":"### Would non-linear models such as Random Forest outperform linear models, and why?"}
+{"changeType":"CELL_CREATED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T21:50:57.068Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T21:50:57.069Z","content":"corr = df.drop(columns='target').corrwith(df['target']).abs().sort_values(ascending=False)\nprint(corr.head())\nprint(f\"\\nStrongest correlation: {corr.idxmax()} ({corr.max():.3f})\")"}
