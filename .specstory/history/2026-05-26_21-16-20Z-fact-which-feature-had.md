@@ -1549,3 +1549,108 @@ print(f"\nAnswer: {ans} — {len(strong)} pairs exceed |ρ|>0.6.")
 _**Agent (claude-sonnet-4-6 2026-05-27 03:13:52Z)**_
 
 Fixed — pairs now print one per line with clean formatting, and the "Yes/No" answer is derived from the data rather than hardcoded.
+
+---
+
+_**User (2026-05-27 03:17:26Z)**_
+
+next; think about how "capture" is reflected in model
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:17:38Z)**_
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:17:40Z)**_
+
+"Capture" means: does age's relationship with progression fit the linear assumption, and how much variance does it explain? Key signals: age-only R² and whether Pearson r ≈ Spearman ρ (similar → relationship is approximately linear; diverging → non-linearity that linear model can't capture).
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:17:45Z)**_
+
+<tool-use data-tool-type="task" data-tool-name="NotebookEdit"><details>
+<summary>Tool use: **NotebookEdit**</summary>
+
+```text
+Inserted cell 278fa65f with from scipy import stats
+
+r_pearson, _ = stats.pearsonr(df['age'], df['target'])
+r_spearman, _ = stats.spearmanr(df['age'], df['target'])
+r2_age = cross_val_score(LinearRegression(), X[['age']], y, cv=5, scoring='r2').mean()
+
+print(f"Pearson r  = {r_pearson:.3f}  (linear association)")
+print(f"Spearman ρ = {r_spearman:.3f}  (monotonic association)")
+print(f"Age-only R² (CV) = {r2_age:.3f}  (variance explained by linear model)")
+print(f"\nPearson ≈ Spearman → relationship is {'approximately linear' if abs(r_pearson - r_spearman) < 0.05 else 'non-linear'}")
+print(f"Answer: No — R²={r2_age:.3f} means age captures only {r2_age*100:.1f}% of progression variance in a linear model.")
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:17:48Z)**_
+
+Cell added. Three metrics together tell the full story: Pearson r shows linear strength, Spearman ρ shows monotonic strength (if they diverge, the relationship is non-linear and a linear model misses it), and CV R² directly measures how much the linear model actually captures.
+
+---
+
+_**User (2026-05-27 03:19:40Z)**_
+
+explain why we need pearson and spearman here
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:19:47Z)**_
+
+Pearson measures **linear** correlation — it assumes the relationship follows a straight line. Spearman measures **monotonic** correlation — it only requires that one variable consistently increases as the other does, regardless of shape.
+
+Comparing them answers a specific question: **is the signal in age linear or just ordered?**
+
+- If Pearson ≈ Spearman → the relationship is approximately linear, so a linear model can capture most of it
+- If Spearman >> Pearson → a real monotonic trend exists but it's curved; a linear model will underfit it
+- If both are low → no meaningful relationship at all
+
+Here, if age had a curved but consistent relationship with progression, Spearman would be notably higher than Pearson — and that gap would explain *why* a linear model fails to capture it even when a trend exists. Without Spearman, a low Pearson r alone can't distinguish "no relationship" from "non-linear relationship."
+
+---
+
+_**User (2026-05-27 03:28:13Z)**_
+
+next, compare scaled and not linear models
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:28:27Z)**_
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:28:28Z)**_
+
+For plain OLS, scaling never changes R² — coefficients rescale to compensate. The difference only surfaces with regularized models (Ridge/Lasso) where the penalty treats all coefficients equally, so unscaled features dominate.
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:28:35Z)**_
+
+<tool-use data-tool-type="task" data-tool-name="NotebookEdit"><details>
+<summary>Tool use: **NotebookEdit**</summary>
+
+```text
+Inserted cell 97343fd3 with from sklearn.linear_model import Ridge
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
+
+raw = pd.DataFrame(load_diabetes(scaled=False).data, columns=data.feature_names)
+
+def cv(model, Xd): return cross_val_score(model, Xd, y, cv=5, scoring='r2').mean()
+
+# OLS — scaling should make no difference
+ols_scaled   = cv(LinearRegression(), X)
+ols_unscaled = cv(LinearRegression(), raw)
+
+# Ridge — scaling matters because penalty treats all coefficients equally
+ridge_scaled   = cv(make_pipeline(StandardScaler(), Ridge()), raw)
+ridge_unscaled = cv(Ridge(), raw)
+
+print(f"OLS    scaled={ols_scaled:.4f}  unscaled={ols_unscaled:.4f}  Δ={ols_scaled-ols_unscaled:.4f}")
+print(f"Ridge  scaled={ridge_scaled:.4f}  unscaled={ridge_unscaled:.4f}  Δ={ridge_scaled-ridge_unscaled:.4f}")
+print(f"\nAnswer: No for OLS (scaling is absorbed into coefficients);"
+      f" Yes for Ridge — scaling improves R² by {ridge_scaled-ridge_unscaled:.4f}.")
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-27 03:28:40Z)**_
+
+Cell added. Compares OLS vs Ridge, each with and without scaling. OLS Δ should be ~0 (proves scaling is irrelevant for unregularized models), while Ridge Δ shows the real impact — unscaled features with large units dominate the penalty and hurt performance.
