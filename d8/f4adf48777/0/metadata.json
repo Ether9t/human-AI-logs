@@ -1,0 +1,65 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "d8f4adf48777",
+  "session_id": "0bcf4f0e-94f5-4a4d-bdf9-e6b01a157258",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-27T03:50:03.590217Z",
+  "branch": "Diabet",
+  "checkpoints_count": 1,
+  "files_touched": [
+    ".notebook_changes.jsonl",
+    ".notebook_summary.json",
+    ".specstory/history/2026-05-26_21-16-20Z-fact-which-feature-had.md",
+    ".specstory/statistics.json",
+    "notebook.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "240c7210d5db",
+  "token_usage": {
+    "input_tokens": 11,
+    "cache_creation_tokens": 26333,
+    "cache_read_tokens": 134590,
+    "output_tokens": 3036,
+    "api_call_count": 7
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-27T03:50:03.586133Z",
+    "agent_lines": 42,
+    "agent_removed": 0,
+    "human_added": 594,
+    "human_modified": 38,
+    "human_removed": 0,
+    "total_committed": 658,
+    "total_lines_changed": 674,
+    "agent_percentage": 6.231454005934718,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 264,
+      "user_lines_removed": 22,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".notebook_changes.jsonl": 12,
+        ".notebook_summary.json": 20,
+        ".specstory/history/2026-05-26_21-16-20Z-fact-which-feature-had.md": 105,
+        ".specstory/history/2026-05-27_03-29-09Z.md": 15,
+        ".specstory/statistics.json": 14,
+        "notebook.ipynb": 88,
+        "userpattern.md": 2
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 8,
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 9
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+read notebook.ipynb, answer all 4 remaining questions. for each question, use one code cell for answer, and in print explain why the method is used and how to read the result. put each code cell right under the markdown question title
