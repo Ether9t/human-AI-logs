@@ -1,0 +1,27 @@
+verification q1
+- perform ablation study, use same other parameter for regression, with BMI/age being test target. choose other parameter use existing correlation result in notebook.
+
+---
+
+next question; insert answer cell under question md title;
+
+do linear regression for later use
+perform single parameter monotonic test. for outliers, compare to regression results to identify what features overshadowed bloodpressure
+
+---
+
+redo; answer the question in single cell. locate the cell under the question "### Did patients with higher blood pressure always experience more severe diabetes progression?"
+
+---
+
+rewrite the same cell. remove linear regression, only do monotonic test and explain (how to read) results
+
+---
+
+write one code answer cell right under md cell "### Were the cholesterol-related features (s1–s6) strongly correlated with each other?"
+
+make corr matrix and give answer
+
+---
+
+fix "strong"
