@@ -1,0 +1,9 @@
+next; think about how "capture" is reflected in model
+
+---
+
+explain why we need pearson and spearman here
+
+---
+
+next, compare scaled and not linear models

@@ -1,0 +1,85 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "d8f4adf48777",
+  "session_id": "9535acc1-bade-4ec0-ae62-9b08dcf6112e",
+  "strategy": "manual-commit",
+  "created_at": "2026-05-27T03:50:03.819704Z",
+  "branch": "Diabet",
+  "checkpoints_count": 3,
+  "files_touched": [
+    ".notebook_changes.jsonl",
+    ".notebook_summary.json",
+    ".specstory/history/2026-05-26_21-16-20Z-fact-which-feature-had.md",
+    ".specstory/statistics.json",
+    "notebook.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "ee37c145bae9",
+  "checkpoint_transcript_start": 343,
+  "transcript_lines_at_start": 343,
+  "token_usage": {
+    "input_tokens": 11,
+    "cache_creation_tokens": 54620,
+    "cache_read_tokens": 204859,
+    "output_tokens": 2062,
+    "api_call_count": 5
+  },
+  "session_metrics": {
+    "turn_count": 24
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-05-27T03:50:03.808942Z",
+    "agent_lines": 186,
+    "agent_removed": 1,
+    "human_added": 708,
+    "human_modified": 37,
+    "human_removed": 0,
+    "total_committed": 915,
+    "total_lines_changed": 932,
+    "agent_percentage": 20.064377682403432,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 8,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 28,
+      "user_lines_removed": 8,
+      "agent_lines_added": 51,
+      "agent_lines_removed": 5,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".notebook_changes.jsonl": 6,
+        ".notebook_summary.json": 14
+      },
+      "user_removed_per_file": {
+        ".notebook_summary.json": 8
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 85,
+      "user_lines_removed": 13,
+      "agent_lines_added": 91,
+      "agent_lines_removed": 13,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        "notebook.ipynb": 76,
+        "userpattern.md": 1
+      },
+      "user_removed_per_file": {
+        "notebook.ipynb": 13
+      }
+    }
+  ]
+}
