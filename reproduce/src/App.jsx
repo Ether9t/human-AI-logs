@@ -137,7 +137,6 @@ function buildReplaySteps(chat, notebookChanges) {
   const cellMap = new Map();
   const messages = [];
   const steps = [];
-
   const ensureCell = (change) => {
     const id = change.cellId;
     if (!cellMap.has(id)) {
@@ -155,6 +154,7 @@ function buildReplaySteps(chat, notebookChanges) {
 
   let sequenceIndex = 0;
   let currentChatTurnIndex = null;
+  let lastNotebookCellId = null;
   const pushStep = (item, label) => {
     if (item.kind === "chat") {
       if (item.role === "user") {
@@ -171,11 +171,16 @@ function buildReplaySteps(chat, notebookChanges) {
     }
 
     if (item.kind === "notebook") {
-      sequenceIndex += 1;
+      const isReenteringBlock = item.cellId !== lastNotebookCellId;
+
+      if (isReenteringBlock) {
+        sequenceIndex += 1;
+        lastNotebookCellId = item.cellId;
+      }
 
       const activeCell = cellMap.get(item.cellId);
 
-      if (activeCell) {
+      if (activeCell && isReenteringBlock) {
         activeCell.sequenceNumbers = [
           ...(activeCell.sequenceNumbers || []),
           sequenceIndex,
@@ -325,7 +330,7 @@ export default function App() {
     label: "No data",
   };
   const progressRatio = steps.length <= 1 ? 0 : (stepIndex / (steps.length - 1)) * 100;
-  const SPEED_OPTIONS = [10, 50, 100];
+  const SPEED_OPTIONS = [5, 10, 20];
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(10);
   useEffect(() => {
@@ -363,13 +368,12 @@ export default function App() {
                 ))}
               </select>
             </div>
+            <div className="session-identifier">
+              {status === "loading" && "Loading Data/..."}
+              {status === "ready" && `${dataset} · ${stepIndex + 1}/${Math.max(steps.length, 1)} · ${currentStep.label}`}
+              {status === "error" && `Error: ${error}`}
+            </div>
           </header>
-
-          <div className="session-identifier">
-            {status === "loading" && "Loading Data/..."}
-            {status === "ready" && `${dataset} · ${stepIndex + 1}/${Math.max(steps.length, 1)} · ${currentStep.label}`}
-            {status === "error" && `Error: ${error}`}
-          </div>
           <section className="playback-row">
             <div className="playback-panel">
               <div className="playback-controls">
