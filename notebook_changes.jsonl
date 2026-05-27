@@ -1,0 +1,492 @@
+{"changeType":"CELL_CREATED","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:29:47.832Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:31:45.272Z","content":"imp"}
+{"changeType":"CONTENT_DELETED","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:31:46.650Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:31:47.541Z","content":"import pana"}
+{"changeType":"CONTENT_DELETED","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:31:49.757Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:31:50.002Z","content":"da as pd"}
+{"changeType":"CELL_CREATED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:31:54.195Z"}
+{"changeType":"CELL_CREATED","cellId":"W2sZmlsZQ==","timestamp":"2026-05-26T20:31:57.332Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W2sZmlsZQ==","timestamp":"2026-05-26T20:31:58.468Z","content":"Impirt"}
+{"changeType":"CONTENT_DELETED","cellId":"W2sZmlsZQ==","timestamp":"2026-05-26T20:31:59.364Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W2sZmlsZQ==","timestamp":"2026-05-26T20:31:59.936Z","content":"ort# \r\n"}
+{"changeType":"CONTENT_DELETED","cellId":"W2sZmlsZQ==","timestamp":"2026-05-26T20:32:02.947Z"}
+{"changeType":"CELL_CREATED","cellId":"W3sZmlsZQ==","timestamp":"2026-05-26T20:32:11.111Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W3sZmlsZQ==","timestamp":"2026-05-26T20:32:11.982Z","content":"# "}
+{"changeType":"TYPING_SEQUENCE","cellId":"W3sZmlsZQ==","timestamp":"2026-05-26T20:32:17.881Z","content":"Data"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:32:45.754Z","content":"pd = "}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:32:50.091Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:32:50.339Z","content":"dfpd.read_csv"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:33:01.099Z","content":"()''Ti"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:33:09.611Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:33:09.833Z","content":"Titanic-Dataset.csv"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:33:16.736Z","content":"\r\nprint()df.haed"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:33:22.796Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T20:33:23.316Z","content":"ead()"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W0sZmlsZQ==","timestamp":"2026-05-26T20:35:29.742Z","content":"s"}
+{"changeType":"CELL_CREATED","cellId":"W4sZmlsZQ==","timestamp":"2026-05-26T20:35:49.035Z"}
+{"changeType":"CELL_CREATED","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T20:36:15.677Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T20:36:16.570Z","content":"### "}
+{"changeType":"CHUNK_INSERT","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T20:36:17.707Z","content":"Which passenger class had the highest survival rate? "}
+{"changeType":"CONTENT_DELETED","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T20:36:23.940Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W5sZmlsZQ==","timestamp":"2026-05-26T20:44:07.023Z","content":"df.groupby('Pclass')['Survived'].mean().nlargest(3)"}
+{"changeType":"CELL_CREATED","cellId":"W6sZmlsZQ==","timestamp":"2026-05-26T20:44:30.450Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W6sZmlsZQ==","timestamp":"2026-05-26T20:44:33.047Z","content":"1"}
+{"changeType":"CELL_CREATED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:20:06.862Z"}
+{"changeType":"CELL_CREATED","cellId":"X11sZmlsZQ==","timestamp":"2026-05-26T22:21:16.538Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X11sZmlsZQ==","timestamp":"2026-05-26T22:21:17.103Z","content":"How large was the difference in survival rates between gender"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:21:22.340Z","content":"df.groupby('Pclass')['Survived'].mean().nlargest(3)"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.498Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.498Z","content":"g"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.570Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.567Z","content":"ge"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.694Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.690Z","content":"gen"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.821Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.818Z","content":"gen'd"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.963Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:05.963Z","content":"gen'de"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:06.106Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:06.106Z","content":"gender"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:06.316Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:06.316Z","content":"gender"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:11.821Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:22.138Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:33.969Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:33.968Z","content":"Sex"}
+{"changeType":"CHUNK_INSERT","cellId":"X10sZmlsZQ==","timestamp":"2026-05-26T22:22:47.318Z","content":".mean()"}
+{"changeType":"CELL_CREATED","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:22:52.146Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:23:12.208Z","content":"0.742038"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:23:12.863Z","content":" - "}
+{"changeType":"CHUNK_INSERT","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:23:16.895Z","content":" 0.188908"}
+{"changeType":"CONTENT_DELETED","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:23:19.614Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:23:21.143Z","content":" = "}
+{"changeType":"CHUNK_INSERT","cellId":"X12sZmlsZQ==","timestamp":"2026-05-26T22:23:49.570Z","content":"0.55313"}
+{"changeType":"CELL_CREATED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:23:59.788Z"}
+{"changeType":"CELL_CREATED","cellId":"X14sZmlsZQ==","timestamp":"2026-05-26T22:24:01.919Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X14sZmlsZQ==","timestamp":"2026-05-26T22:24:10.923Z","content":"Which age group (children, young adults, adults, elderly) had the highest survival rate? \r\n"}
+{"changeType":"CONTENT_DELETED","cellId":"X14sZmlsZQ==","timestamp":"2026-05-26T22:24:11.965Z"}
+{"changeType":"CELL_CREATED","cellId":"X15sZmlsZQ==","timestamp":"2026-05-26T22:24:20.341Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X15sZmlsZQ==","timestamp":"2026-05-26T22:24:21.642Z","content":"##"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X15sZmlsZQ==","timestamp":"2026-05-26T22:24:25.867Z","content":" "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X15sZmlsZQ==","timestamp":"2026-05-26T22:24:31.182Z","content":"Fact"}
+{"changeType":"CHUNK_INSERT","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:24:40.009Z","content":"df.groupby('Sex')['Survived'].mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.227Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.227Z","content":"A"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.392Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.382Z","content":"Ag"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.453Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.443Z","content":"Age"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.720Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:01.710Z","content":"Age"}
+{"changeType":"CELL_CREATED","cellId":"X16sZmlsZQ==","timestamp":"2026-05-26T22:25:44.555Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X16sZmlsZQ==","timestamp":"2026-05-26T22:25:44.981Z","content":"df['AgeGroup'] = pd.cut(df['Age'],\r\n                         bins=[0, 12, 25, 60, 120],\r\n                         labels=['Children', 'Young Adults', 'Adults', 'Elderly'])"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:50.576Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:50.576Z","content":"AgeGroup"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:53.850Z","content":".hi"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:55.272Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:25:56.231Z","content":"hist"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:26:01.168Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:26:02.961Z","content":"nla"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:26:04.679Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:26:04.677Z","content":"nlargest"}
+{"changeType":"CONTENT_DELETED","cellId":"X13sZmlsZQ==","timestamp":"2026-05-26T22:26:08.927Z"}
+{"changeType":"CELL_CREATED","cellId":"X20sZmlsZQ==","timestamp":"2026-05-26T22:26:28.242Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X20sZmlsZQ==","timestamp":"2026-05-26T22:26:31.397Z","content":"Children        "}
+{"changeType":"CONTENT_DELETED","cellId":"X20sZmlsZQ==","timestamp":"2026-05-26T22:26:32.229Z"}
+{"changeType":"CELL_CREATED","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T22:28:56.258Z"}
+{"changeType":"CELL_CREATED","cellId":"X22sZmlsZQ==","timestamp":"2026-05-26T22:28:57.303Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X22sZmlsZQ==","timestamp":"2026-05-26T22:29:06.385Z","content":"Did family size affect survival probability? \r\n"}
+{"changeType":"CONTENT_DELETED","cellId":"X22sZmlsZQ==","timestamp":"2026-05-26T22:29:07.363Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T22:29:18.861Z","content":"df['AgeGroup'] = pd.cut(df['Age'],\r\n                         bins=[0, 12, 25, 60, 120],\r\n                         labels=['Children', 'Young Adults', 'Adults', 'Elderly'])"}
+{"changeType":"CONTENT_DELETED","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T22:29:20.569Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T22:29:20.569Z","content":"FmlSize"}
+{"changeType":"CONTENT_DELETED","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T22:29:31.838Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X21sZmlsZQ==","timestamp":"2026-05-26T22:30:14.216Z","content":"df['FamilySize'] = df['SibSp'] + df['Parch'] + 1"}
+{"changeType":"CELL_CREATED","cellId":"X23sZmlsZQ==","timestamp":"2026-05-26T22:30:19.446Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X23sZmlsZQ==","timestamp":"2026-05-26T22:30:26.134Z","content":"df.groupby('AgeGroup')['Survived'].mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X23sZmlsZQ==","timestamp":"2026-05-26T22:30:28.544Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X23sZmlsZQ==","timestamp":"2026-05-26T22:30:28.544Z","content":"FamilySize"}
+{"changeType":"CELL_CREATED","cellId":"X24sZmlsZQ==","timestamp":"2026-05-26T22:30:53.487Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X24sZmlsZQ==","timestamp":"2026-05-26T22:30:54.543Z","content":"Yes"}
+{"changeType":"CELL_CREATED","cellId":"X25sZmlsZQ==","timestamp":"2026-05-26T22:31:42.727Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X25sZmlsZQ==","timestamp":"2026-05-26T22:31:43.748Z","content":"## "}
+{"changeType":"CHUNK_INSERT","cellId":"X25sZmlsZQ==","timestamp":"2026-05-26T22:31:44.576Z","content":"Verification "}
+{"changeType":"CELL_CREATED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:31:52.153Z"}
+{"changeType":"CELL_CREATED","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T22:31:54.727Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T22:32:00.721Z","content":"Is it true that passengers with higher fares were more likely to survive, or is this mainly because they belonged to first class? \r\n"}
+{"changeType":"CONTENT_DELETED","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T22:32:01.731Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T22:32:02.276Z","content":"\r\n"}
+{"changeType":"CONTENT_DELETED","cellId":"X30sZmlsZQ==","timestamp":"2026-05-26T22:32:02.856Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:32:47.389Z","content":"df.groupby('Pclass')['Survived'].mean().nlargest(3)"}
+{"changeType":"CONTENT_DELETED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:33:25.521Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:33:25.521Z","content":"Fare "}
+{"changeType":"CONTENT_DELETED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:33:26.096Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:33:33.741Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:33:59.764Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:33:59.763Z","content":"Pclass  "}
+{"changeType":"CONTENT_DELETED","cellId":"X26sZmlsZQ==","timestamp":"2026-05-26T22:34:00.118Z"}
+{"changeType":"CELL_CREATED","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T22:34:06.739Z"}
+{"changeType":"CELL_CREATED","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T22:34:18.054Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T22:34:20.779Z","content":"df.groupby('Pclass')['Survived'].mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T22:34:54.422Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T22:34:54.419Z","content":"Fare"}
+{"changeType":"CONTENT_DELETED","cellId":"X32sZmlsZQ==","timestamp":"2026-05-26T22:35:11.548Z"}
+{"changeType":"CELL_CREATED","cellId":"X33sZmlsZQ==","timestamp":"2026-05-26T22:36:05.992Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X33sZmlsZQ==","timestamp":"2026-05-26T22:36:06.358Z","content":"colors = df['Survived'].map({0: 'red', 1: 'green'})\r\n  plt.scatter(df['Pclass'], df['Fare'], c=colors, alpha=0.5)\r\n  plt.xlabel('Pclass')\r\n  plt.ylabel('Fare')\r\n  plt.show()"}
+{"changeType":"CONTENT_DELETED","cellId":"X33sZmlsZQ==","timestamp":"2026-05-26T22:36:08.093Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X33sZmlsZQ==","timestamp":"2026-05-26T22:36:10.442Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:13.548Z","content":"\r\nimp"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:14.807Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:14.804Z","content":"import"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:15.360Z","content":" plt"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:19.690Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:19.690Z","content":"plistlib"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:19.892Z","content":" ads"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:20.602Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:21.210Z","content":"s plt"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:42.238Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:42.237Z","content":"impo"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:43.215Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:43.212Z","content":"import"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:36:43.862Z","content":" plt"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:37:05.760Z"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:37:05.760Z","content":" import matplotlib.pyplot as plt"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:37:07.018Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T22:37:31.942Z","content":"Both? "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T22:37:45.100Z","content":"Since class 1's s rate is higher and "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T22:37:56.903Z","content":"the proe"}
+{"changeType":"CONTENT_DELETED","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T22:37:58.528Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X31sZmlsZQ==","timestamp":"2026-05-26T22:37:59.175Z","content":"ice is higher as well"}
+{"changeType":"CELL_CREATED","cellId":"X34sZmlsZQ==","timestamp":"2026-05-26T22:38:34.939Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X34sZmlsZQ==","timestamp":"2026-05-26T22:38:35.231Z","content":"Did the “women survived more often” pattern hold across all passenger classes? "}
+{"changeType":"CELL_CREATED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:38:38.861Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:38:46.975Z","content":"df.groupby('Pclass')['Survived'].mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:38:50.915Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:38:50.914Z","content":"Sex"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:38:56.205Z","content":"[]''Pclass"}
+{"changeType":"CONTENT_DELETED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:13.564Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:14.108Z","content":"()"}
+{"changeType":"CONTENT_DELETED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:15.704Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:18.232Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:18.614Z","content":")"}
+{"changeType":"CONTENT_DELETED","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:45.279Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:46.183Z","content":", "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X35sZmlsZQ==","timestamp":"2026-05-26T22:39:49.722Z","content":"]["}
+{"changeType":"CELL_CREATED","cellId":"X36sZmlsZQ==","timestamp":"2026-05-26T22:39:58.258Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X36sZmlsZQ==","timestamp":"2026-05-26T22:39:59.014Z","content":"Yes"}
+{"changeType":"CELL_CREATED","cellId":"X40sZmlsZQ==","timestamp":"2026-05-26T22:41:28.487Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X40sZmlsZQ==","timestamp":"2026-05-26T22:41:28.857Z","content":"Did age truly affect survival, or was the “children first” effect limited to specific groups? "}
+{"changeType":"CELL_CREATED","cellId":"X41sZmlsZQ==","timestamp":"2026-05-26T22:41:42.252Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X41sZmlsZQ==","timestamp":"2026-05-26T22:45:43.626Z","content":"df.groupby(['Sex', 'Pclass'])['Survived'].mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X41sZmlsZQ==","timestamp":"2026-05-26T22:46:12.805Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X41sZmlsZQ==","timestamp":"2026-05-26T22:46:12.805Z","content":"AgeGroup"}
+{"changeType":"CELL_CREATED","cellId":"X42sZmlsZQ==","timestamp":"2026-05-26T22:46:53.046Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X42sZmlsZQ==","timestamp":"2026-05-26T22:46:54.515Z","content":"True"}
+{"changeType":"CELL_CREATED","cellId":"X43sZmlsZQ==","timestamp":"2026-05-26T22:47:25.224Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X43sZmlsZQ==","timestamp":"2026-05-26T22:47:25.678Z","content":"Were passengers traveling alone less likely to survive than those traveling with family members?"}
+{"changeType":"CELL_CREATED","cellId":"X44sZmlsZQ==","timestamp":"2026-05-26T22:47:30.334Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X44sZmlsZQ==","timestamp":"2026-05-26T22:47:57.966Z","content":"df.groupby('FamilySize')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:20.549Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:21.260Z","content":"Not "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:24.162Z","content":"likely"}
+{"changeType":"CONTENT_DELETED","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:25.666Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:34.159Z","content":", seems liek "}
+{"changeType":"CONTENT_DELETED","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:35.896Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:36.340Z","content":"ke it is a curve"}
+{"changeType":"CONTENT_DELETED","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:42.242Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:42.240Z","content":"\r\n"}
+{"changeType":"CONTENT_DELETED","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:43.146Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X45sZmlsZQ==","timestamp":"2026-05-26T22:48:43.142Z","content":"No, seems like it is a curve"}
+{"changeType":"CELL_CREATED","cellId":"X46sZmlsZQ==","timestamp":"2026-05-26T22:49:08.428Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X46sZmlsZQ==","timestamp":"2026-05-26T22:49:13.213Z","content":"Exploratory"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X46sZmlsZQ==","timestamp":"2026-05-26T22:49:16.500Z","content":"## "}
+{"changeType":"CELL_CREATED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:49:28.931Z"}
+{"changeType":"CELL_CREATED","cellId":"X51sZmlsZQ==","timestamp":"2026-05-26T22:49:30.142Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X51sZmlsZQ==","timestamp":"2026-05-26T22:49:30.544Z","content":"Which feature do you think was the most important for predicting survival, and why? "}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:53:49.265Z","content":"\r\n"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:53:49.397Z","content":"from sklearn.ensemble import\r\n  RandomForestClassifier"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:53:51.616Z","content":"\\"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:53:51.857Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T22:53:52.741Z","content":" "}
+{"changeType":"CHUNK_INSERT","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:08.153Z","content":"features = df[['Pclass', 'Sex',\r\n  'Age', 'SibSp', 'Parch',\r\n  'Fare']].copy()\r\n  features['Sex'] =\r\n  features['Sex'].map({'male': 0,\r\n  'female': 1})\r\n  features = features.fillna(features.\r\n  median(numeric_only=True))\r\n\r\n  model = RandomForestClassifier(rando\r\n  m_state=42)\r\n  model.fit(features, df['Survived'])\r\n\r\n  pd.Series(model.feature_importances_\r\n  , index=features.columns).sort_value\r\n  s(ascending=False)"}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:11.061Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:12.019Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:13.613Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:14.155Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:18.540Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:21.036Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:22.297Z","content":"= "}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:24.715Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:25.487Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:28.164Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:28.608Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:29.511Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:34.595Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T22:54:37.397Z"}
+{"changeType":"CELL_CREATED","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:57:47.823Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:57:48.200Z","content":"df.groupby('Pclass')['Fare'].describ\r\n  e()\r\n  df[['Pclass', 'Fare']].corr()"}
+{"changeType":"CONTENT_DELETED","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:57:49.861Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:59:06.908Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:59:08.970Z","content":")"}
+{"changeType":"CONTENT_DELETED","cellId":"X52sZmlsZQ==","timestamp":"2026-05-26T22:59:10.927Z"}
+{"changeType":"CELL_CREATED","cellId":"X53sZmlsZQ==","timestamp":"2026-05-26T22:59:12.943Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X53sZmlsZQ==","timestamp":"2026-05-26T22:59:13.163Z","content":"df.groupby('Pclass')['Fare'].describe()"}
+{"changeType":"CELL_CREATED","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T23:00:02.010Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T23:00:02.472Z","content":"features = df[['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare']].copy()\r\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\r\nfeatures = features.fillna(features.median(numeric_only=True))\r\n\r\nmodel = RandomForestClassifier(random_state=42)\r\nmodel.fit(features, df['Survived'])\r\n\r\npd.Series(model.feature_importances_, index=features.columns).sort_values(ascending=False)"}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T23:00:19.274Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T23:00:19.617Z","content":"FamilySize"}
+{"changeType":"CONTENT_DELETED","cellId":"X50sZmlsZQ==","timestamp":"2026-05-26T23:00:36.355Z"}
+{"changeType":"CELL_CREATED","cellId":"X55sZmlsZQ==","timestamp":"2026-05-26T23:00:45.719Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X55sZmlsZQ==","timestamp":"2026-05-26T23:00:45.981Z","content":"features = df[['Pclass', 'Sex', 'Age', 'FamilySize']].copy()\r\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\r\nfeatures = features.fillna(features.median(numeric_only=True))\r\n\r\nmodel = RandomForestClassifier(random_state=42)\r\nmodel.fit(features, df['Survived'])\r\n\r\npd.Series(model.feature_importances_, index=features.columns).sort_values(ascending=False)"}
+{"changeType":"CONTENT_DELETED","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T23:00:50.877Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T23:00:50.877Z","content":"features = df[['Pclass', 'Sex', 'Age', 'FamilySize']].copy()\r\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\r\nfeatures = features.fillna(features.median(numeric_only=True))\r\n\r\nmodel = RandomForestClassifier(random_state=42)\r\nmodel.fit(features, df['Survived'])\r\n\r\npd.Series(model.feature_importances_, index=features.columns).sort_values(ascending=False)"}
+{"changeType":"CONTENT_DELETED","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T23:00:52.986Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X54sZmlsZQ==","timestamp":"2026-05-26T23:00:52.986Z","content":"Fare"}
+{"changeType":"CELL_CREATED","cellId":"X56sZmlsZQ==","timestamp":"2026-05-26T23:01:34.202Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X56sZmlsZQ==","timestamp":"2026-05-26T23:01:35.194Z","content":"Fare / Pclass"}
+{"changeType":"CONTENT_DELETED","cellId":"X56sZmlsZQ==","timestamp":"2026-05-26T23:01:38.405Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X56sZmlsZQ==","timestamp":"2026-05-26T23:01:39.291Z","content":"Fare / Pclass"}
+{"changeType":"CELL_CREATED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:02:41.960Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:02:42.332Z","content":"df.groupby('Pclass')['Fare'].describe()"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:02:47.525Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:02:47.525Z","content":"features"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:02:53.572Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:02:53.572Z","content":"df"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:03.889Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:05.024Z","content":"."}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:38.441Z","content":"group"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:39.625Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:39.620Z","content":"groupby"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:40.898Z","content":"('\""}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:43.299Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:43.563Z","content":"')."}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:47.679Z","content":"sur"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:48.378Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:03:51.874Z","content":"Survived"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:04:58.055Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:04:58.054Z","content":"for col in df.select_dtypes(include=\r\n  'number').columns:\r\n      print(df.groupby('Survived')[col\r\n  ].describe(), '\\n')"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:05:01.316Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:05:11.460Z","content":"    "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:17.879Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:20.806Z","content":"), "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:40.567Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:40.567Z","content":"p"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:43.200Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:43.200Z","content":"'Survived', col"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:44.460Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:44.460Z","content":"【"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:44.472Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:44.468Z","content":"【"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:45.526Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:45.523Z","content":"'Survived', col"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:06:46.444Z","content":"]["}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:17.021Z","content":"\r\n"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:17.767Z","content":"features = df[['Fare', 'Sex', 'Age', 'FamilySize']].copy()"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:18.432Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:19.064Z","content":"features = df[['Fare', 'Sex', 'Age', 'FamilySize']].copy()"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:25.875Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:25.875Z","content":"Pclass"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:31.818Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:07:31.818Z","content":"features"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:37.448Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:41.904Z","content":".mean"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:43.042Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:43.038Z","content":"mean"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:43.102Z","content":"\r\n          "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:43.983Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:08:45.636Z","content":"()"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:06.359Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:11.099Z","content":"\r\n    "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:11.704Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:12.024Z","content":"print(df.groupby(['Survived', col]).mean(), '\\n')"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:13.637Z","content":"\"\""}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:14.149Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:14.890Z","content":"Sex"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:17.900Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:28.237Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:32.870Z","content":"\r\n"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:33.091Z","content":"print(df.groupby(['Survived', \"Sex\"]), '\\n')"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:33.414Z","content":".mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:33.703Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:33.954Z","content":"col"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:34.207Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:34.801Z","content":"    "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:35.096Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:35.458Z","content":"'Sex', "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:35.812Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:37.895Z","content":"()"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:47.409Z","content":"\r\n"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:09:47.615Z","content":"features['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\r\nfeatures = features.fillna(features.median(numeric_only=True))"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:10:37.054Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:10:37.053Z","content":"print(df.groupby(['Survived',\r\n  col]).size(), '\\n')"}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:10:38.617Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:10:39.645Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:11:03.002Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X60sZmlsZQ==","timestamp":"2026-05-26T23:11:16.134Z","content":"Group"}
+{"changeType":"CELL_CREATED","cellId":"X61sZmlsZQ==","timestamp":"2026-05-26T23:11:41.297Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X61sZmlsZQ==","timestamp":"2026-05-26T23:11:41.594Z","content":"Did the Titanic dataset contain sampling bias? "}
+{"changeType":"CELL_CREATED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:45.398Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:46.198Z","content":"Yesm "}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:47.071Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:47.931Z","content":", e.g.,m "}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:50.617Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:50.914Z","content":" "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:52.923Z","content":"sex"}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:54.200Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:55.034Z","content":"f"}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:55.381Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:11:55.565Z","content":"male / female"}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:11.084Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:13.385Z","content":"adult and young adult are far more "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:24.245Z","content":"the numebr of "}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:30.027Z","content":"s"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:32.502Z","content":"al"}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:32.899Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:12:33.195Z","content":"larger than others"}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:13:03.441Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:13:03.441Z","content":"numbers "}
+{"changeType":"CONTENT_DELETED","cellId":"X62sZmlsZQ==","timestamp":"2026-05-26T23:13:04.148Z"}
+{"changeType":"CELL_CREATED","cellId":"X63sZmlsZQ==","timestamp":"2026-05-26T23:13:16.431Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X63sZmlsZQ==","timestamp":"2026-05-26T23:13:16.766Z","content":"Did converting FamilySize into an IsAlone feature improve model performance?"}
+{"changeType":"CELL_CREATED","cellId":"X64sZmlsZQ==","timestamp":"2026-05-26T23:13:19.902Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X64sZmlsZQ==","timestamp":"2026-05-26T23:14:17.536Z","content":"df['IsAlone'] = (df['FamilySize'] ==\r\n   1).astype(int)"}
+{"changeType":"CONTENT_DELETED","cellId":"X64sZmlsZQ==","timestamp":"2026-05-26T23:14:18.904Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X64sZmlsZQ==","timestamp":"2026-05-26T23:14:20.028Z","content":" "}
+{"changeType":"CELL_CREATED","cellId":"X65sZmlsZQ==","timestamp":"2026-05-26T23:14:40.945Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X65sZmlsZQ==","timestamp":"2026-05-26T23:14:41.159Z","content":"df.groupby('FamilySize')['Survived'].mean()"}
+{"changeType":"CONTENT_DELETED","cellId":"X65sZmlsZQ==","timestamp":"2026-05-26T23:14:45.620Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X65sZmlsZQ==","timestamp":"2026-05-26T23:14:45.620Z","content":"IsAlone"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T23:19:09.109Z","content":"\r\n"}
+{"changeType":"CHUNK_INSERT","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T23:19:09.261Z","content":"from sklearn.metrics import\r\n  accuracy_score"}
+{"changeType":"CONTENT_DELETED","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T23:19:10.647Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"W1sZmlsZQ==","timestamp":"2026-05-26T23:19:11.249Z","content":" "}
+{"changeType":"CELL_CREATED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:32.339Z"}
+{"changeType":"CHUNK_INSERT","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:32.748Z","content":"features = df[['Pclass', 'Sex',\r\n  'Age', 'FamilySize', 'Fare']].copy()\r\n  features['Sex'] =\r\n  features['Sex'].map({'male': 0,\r\n  'female': 1})\r\n  features = features.fillna(features.\r\n  median(numeric_only=True))\r\n\r\n  split = int(len(df) * 0.8)\r\n  X_train, X_test =\r\n  features.iloc[:split],\r\n  features.iloc[split:]\r\n  y_train, y_test =\r\n  df['Survived'].iloc[:split],\r\n  df['Survived'].iloc[split:]\r\n\r\n  model = RandomForestClassifier(rando\r\n  m_state=42)\r\n  model.fit(X_train, y_train)\r\n  preds = model.predict(X_test)\r\n\r\n  print('Accuracy:',\r\n  accuracy_score(y_test, preds))"}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:36.303Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:38.612Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:40.002Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:40.382Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:41.809Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:42.422Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:46.491Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:46.960Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:47.516Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:50.423Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:52.650Z","content":"f"}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:54.155Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:54.504Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:56.425Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:19:56.787Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:00.020Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:00.420Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:02.704Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:03.226Z","content":" "}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:05.821Z"}
+{"changeType":"CONTENT_DELETED","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:08.779Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"X66sZmlsZQ==","timestamp":"2026-05-26T23:20:09.315Z","content":" "}
+{"changeType":"CELL_CREATED","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T23:20:14.474Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T23:20:14.929Z","content":"features = df[['Pclass', 'Sex', 'Age', 'FamilySize', 'Fare']].copy()\r\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\r\nfeatures = features.fillna(features.median(numeric_only=True))\r\n\r\nsplit = int(len(df) * 0.8)\r\nX_train, X_test = features.iloc[:split], features.iloc[split:]\r\ny_train, y_test = df['Survived'].iloc[:split], df['Survived'].iloc[split:]\r\n\r\nmodel = RandomForestClassifier(random_state=42)\r\nmodel.fit(X_train, y_train)\r\npreds = model.predict(X_test)\r\n\r\nprint('Accuracy:', accuracy_score(y_test, preds))"}
+{"changeType":"CONTENT_DELETED","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T23:20:17.144Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T23:20:17.144Z","content":"IsAline"}
+{"changeType":"CONTENT_DELETED","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T23:20:24.724Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y100sZmlsZQ==","timestamp":"2026-05-26T23:20:24.724Z","content":"IsAlone"}
+{"changeType":"CELL_CREATED","cellId":"Y101sZmlsZQ==","timestamp":"2026-05-26T23:20:32.134Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y101sZmlsZQ==","timestamp":"2026-05-26T23:20:33.151Z","content":"Not much diffrent"}
+{"changeType":"CONTENT_DELETED","cellId":"Y101sZmlsZQ==","timestamp":"2026-05-26T23:20:37.539Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y101sZmlsZQ==","timestamp":"2026-05-26T23:20:37.989Z","content":"erent"}
+{"changeType":"CELL_CREATED","cellId":"Y102sZmlsZQ==","timestamp":"2026-05-26T23:28:05.752Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y102sZmlsZQ==","timestamp":"2026-05-26T23:28:05.753Z","content":"import pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import accuracy_score"}
+{"changeType":"CELL_CREATED","cellId":"Y103sZmlsZQ==","timestamp":"2026-05-26T23:28:05.759Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y103sZmlsZQ==","timestamp":"2026-05-26T23:28:05.760Z","content":"# Data"}
+{"changeType":"CELL_CREATED","cellId":"Y104sZmlsZQ==","timestamp":"2026-05-26T23:28:05.764Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y104sZmlsZQ==","timestamp":"2026-05-26T23:28:05.765Z","content":"df = pd.read_csv('Titanic-Dataset.csv')\nprint(df.head())"}
+{"changeType":"CELL_CREATED","cellId":"Y105sZmlsZQ==","timestamp":"2026-05-26T23:28:05.769Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y105sZmlsZQ==","timestamp":"2026-05-26T23:28:05.770Z","content":"## Fact"}
+{"changeType":"CELL_CREATED","cellId":"Y106sZmlsZQ==","timestamp":"2026-05-26T23:28:05.773Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y106sZmlsZQ==","timestamp":"2026-05-26T23:28:05.774Z","content":"Which passenger class had the highest survival rate? "}
+{"changeType":"CELL_CREATED","cellId":"Y110sZmlsZQ==","timestamp":"2026-05-26T23:28:05.778Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y110sZmlsZQ==","timestamp":"2026-05-26T23:28:05.779Z","content":"1"}
+{"changeType":"CELL_CREATED","cellId":"Y111sZmlsZQ==","timestamp":"2026-05-26T23:28:05.815Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y111sZmlsZQ==","timestamp":"2026-05-26T23:28:05.816Z","content":"df.groupby('Pclass')['Survived'].mean().nlargest(3)"}
+{"changeType":"CELL_CREATED","cellId":"Y112sZmlsZQ==","timestamp":"2026-05-26T23:28:05.819Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y112sZmlsZQ==","timestamp":"2026-05-26T23:28:05.820Z","content":"How large was the difference in survival rates between gender"}
+{"changeType":"CELL_CREATED","cellId":"Y113sZmlsZQ==","timestamp":"2026-05-26T23:28:05.844Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y113sZmlsZQ==","timestamp":"2026-05-26T23:28:05.846Z","content":"0.742038 - 0.188908 = 0.55313"}
+{"changeType":"CELL_CREATED","cellId":"Y114sZmlsZQ==","timestamp":"2026-05-26T23:28:05.856Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y114sZmlsZQ==","timestamp":"2026-05-26T23:28:05.858Z","content":"df.groupby('Sex')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y115sZmlsZQ==","timestamp":"2026-05-26T23:28:05.863Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y115sZmlsZQ==","timestamp":"2026-05-26T23:28:05.865Z","content":"Which age group (children, young adults, adults, elderly) had the highest survival rate? "}
+{"changeType":"CELL_CREATED","cellId":"Y116sZmlsZQ==","timestamp":"2026-05-26T23:28:05.869Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y116sZmlsZQ==","timestamp":"2026-05-26T23:28:05.870Z","content":"Children"}
+{"changeType":"CELL_CREATED","cellId":"Y120sZmlsZQ==","timestamp":"2026-05-26T23:28:05.876Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y120sZmlsZQ==","timestamp":"2026-05-26T23:28:05.878Z","content":"df['AgeGroup'] = pd.cut(df['Age'],\n                         bins=[0, 12, 25, 60, 120],\n                         labels=['Children', 'Young Adults', 'Adults', 'Elderly'])"}
+{"changeType":"CELL_CREATED","cellId":"Y121sZmlsZQ==","timestamp":"2026-05-26T23:28:05.882Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y121sZmlsZQ==","timestamp":"2026-05-26T23:28:05.883Z","content":"df.groupby('AgeGroup')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y122sZmlsZQ==","timestamp":"2026-05-26T23:28:05.887Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y122sZmlsZQ==","timestamp":"2026-05-26T23:28:05.888Z","content":"Did family size affect survival probability? "}
+{"changeType":"CELL_CREATED","cellId":"Y123sZmlsZQ==","timestamp":"2026-05-26T23:28:05.895Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y123sZmlsZQ==","timestamp":"2026-05-26T23:28:05.896Z","content":"Yes"}
+{"changeType":"CELL_CREATED","cellId":"Y124sZmlsZQ==","timestamp":"2026-05-26T23:28:05.900Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y124sZmlsZQ==","timestamp":"2026-05-26T23:28:05.902Z","content":"df['FamilySize'] = df['SibSp'] + df['Parch'] + 1"}
+{"changeType":"CELL_CREATED","cellId":"Y125sZmlsZQ==","timestamp":"2026-05-26T23:28:05.906Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y125sZmlsZQ==","timestamp":"2026-05-26T23:28:05.908Z","content":"df.groupby('FamilySize')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y126sZmlsZQ==","timestamp":"2026-05-26T23:28:05.912Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y126sZmlsZQ==","timestamp":"2026-05-26T23:28:05.913Z","content":"## Verification "}
+{"changeType":"CELL_CREATED","cellId":"Y130sZmlsZQ==","timestamp":"2026-05-26T23:28:05.916Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y130sZmlsZQ==","timestamp":"2026-05-26T23:28:05.917Z","content":"Is it true that passengers with higher fares were more likely to survive, or is this mainly because they belonged to first class? "}
+{"changeType":"CELL_CREATED","cellId":"Y131sZmlsZQ==","timestamp":"2026-05-26T23:28:05.924Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y131sZmlsZQ==","timestamp":"2026-05-26T23:28:05.926Z","content":"Both? Since class 1's s rate is higher and the price is higher as well"}
+{"changeType":"CELL_CREATED","cellId":"Y132sZmlsZQ==","timestamp":"2026-05-26T23:28:05.929Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y132sZmlsZQ==","timestamp":"2026-05-26T23:28:05.930Z","content":"df.groupby('Pclass')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y133sZmlsZQ==","timestamp":"2026-05-26T23:28:05.933Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y133sZmlsZQ==","timestamp":"2026-05-26T23:28:05.935Z","content":"colors = df['Survived'].map({0: 'red', 1: 'green'})\nplt.scatter(df['Pclass'], df['Fare'], c=colors, alpha=0.5)\nplt.xlabel('Pclass')\nplt.ylabel('Fare')\nplt.show()"}
+{"changeType":"CELL_CREATED","cellId":"Y134sZmlsZQ==","timestamp":"2026-05-26T23:28:05.938Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y134sZmlsZQ==","timestamp":"2026-05-26T23:28:05.939Z","content":"Did the “women survived more often” pattern hold across all passenger classes? "}
+{"changeType":"CELL_CREATED","cellId":"Y135sZmlsZQ==","timestamp":"2026-05-26T23:28:05.944Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y135sZmlsZQ==","timestamp":"2026-05-26T23:28:05.946Z","content":"Yes"}
+{"changeType":"CELL_CREATED","cellId":"Y136sZmlsZQ==","timestamp":"2026-05-26T23:28:05.949Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y136sZmlsZQ==","timestamp":"2026-05-26T23:28:05.950Z","content":"df.groupby(['Sex', 'Pclass'])['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y140sZmlsZQ==","timestamp":"2026-05-26T23:28:05.953Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y140sZmlsZQ==","timestamp":"2026-05-26T23:28:05.954Z","content":"Did age truly affect survival, or was the “children first” effect limited to specific groups? "}
+{"changeType":"CELL_CREATED","cellId":"Y141sZmlsZQ==","timestamp":"2026-05-26T23:28:05.958Z"}
+{"changeType":"TYPING_SEQUENCE","cellId":"Y141sZmlsZQ==","timestamp":"2026-05-26T23:28:05.959Z","content":"True"}
+{"changeType":"CELL_CREATED","cellId":"Y142sZmlsZQ==","timestamp":"2026-05-26T23:28:05.962Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y142sZmlsZQ==","timestamp":"2026-05-26T23:28:05.964Z","content":"df.groupby(['AgeGroup', 'Pclass'])['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y143sZmlsZQ==","timestamp":"2026-05-26T23:28:05.967Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y143sZmlsZQ==","timestamp":"2026-05-26T23:28:05.969Z","content":"Were passengers traveling alone less likely to survive than those traveling with family members?"}
+{"changeType":"CELL_CREATED","cellId":"Y144sZmlsZQ==","timestamp":"2026-05-26T23:28:05.973Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y144sZmlsZQ==","timestamp":"2026-05-26T23:28:05.974Z","content":"No, seems like it is a curve"}
+{"changeType":"CELL_CREATED","cellId":"Y145sZmlsZQ==","timestamp":"2026-05-26T23:28:05.977Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y145sZmlsZQ==","timestamp":"2026-05-26T23:28:05.979Z","content":"df.groupby('FamilySize')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y146sZmlsZQ==","timestamp":"2026-05-26T23:28:05.982Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y146sZmlsZQ==","timestamp":"2026-05-26T23:28:05.984Z","content":"## Exploratory"}
+{"changeType":"CELL_CREATED","cellId":"Y150sZmlsZQ==","timestamp":"2026-05-26T23:28:05.987Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y150sZmlsZQ==","timestamp":"2026-05-26T23:28:05.989Z","content":"Which feature do you think was the most important for predicting survival, and why? "}
+{"changeType":"CELL_CREATED","cellId":"Y151sZmlsZQ==","timestamp":"2026-05-26T23:28:05.993Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y151sZmlsZQ==","timestamp":"2026-05-26T23:28:05.994Z","content":"Fare / Pclass"}
+{"changeType":"CELL_CREATED","cellId":"Y152sZmlsZQ==","timestamp":"2026-05-26T23:28:05.999Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y152sZmlsZQ==","timestamp":"2026-05-26T23:28:06.000Z","content":"features = df[['Pclass', 'Sex', 'Age', 'FamilySize']].copy()\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\nfeatures = features.fillna(features.median(numeric_only=True))\n\nmodel = RandomForestClassifier(random_state=42)\nmodel.fit(features, df['Survived'])\n\npd.Series(model.feature_importances_, index=features.columns).sort_values(ascending=False)"}
+{"changeType":"CELL_CREATED","cellId":"Y153sZmlsZQ==","timestamp":"2026-05-26T23:28:06.003Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y153sZmlsZQ==","timestamp":"2026-05-26T23:28:06.004Z","content":"df.groupby('Pclass')['Fare'].describe()"}
+{"changeType":"CELL_CREATED","cellId":"Y154sZmlsZQ==","timestamp":"2026-05-26T23:28:06.008Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y154sZmlsZQ==","timestamp":"2026-05-26T23:28:06.009Z","content":"df[['Pclass', 'Fare']].corr()"}
+{"changeType":"CELL_CREATED","cellId":"Y155sZmlsZQ==","timestamp":"2026-05-26T23:28:06.012Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y155sZmlsZQ==","timestamp":"2026-05-26T23:28:06.013Z","content":"features = df[['Fare', 'Sex', 'Age', 'FamilySize']].copy()\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\nfeatures = features.fillna(features.median(numeric_only=True))\n\nmodel = RandomForestClassifier(random_state=42)\nmodel.fit(features, df['Survived'])\n\npd.Series(model.feature_importances_, index=features.columns).sort_values(ascending=False)"}
+{"changeType":"CELL_CREATED","cellId":"Y156sZmlsZQ==","timestamp":"2026-05-26T23:28:06.017Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y156sZmlsZQ==","timestamp":"2026-05-26T23:28:06.018Z","content":"Did the Titanic dataset contain sampling bias? "}
+{"changeType":"CELL_CREATED","cellId":"Y160sZmlsZQ==","timestamp":"2026-05-26T23:28:06.021Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y160sZmlsZQ==","timestamp":"2026-05-26T23:28:06.023Z","content":"Yes, e.g., the numbers of adult and young adult are far more larger than others"}
+{"changeType":"CELL_CREATED","cellId":"Y161sZmlsZQ==","timestamp":"2026-05-26T23:28:06.027Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y161sZmlsZQ==","timestamp":"2026-05-26T23:28:06.027Z","content":"features = df[['Pclass', 'Sex', 'AgeGroup', 'FamilySize']].copy()\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\nfeatures = features.fillna(features.median(numeric_only=True))\nfor col in features:\n    print(df.groupby([col]).size(), '\\n')"}
+{"changeType":"CELL_CREATED","cellId":"Y162sZmlsZQ==","timestamp":"2026-05-26T23:28:06.030Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y162sZmlsZQ==","timestamp":"2026-05-26T23:28:06.031Z","content":"Did converting FamilySize into an IsAlone feature improve model performance?"}
+{"changeType":"CELL_CREATED","cellId":"Y163sZmlsZQ==","timestamp":"2026-05-26T23:28:06.034Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y163sZmlsZQ==","timestamp":"2026-05-26T23:28:06.035Z","content":"Not much different"}
+{"changeType":"CELL_CREATED","cellId":"Y164sZmlsZQ==","timestamp":"2026-05-26T23:28:06.038Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y164sZmlsZQ==","timestamp":"2026-05-26T23:28:06.039Z","content":"df['IsAlone'] = (df['FamilySize'] == 1).astype(int)"}
+{"changeType":"CELL_CREATED","cellId":"Y165sZmlsZQ==","timestamp":"2026-05-26T23:28:06.043Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y165sZmlsZQ==","timestamp":"2026-05-26T23:28:06.044Z","content":"df.groupby('IsAlone')['Survived'].mean()"}
+{"changeType":"CELL_CREATED","cellId":"Y166sZmlsZQ==","timestamp":"2026-05-26T23:28:06.047Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y166sZmlsZQ==","timestamp":"2026-05-26T23:28:06.048Z","content":"features = df[['Pclass', 'Sex', 'Age', 'FamilySize', 'Fare']].copy()\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\nfeatures = features.fillna(features.median(numeric_only=True))\n\nsplit = int(len(df) * 0.8)\nX_train, X_test = features.iloc[:split], features.iloc[split:]\ny_train, y_test = df['Survived'].iloc[:split], df['Survived'].iloc[split:]\n\nmodel = RandomForestClassifier(random_state=42)\nmodel.fit(X_train, y_train)\npreds = model.predict(X_test)\n\nprint('Accuracy:', accuracy_score(y_test, preds))"}
+{"changeType":"CELL_CREATED","cellId":"Y200sZmlsZQ==","timestamp":"2026-05-26T23:28:06.051Z"}
+{"changeType":"CHUNK_INSERT","cellId":"Y200sZmlsZQ==","timestamp":"2026-05-26T23:28:06.052Z","content":"features = df[['Pclass', 'Sex', 'Age', 'IsAlone', 'Fare']].copy()\nfeatures['Sex'] = features['Sex'].map({'male': 0, 'female': 1})\nfeatures = features.fillna(features.median(numeric_only=True))\n\nsplit = int(len(df) * 0.8)\nX_train, X_test = features.iloc[:split], features.iloc[split:]\ny_train, y_test = df['Survived'].iloc[:split], df['Survived'].iloc[split:]\n\nmodel = RandomForestClassifier(random_state=42)\nmodel.fit(X_train, y_train)\npreds = model.predict(X_test)\n\nprint('Accuracy:', accuracy_score(y_test, preds))"}
