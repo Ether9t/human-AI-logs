@@ -1,0 +1,27 @@
+start q3. perform a distribution check. one code cell under question title
+
+---
+
+next question; calculate var and get largest. do we need to pre-align data before calculation?
+
+---
+
+put cell to under the question cell; add answer print
+
+---
+
+next question; one answer cell under question.
+
+to get outlier, we can use clustering method, or use regression and get error. use both methods and print answer for each method. minimal implementation
+
+---
+
+redo - keep only one cell, define "outlier" as points having sharp growth of error from other points(sort error first) rather than a fixed std. compare overlap of answer also
+
+---
+
+yes
+
+---
+
+remove redundent cells and execute the needed cell
