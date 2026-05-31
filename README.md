@@ -38,8 +38,8 @@ Then open a browser and visit: `http://localhost:5173`
 
 Data should at least contain: 
 
-1. `full.jsonl`, from entire.io, in ``
-2. `notebook_changes.jsonl`
+1. `full.jsonl`, from entire.io
+2. `notebook_changes.jsonl`, from Notebook-Edit-Tracker
 
 # Notebook-Edit-Tracker
 
