@@ -1,0 +1,147 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "7cd8a58ae659",
+  "session_id": "09ab417e-eeaa-4741-8955-24f4ee07604a",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-01T20:50:42.242192Z",
+  "branch": "diabete_2",
+  "checkpoints_count": 6,
+  "files_touched": [
+    ".specstory/.project.json",
+    ".specstory/history/2026-06-01_20-29-40Z-add-a-import-cell.md",
+    "notebook.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-sonnet-4-6",
+  "turn_id": "57cecdabc88a",
+  "token_usage": {
+    "input_tokens": 31,
+    "cache_creation_tokens": 28139,
+    "cache_read_tokens": 335754,
+    "output_tokens": 6004,
+    "api_call_count": 17
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-01T20:50:42.236902Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 1920,
+    "human_modified": 63,
+    "human_removed": 0,
+    "total_committed": 1920,
+    "total_lines_changed": 1983,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 152,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".specstory/.project.json": 2,
+        ".specstory/history/2026-06-01_20-25-45Z-add-a-import-cell.md": 15,
+        ".specstory/statistics.json": 13,
+        "notebook.ipynb": 35,
+        "notebook_content_changes.json": 28,
+        "notebook_structure_changes.json": 37,
+        "reproduce/node_modules/nanoid/.claude/settings.local.json": 14
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 22,
+      "user_lines_removed": 0,
+      "agent_lines_added": 219,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        "reproduce/node_modules/nanoid/.claude/settings.local.json": 14
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 88,
+      "user_lines_removed": 5,
+      "agent_lines_added": 225,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".specstory/history/2026-06-01_20-29-40Z-add-a-import-cell.md": 58,
+        ".specstory/statistics.json": 5,
+        "notebook_content_changes.json": 1,
+        "notebook_structure_changes.json": 2,
+        "reproduce/node_modules/nanoid/.claude/settings.local.json": 14
+      },
+      "user_removed_per_file": {
+        ".specstory/statistics.json": 5
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 205,
+      "user_lines_removed": 22,
+      "agent_lines_added": 233,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".specstory/history/2026-06-01_20-29-40Z-add-a-import-cell.md": 112,
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 54,
+        "notebook_content_changes.json": 3,
+        "notebook_structure_changes.json": 9,
+        "reproduce/node_modules/nanoid/.claude/settings.local.json": 14
+      },
+      "user_removed_per_file": {
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 17
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 395,
+      "user_lines_removed": 23,
+      "agent_lines_added": 233,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".specstory/history/2026-06-01_20-29-40Z-add-a-import-cell.md": 127,
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 209,
+        "notebook_content_changes.json": 14,
+        "notebook_structure_changes.json": 18,
+        "reproduce/node_modules/nanoid/.claude/settings.local.json": 14
+      },
+      "user_removed_per_file": {
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 18
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 455,
+      "user_lines_removed": 9,
+      "agent_lines_added": 432,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 8,
+        ".specstory/history/2026-06-01_20-29-40Z-add-a-import-cell.md": 245,
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 87,
+        "notebook_content_changes.json": 26,
+        "notebook_structure_changes.json": 70,
+        "reproduce/node_modules/nanoid/.claude/settings.local.json": 14
+      },
+      "user_removed_per_file": {
+        ".specstory/statistics.json": 5,
+        "notebook.ipynb": 4
+      }
+    }
+  ]
+}

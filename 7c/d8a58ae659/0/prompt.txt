@@ -1,0 +1,21 @@
+add a import cell for scikit learn diabete dateset, insert the cell after the diabete dateset title
+
+---
+
+add a markdown cell after title cell (index3), introducing 3 approaches of identifying outliers. cluster could be one of them
+
+---
+
+write code implementing three functions for each method, outputing a list(or a dataset-ish structure) length=20 of outliers. each element is the outlier element from dataset. at end of that cell, run the three functions. use minimal implementation.
+
+---
+
+explain eps and min_sample for dbscan. minimal response
+
+---
+
+add a cell of venn diagram visualizing overlap of outliers
+
+---
+
+search online for key perdictor feature of this dataset. visualize the 7 shared outliers against 93 randomly selected data points. make 5 plots to ensure the visual correctly answer this question: do they appear to be random noise from the underlying distribution, or do they follow a pattern that suggests a meaningful interpretation?
