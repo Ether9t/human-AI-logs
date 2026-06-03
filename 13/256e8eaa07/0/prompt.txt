@@ -1,0 +1,41 @@
+q2 write monotonic test code
+
+---
+
+for the 1st diagram, the density difference across different prices make it harder to read distribution of rating ratio for a price. add one more cell making a heatmap with ratio bin=0.01 and price bin=5, hide box boundary, and calculate bin value as # ratio, price / # price
+
+---
+
+rewrite code
+
+---
+
+explain q3  - where do i find blockbuster titles?
+
+---
+
+shall we do a iterative drop or is there a more clever design
+
+---
+
+write code
+
+---
+
+write conclusion md cell answering the question
+
+---
+
+redo the conclusion cell writing using the new cell execution  result
+
+---
+
+last question - visualize every pair of features mentioned with scatterplot(3 plot total)
+
+---
+
+remove outliers before plot for readablity(top 10 extreme values)
+
+---
+
+can we calculate correlation here - and is it a good idea

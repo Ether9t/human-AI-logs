@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "13256e8eaa07",
+  "strategy": "manual-commit",
+  "branch": "Steam_insertion_test",
+  "checkpoints_count": 11,
+  "files_touched": [
+    "notebook.ipynb",
+    "notebook_content_changes.json",
+    "notebook_structure_changes.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/13/256e8eaa07/0/metadata.json",
+      "transcript": "/13/256e8eaa07/0/full.jsonl",
+      "content_hash": "/13/256e8eaa07/0/content_hash.txt",
+      "prompt": "/13/256e8eaa07/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 43,
+    "cache_creation_tokens": 57884,
+    "cache_read_tokens": 1018123,
+    "output_tokens": 8695,
+    "api_call_count": 21
+  }
+}
