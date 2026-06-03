@@ -1,7 +1,9 @@
-$ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
-$NOTE = Get-Content "$ROOT\analysis_note.md" -Raw
+$SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
+$PROJECT_ROOT = Split-Path -Parent $SCRIPT_DIR
 
-Set-Location $ROOT
+$NOTE = Get-Content "$SCRIPT_DIR\exp-claude.md" -Raw
+
+Set-Location $PROJECT_ROOT
 
 claude --append-system-prompt @"
 Project context:
