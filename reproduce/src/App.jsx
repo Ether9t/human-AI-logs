@@ -1,4 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import createPlotlyComponentModule from "react-plotly.js/factory";
+import Plotly from "plotly.js-dist-min";
+
+const createPlotlyComponent =
+  createPlotlyComponentModule.default || createPlotlyComponentModule;
+
+const Plot = createPlotlyComponent(Plotly);
 import "./App.css";
 
 const DATA_ROOT = "/data";
@@ -98,18 +106,87 @@ function normalizeChat(fullJsonl) {
     .filter(Boolean);
 }
 
-function normalizeNotebookChanges(changesJsonl) {
+function normalizeNotebookStructureChanges(structureJsonl) {
+  return structureJsonl
+    .map((item, index) => {
+      const timestamp =
+        item.timestamp ||
+        item.time ||
+        item.created_at ||
+        item.createdAt ||
+        item.timeStamp;
+
+      const cellId =
+        item.cellId ||
+        item.cell_id ||
+        item.cellUri ||
+        `cell-${item.cellIndex ?? index}`;
+
+      return {
+        id: item.id || `${cellId}-${item.changeType || "structure"}-${index}`,
+        kind: "notebook",
+        source: "structure",
+        timestamp,
+        changeType: item.changeType || "structure",
+        cellId,
+        cellIndex: item.cellIndex ?? item.cell_index,
+        cellType: item.cellType || item.cell_type,
+        executeOutput: item.executeOutput || null,
+      };
+    })
+    .filter((item) => item.timestamp && item.cellId);
+}
+
+function applyContentChanges(text, contentChanges = []) {
+  let nextText = String(text || "");
+
+  const changes = [...contentChanges].sort((a, b) => {
+    const ao = a.rangeOffset ?? 0;
+    const bo = b.rangeOffset ?? 0;
+    return bo - ao;
+  });
+
+  for (const change of changes) {
+    const offset = change.rangeOffset ?? 0;
+    const length = change.rangeLength ?? 0;
+    const insertText = change.text ?? "";
+
+    nextText =
+      nextText.slice(0, offset) +
+      insertText +
+      nextText.slice(offset + length);
+  }
+
+  return nextText;
+}
+
+function normalizeNotebookContentChanges(changesJsonl) {
   return changesJsonl
-    .map((item, index) => ({
-      id: item.id || `change-${index}`,
-      kind: "notebook",
-      timestamp: item.timestamp || item.time || item.created_at || item.createdAt,
-      changeType: item.changeType || item.type || item.action || "CHUNK_INSERT",
-      cellId: item.cellId || item.cell_id || `cell-${item.cellIndex ?? index}`,
-      cellIndex: item.cellIndex ?? item.cell_index ?? index,
-      content: item.content || item.text || item.source || item.code || "",
-    }))
-    .filter((item) => item.timestamp || item.content);
+    .map((item, index) => {
+      const timestamp =
+        item.timestamp ||
+        item.time ||
+        item.created_at ||
+        item.createdAt ||
+        item.timeStamp;
+
+      const cellId =
+        item.cellId ||
+        item.cell_id ||
+        item.cellUri ||
+        `cell-${item.cellIndex ?? index}`;
+
+      return {
+        id: item.id || `${cellId}-content-${index}`,
+        kind: "notebook",
+        source: "content",
+        timestamp,
+        cellId,
+        cellIndex: item.cellIndex ?? item.cell_index,
+        contentChanges: item.contentChanges || [],
+      };
+    })
+    .filter((item) => item.timestamp && item.cellId);
 }
 
 function formatTime(value) {
@@ -139,17 +216,32 @@ function buildReplaySteps(chat, notebookChanges) {
   const steps = [];
   const ensureCell = (change) => {
     const id = change.cellId;
+
     if (!cellMap.has(id)) {
       const cell = {
         id,
-        index: change.cellIndex ?? cells.length,
+        index: change.cellIndex ?? Number.MAX_SAFE_INTEGER,
+        cellType: change.cellType || "unknown",
         content: "",
+        output: null,
+        deleted: false,
       };
+
       cellMap.set(id, cell);
       cells.push(cell);
-      cells.sort((a, b) => a.index - b.index);
     }
-    return cellMap.get(id);
+
+    const cell = cellMap.get(id);
+
+    if (change.source === "structure" && change.cellIndex != null) {
+      cell.index = change.cellIndex;
+    }
+
+    if (change.source === "structure" && change.cellType) {
+      cell.cellType = change.cellType;
+    }
+
+    return cell;
   };
 
   let sequenceIndex = 0;
@@ -195,12 +287,22 @@ function buildReplaySteps(chat, notebookChanges) {
       activeCellId: item.cellId || null,
       activeMessageId: item.kind === "chat" ? item.id : null,
 
-      cells: cells
-        .map((cell, index) => ({
+      cells: [...cells]
+        .filter((cell) => !cell.deleted)
+        .sort((a, b) => {
+          const ai = a.index;
+          const bi = b.index;
+
+          if (ai !== bi) return ai - bi;
+
+          return String(a.id).localeCompare(String(b.id));
+        })
+        .map((cell) => ({
           ...cell,
-          viewIndex: index,
-        }))
-        .filter((cell) => cell.content.trim()),
+          output: Array.isArray(cell.output)
+            ? cell.output.map((out) => ({ ...out }))
+            : cell.output,
+        })),
 
       messages: messages.map((message) => ({ ...message })),
     });
@@ -214,26 +316,119 @@ function buildReplaySteps(chat, notebookChanges) {
     }
 
     const cell = ensureCell(item);
-    const type = String(item.changeType).toUpperCase();
+    if (item.source === "content") {
+      cell.content = applyContentChanges(
+        cell.content,
+        item.contentChanges || []
+      );
 
-    if (type.includes("DELETE")) {
-      cell.content = "";
-    } else if (type.includes("REPLACE")) {
-      cell.content = item.content || "";
-    } else {
-      cell.content += item.content || "";
+      pushStep(item, "CONTENT EDIT");
+      continue;
     }
 
-    pushStep(item, type.replaceAll("_", " "));
+    const type = String(item.changeType || "").toUpperCase();
+    if (type.includes("INSERT")) {
+      cell.deleted = false;
+    } else if (type.includes("DELETE")) {
+      cell.deleted = true;
+    } else if (type.includes("EXECUTE")) {
+      cell.deleted = false;
+      cell.output = item.executeOutput || item.output || null;
+    } else if (type.includes("OUTPUT")) {
+      cell.output = item.executeOutput || item.output || null;
+    }
+
+    pushStep(item, type.replaceAll("_", " ") || "STRUCTURE");
   }
 
   return steps;
 }
 
-function CodeCell({ cell, active }) {
-  return (
-    <div className={`code-cell ${active ? "is-active" : ""}`}>
+function NotebookOutput({ output }) {
+  const outputs = Array.isArray(output) ? output : output ? [output] : [];
 
+  if (!outputs.length) return null;
+
+  return (
+    <>
+      {outputs.map((out, index) => {
+        if (!out) return null;
+
+        if (out.mime === "image/png") {
+          return (
+            <img
+              key={index}
+              className="output-image"
+              src={`data:image/png;base64,${out.data}`}
+              alt="notebook output"
+            />
+          );
+        }
+
+        if (out.mime === "text/html") {
+          return (
+            <div
+              key={index}
+              className="output html-output"
+              dangerouslySetInnerHTML={{ __html: out.data }}
+            />
+          );
+        }
+
+        if (out.mime === "text/plain") {
+          return (
+            <pre key={index} className="output-text">
+              {out.data}
+            </pre>
+          );
+        }
+
+        if (out.mime === "application/vnd.plotly.v1+json") {
+          const fig =
+            typeof out.data === "string" ? JSON.parse(out.data) : out.data;
+
+          return (
+            <div key={index} className="output plotly-output">
+              <Plot
+                data={fig.data || []}
+                layout={{
+                  ...(fig.layout || {}),
+                  autosize: true,
+                  height: 420,
+                }}
+                config={{
+                  responsive: true,
+                  displayModeBar: false,
+                }}
+                useResizeHandler
+                style={{
+                  width: "100%",
+                  height: "420px",
+                }}
+              />
+            </div>
+          );
+        }
+
+        return (
+          <pre key={index} className="output-text">
+            {typeof out.data === "string"
+              ? out.data
+              : JSON.stringify(out.data, null, 2)}
+          </pre>
+        );
+      })}
+    </>
+  );
+}
+
+function NotebookCell({ cell, active }) {
+  const isMarkdown =
+    cell.cellType === "markup" ||
+    cell.cellType === "markdown";
+
+  return (
+    <div className={`code-cell ${isMarkdown ? "markdown-cell" : ""} ${active ? "is-active" : ""}`}>
       <div className="code-badge-row">
         <div className="event-badge-list">
           {(cell.sequenceNumbers || []).map((number) => (
@@ -245,12 +440,20 @@ function CodeCell({ cell, active }) {
       </div>
 
       <div className="cell-prompt">
-        In [{cell.viewIndex + 1}]
+        {isMarkdown ? "MD" : `In [${cell.index + 1}]`}
       </div>
 
-      <pre className="code-pre">
-        <code>{cell.content}</code>
-      </pre>
+      {isMarkdown ? (
+        <div className="markdown-content">
+          <ReactMarkdown>{cell.content}</ReactMarkdown>
+        </div>
+      ) : (
+        <pre className="code-pre">
+          <code>{cell.content}</code>
+        </pre>
+      )}
+
+      <NotebookOutput output={cell.output} />
     </div>
   );
 }
@@ -300,15 +503,20 @@ export default function App() {
 
       try {
         const base = `${DATA_ROOT}/${encodeURIComponent(dataset)}`;
-        const [fullText, changesText] = await Promise.all([
-          readText(`${base}/full.jsonl`),
-          readText(`${base}/notebook_changes.jsonl`),
-        ]);
+        const [fullText, contentChangesText, structureChangesText] =
+          await Promise.all([
+            readText(`${base}/full.jsonl`),
+            readText(`${base}/notebook_content_changes.jsonl`),
+            readText(`${base}/notebook_structure_changes.jsonl`),
+          ]);
 
         if (cancelled) return;
 
         setChat(normalizeChat(parseJsonl(fullText)));
-        setChanges(normalizeNotebookChanges(parseJsonl(changesText)));
+        setChanges([
+          ...normalizeNotebookContentChanges(parseJsonl(contentChangesText)),
+          ...normalizeNotebookStructureChanges(parseJsonl(structureChangesText)),
+        ]);
         setStatus("ready");
       } catch (err) {
         if (cancelled) return;
@@ -420,7 +628,7 @@ export default function App() {
               <div className="panel-scroll notebook-scroll">
                 {currentStep.cells.length ? (
                   currentStep.cells.map((cell) => (
-                    <CodeCell
+                    <NotebookCell
                       key={cell.id}
                       cell={cell}
                       active={cell.id === currentStep.activeCellId}

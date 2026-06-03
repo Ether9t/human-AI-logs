@@ -466,6 +466,79 @@ input {
   font-weight: 600;
 }
 
+.notebook-panel {
+  flex: 1;
+  min-width: 0;
+}
+
+.code-cell {
+  width: 100%;
+  min-width: 0;
+}
+
+.plotly-output {
+  grid-column: 1 / -1;
+
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.markdown-content {
+  min-width: 0;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.markdown-content p {
+  margin: 0 0 8px;
+}
+
+.markdown-content pre {
+  overflow-x: auto;
+  background: #f1f5f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.output,
+.output-text,
+.output-image,
+.plotly-output {
+  grid-column: 1 / -1;
+}
+
+.html-output {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.html-output table {
+  width: max-content;
+  max-width: none;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.html-output th,
+.html-output td {
+  max-width: 180px;
+  padding: 6px 8px;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.html-output th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  z-index: 1;
+}
+
 @media (max-width: 850px) {
   .header-row,
   .playback-row {
