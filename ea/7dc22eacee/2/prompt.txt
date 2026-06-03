@@ -1,0 +1,45 @@
+debug first cell install part
+
+---
+
+there are 6 sheets total, load them with corresponding sheet name
+
+---
+
+read question 1 and attributes from all sheets. what sheet and what attributes we might need? no code for now
+
+---
+
+for task like this of identifying outliers in some of many attributes, what is the common methods? regression? clustering?
+
+---
+
+why the problem is univariate? can it be a outlier because of a special combination of attribute values
+
+---
+
+in the cell under question 1 markdown cell, add a markdown cell for your implementation plan of following analysis:
+- add code for univariate analysis using z score
+- check the outlier distribution against data distribution to determine what the outliers might suggest. Do they distrubute like random noise? do they cluster? do they deviate in a extent that seems to be error? do they follow certain distribution(think about how this classification logic would be implemented in code)
+- multivariate outlier detaction
+- multivariate outlier classification
+
+---
+
+revert the plan and write in a concise md cell
+
+---
+
+4 should be similar to 2, 3 would use same features as 1, add owner as well to analysis in 1&3, since how many people buy the game matters. owner is string like 10000-20000, parse to the avg of min and max before using
+
+---
+
+write code in following cell. encapsulate outlier classification to a function for simplicity.
+
+---
+
+for "likely error", would it be more convincing to compare a parameterized distribution z>8 with actual z>8 - use a hypothesis testing method rather than showing how many z>8? explain which practice is better. also, what distribution model might be used?
+
+---
+
+switch to hypothesis testing in the code cell, minimal implementation and minimal change.
