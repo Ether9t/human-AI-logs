@@ -1,5 +1,5 @@
 $ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
-$NOTE = Get-Content "$ROOT\test.md" -Raw
+$NOTE = Get-Content "$ROOT\analysis_ guideline.md" -Raw
 
 Set-Location $ROOT
 
