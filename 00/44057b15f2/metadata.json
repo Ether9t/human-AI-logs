@@ -1,0 +1,25 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "0044057b15f2",
+  "strategy": "manual-commit",
+  "branch": "steam_test2_with_injection",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "experiment/exp-claude.md"
+  ],
+  "sessions": [
+    {
+      "metadata": "/00/44057b15f2/0/metadata.json",
+      "transcript": "/00/44057b15f2/0/full.jsonl",
+      "content_hash": "/00/44057b15f2/0/content_hash.txt",
+      "prompt": "/00/44057b15f2/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 6,
+    "cache_creation_tokens": 17571,
+    "cache_read_tokens": 17441,
+    "output_tokens": 347,
+    "api_call_count": 2
+  }
+}
