@@ -45,15 +45,11 @@ Data should at least contain:
 
 A VS Code extension that logs every structural and textual edit in Jupyter notebooks to JSONL files for replay and analysis.
 
----
-
 ## Installation
 
 In VS Code: **Extensions** panel → `···` menu (top-right) → **Install from VSIX** → select the `.vsix` file.
 
 Requires VS Code 1.80+.
-
----
 
 ## Usage
 
@@ -64,8 +60,6 @@ my_notebook_structure_changes.jsonl
 my_notebook_content_changes.jsonl
 ```
 
----
-
 ## Toggle
 
 A status bar item (bottom-right) shows the current state:
@@ -74,8 +68,6 @@ A status bar item (bottom-right) shows the current state:
 - `⊘ Logger: OFF` — paused, events discarded
 
 Click it or run `notebookLogger.toggle` to switch. When off, nothing is written to disk.
-
----
 
 ## Output Data
 
@@ -103,10 +95,14 @@ One record per structural event: cell added, removed, moved, re-typed, or execut
 | `execute` | A cell was run and its outputs updated. Only logs if output has changed or >1000ms has passed since the last execution record for that cell |
 
 ```json
-{"timeStamp":1716912000000,"cellUri":"ch4~00002","cellIndex":2,"changeType":"insert","cellType":"code","executeOutput":null}
+{
+    "timeStamp":1716912000000,
+    "cellUri":"ch4~00002",
+    "cellIndex":2,
+    "changeType":"insert",
+    "cellType":"code",
+    "executeOutput":null}
 ```
-
----
 
 ### `content_changes.jsonl`
 
@@ -128,5 +124,17 @@ One record per text edit — keystrokes, pastes, deletions, AI completions.
 | `text` | The string inserted at this position. Empty string means a pure deletion |
 
 ```json
-{"timeStamp":1716912000000,"cellUri":"ch4~00002","contentChanges":[{"range":{"start":{"line":0,"character":0},"end":{"line":0,"character":0}},"rangeOffset":0,"rangeLength":0,"text":"import pandas as pd"}]}
+{
+    "timeStamp":1716912000000,
+    "cellUri":"ch4~00002",
+    "contentChanges":[{
+        "range":{
+            "start":{"line":0,"character":0},
+            "end":{"line":0,"character":0}
+        },
+        "rangeOffset":0,
+        "rangeLength":0,
+        "text":"import pandas as pd"
+    }]
+}
 ```

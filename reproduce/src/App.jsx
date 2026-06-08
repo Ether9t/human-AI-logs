@@ -3,6 +3,16 @@ import ReactMarkdown from "react-markdown";
 import createPlotlyComponentModule from "react-plotly.js/factory";
 import Plotly from "plotly.js-dist-min";
 
+const GROUP_COLORS = [
+  "#7c3aed", "#2563eb", "#059669", "#dc2626",
+  "#d97706", "#0891b2", "#be185d", "#4f46e5",
+];
+
+function getGroupColor(groupId) {
+  if (!groupId) return "#999";
+  return GROUP_COLORS[(groupId - 1) % GROUP_COLORS.length];
+}
+
 const createPlotlyComponent =
   createPlotlyComponentModule.default || createPlotlyComponentModule;
 
@@ -117,9 +127,9 @@ function normalizeNotebookStructureChanges(structureJsonl) {
         item.timeStamp;
 
       const cellId =
+        item.cellUri ||
         item.cellId ||
         item.cell_id ||
-        item.cellUri ||
         `cell-${item.cellIndex ?? index}`;
 
       return {
@@ -171,9 +181,9 @@ function normalizeNotebookContentChanges(changesJsonl) {
         item.timeStamp;
 
       const cellId =
+        item.cellUri ||
         item.cellId ||
         item.cell_id ||
-        item.cellUri ||
         `cell-${item.cellIndex ?? index}`;
 
       return {
@@ -200,31 +210,102 @@ function formatTime(value) {
   });
 }
 
+function getTimeMs(value) {
+  const time = new Date(value || 0).getTime();
+  return Number.isNaN(time) ? 0 : time;
+}
+
+
 function buildReplaySteps(chat, notebookChanges) {
   const items = [
     ...chat.map((message, order) => ({ ...message, kind: "chat", order })),
-    ...notebookChanges.map((change, order) => ({ ...change, kind: "notebook", order })),
+    ...notebookChanges.map((change, order) => ({
+      ...change,
+      kind: "notebook",
+      order,
+    })),
   ].sort((a, b) => {
-    const at = new Date(a.timestamp || a.time || 0).getTime();
-    const bt = new Date(b.timestamp || b.time || 0).getTime();
+    const at = getTimeMs(a.timestamp || a.time);
+    const bt = getTimeMs(b.timestamp || b.time);
     return at - bt;
   });
+
+  const chatTurnWindows = [];
+  let activeGroupId = 0;
+  let activeUserTime = null;
+
+  for (const item of items) {
+    if (item.kind !== "chat") continue;
+
+    if (item.role === "user") {
+      activeGroupId += 1;
+      activeUserTime = item.time || item.timestamp;
+      item.groupId = activeGroupId;
+
+      const previousWindow = chatTurnWindows[chatTurnWindows.length - 1];
+      if (previousWindow && !previousWindow.endMs) {
+        previousWindow.endMs = getTimeMs(activeUserTime);
+      }
+    }
+
+    if (item.role === "assistant") {
+      if (activeGroupId === 0) activeGroupId += 1;
+
+      const assistantTime = item.time || item.timestamp;
+      item.groupId = activeGroupId;
+
+      chatTurnWindows.push({
+        groupId: activeGroupId,
+        userTime: activeUserTime,
+        assistantTime,
+        startMs: getTimeMs(assistantTime || activeUserTime),
+        endMs: null,
+      });
+    }
+  }
+
+  function findGroupForNotebookChange(change) {
+    const changeMs = getTimeMs(change.timestamp || change.time);
+    if (!changeMs) return null;
+
+    const candidates = chatTurnWindows
+      .filter((turn) => {
+        const startMs = turn.startMs || 0;
+        const endMs = turn.endMs || Number.POSITIVE_INFINITY;
+
+        return startMs > 0 && startMs <= changeMs && changeMs < endMs;
+      })
+      .sort((a, b) => b.startMs - a.startMs);
+
+    return candidates[0]?.groupId || null;
+  }
 
   const cells = [];
   const cellMap = new Map();
   const messages = [];
   const steps = [];
+  let userEditId = 0;
+  const deletedCellByIndex = new Map();
+
   const ensureCell = (change) => {
     const id = change.cellId;
 
     if (!cellMap.has(id)) {
       const cell = {
         id,
+        cellIds: [],
         index: change.cellIndex ?? Number.MAX_SAFE_INTEGER,
         cellType: change.cellType || "unknown",
         content: "",
         output: null,
         deleted: false,
+
+        lineage: {
+          origin: null,
+          edits: [],
+        },
+
+        touchedGroupIds: [],
       };
 
       cellMap.set(id, cell);
@@ -232,6 +313,9 @@ function buildReplaySteps(chat, notebookChanges) {
     }
 
     const cell = cellMap.get(id);
+    if (change.cellId && !cell.cellIds.includes(change.cellId)) {
+      cell.cellIds.push(change.cellId);
+    }
 
     if (change.source === "structure" && change.cellIndex != null) {
       cell.index = change.cellIndex;
@@ -244,9 +328,53 @@ function buildReplaySteps(chat, notebookChanges) {
     return cell;
   };
 
+  const addTouchedGroup = (cell, groupId) => {
+    if (!groupId) return;
+
+    cell.touchedGroupIds = Array.from(
+      new Set([...(cell.touchedGroupIds || []), groupId])
+    );
+  };
+
+  const addLineageEvent = (cell, event) => {
+    const allEvents = [
+      ...(cell.lineage.origin ? [cell.lineage.origin] : []),
+      ...cell.lineage.edits,
+    ];
+
+    const exists = allEvents.some((e) => e.id === event.id);
+
+    if (exists) return;
+
+    if (!cell.lineage.origin) {
+      cell.lineage.origin = {
+        ...event,
+        type: event.actor === "ai" ? "origin-ai" : "origin-user",
+        label:
+          event.actor === "ai"
+            ? `Origin AI #${event.groupId}`
+            : `Origin User #${event.userEditId}`,
+      };
+    } else {
+      cell.lineage.edits.push({
+        ...event,
+        type: event.actor === "ai" ? "ai-edit" : "user-edit",
+        label:
+          event.actor === "ai"
+            ? `AI Edit #${event.groupId}`
+            : `User Edit #${event.userEditId}`,
+      });
+    }
+
+    if (event.groupId) {
+      addTouchedGroup(cell, event.groupId);
+    }
+  };
+
   let sequenceIndex = 0;
   let currentChatTurnIndex = null;
   let lastNotebookCellId = null;
+
   const pushStep = (item, label) => {
     if (item.kind === "chat") {
       if (item.role === "user") {
@@ -299,12 +427,25 @@ function buildReplaySteps(chat, notebookChanges) {
         })
         .map((cell) => ({
           ...cell,
+          cellIds: [...(cell.cellIds || [])],
+          lineage: {
+            origin: cell.lineage?.origin
+              ? { ...cell.lineage.origin }
+              : null,
+
+            edits: [...(cell.lineage?.edits || [])],
+          },
+          touchedGroupIds: [...(cell.touchedGroupIds || [])],
+          sequenceNumbers: [...(cell.sequenceNumbers || [])],
           output: Array.isArray(cell.output)
             ? cell.output.map((out) => ({ ...out }))
             : cell.output,
         })),
 
-      messages: messages.map((message) => ({ ...message })),
+      messages: messages.map((message) => ({
+        ...message,
+        sequenceNumbers: [...(message.sequenceNumbers || [])],
+      })),
     });
   };
 
@@ -316,21 +457,80 @@ function buildReplaySteps(chat, notebookChanges) {
     }
 
     const cell = ensureCell(item);
+    const matchedGroupId = findGroupForNotebookChange(item);
+    const type = String(item.changeType || "").toUpperCase();
+
     if (item.source === "content") {
-      cell.content = applyContentChanges(
+      const beforeContent = cell.content || "";
+      const afterContent = applyContentChanges(
         cell.content,
         item.contentChanges || []
       );
 
-      pushStep(item, "CONTENT EDIT");
+      const changed = beforeContent !== afterContent;
+      cell.content = afterContent;
+
+      if (!changed) {
+        pushStep(item, "CONTENT NOOP");
+        continue;
+      }
+
+      const isCreation = !cell.lineage.origin;
+
+      if (matchedGroupId) {
+        addLineageEvent(cell, {
+          id: item.id,
+          actor: "ai",
+          groupId: matchedGroupId,
+          userEditId: null,
+          timestamp: item.timestamp || item.time,
+        });
+      } else {
+        userEditId += 1;
+
+        addLineageEvent(cell, {
+          id: item.id,
+          actor: "user",
+          groupId: null,
+          userEditId,
+          timestamp: item.timestamp || item.time,
+        });
+      }
+
+      pushStep(item, isCreation ? "CREATE CONTENT" : "CONTENT EDIT");
       continue;
     }
 
-    const type = String(item.changeType || "").toUpperCase();
-    if (type.includes("INSERT")) {
-      cell.deleted = false;
-    } else if (type.includes("DELETE")) {
+    if (type.includes("DELETE")) {
       cell.deleted = true;
+
+      if (item.cellIndex != null) {
+        deletedCellByIndex.set(String(item.cellIndex), cell);
+      }
+    } else if (type.includes("INSERT")) {
+      if (item.cellIndex != null) {
+        const previousCell = deletedCellByIndex.get(String(item.cellIndex));
+
+        if (
+          previousCell &&
+          previousCell.id !== cell.id &&
+          previousCell.lineage?.origin &&
+          !cell.lineage?.origin
+        ) {
+          cell.lineage = {
+            origin: previousCell.lineage.origin
+              ? { ...previousCell.lineage.origin }
+              : null,
+            edits: [...(previousCell.lineage.edits || [])],
+          };
+
+          cell.touchedGroupIds = [...(previousCell.touchedGroupIds || [])];
+        }
+
+        deletedCellByIndex.delete(String(item.cellIndex));
+      }
+
+      cell.deleted = false;
     } else if (type.includes("EXECUTE")) {
       cell.deleted = false;
       cell.output = item.executeOutput || item.output || null;
@@ -422,20 +622,63 @@ function NotebookOutput({ output }) {
   );
 }
 
-function NotebookCell({ cell, active }) {
-  const isMarkdown =
-    cell.cellType === "markup" ||
-    cell.cellType === "markdown";
+function NotebookCell({ cell, active, selectedGroupId, onSelectGroup }) {
+  const isMarkdown = cell.cellType === "markup" || cell.cellType === "markdown";
+
+  const lineageEvents = [
+    cell.lineage?.origin,
+    ...(cell.lineage?.edits || []),
+  ].filter(Boolean);
+
+  const touchedGroupIds = cell.touchedGroupIds || [];
+  const isGroupSelected =
+    selectedGroupId && touchedGroupIds.includes(selectedGroupId);
+
+  const selectedColor = selectedGroupId
+    ? getGroupColor(selectedGroupId)
+    : null;
 
   return (
-    <div className={`code-cell ${isMarkdown ? "markdown-cell" : ""} ${active ? "is-active" : ""}`}>
+    <div
+      className={[
+        "code-cell",
+        isMarkdown ? "markdown-cell" : "",
+        active ? "is-active" : "",
+        isGroupSelected ? "is-group-selected" : "",
+        selectedGroupId && !isGroupSelected ? "is-group-dimmed" : "",
+      ].join(" ")}
+      style={
+        selectedColor
+          ? { "--selected-group-color": selectedColor }
+          : undefined
+      }
+    >
       <div className="code-badge-row">
         <div className="event-badge-list">
-          {(cell.sequenceNumbers || []).map((number) => (
-            <span key={number} className="event-badge">
-              #{number}
-            </span>
-          ))}
+          {lineageEvents.map((event, index) => {
+            const color = event.groupId
+              ? getGroupColor(event.groupId)
+              : "#6b7280";
+
+            return (
+              <button
+                key={event.id || index}
+                type="button"
+                className={`event-badge ${event.groupId ? "clickable" : "user-edit"
+                  }`}
+                style={{ background: color }}
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  if (event.groupId) {
+                    onSelectGroup(event.groupId);
+                  }
+                }}
+              >
+                {event.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -458,18 +701,43 @@ function NotebookCell({ cell, active }) {
   );
 }
 
-function ChatMessage({ message, active }) {
+function ChatMessage({ message, active, selectedGroupId, onSelectGroup }) {
+  const groupId = message.groupId;
+  const groupColor = getGroupColor(groupId);
+
+  const isGroupSelected = selectedGroupId && selectedGroupId === groupId;
+
   return (
-    <div className={`chat-message ${message.role} ${active ? "is-active" : ""}`}>
+    <div
+      className={[
+        "chat-message",
+        message.role,
+        active ? "is-active" : "",
+        isGroupSelected ? "is-group-selected" : "",
+        selectedGroupId && !isGroupSelected ? "is-group-dimmed" : "",
+      ].join(" ")}
+      data-group-id={groupId || ""}
+      style={{ "--group-color": groupColor }}
+    >
       <div className="chat-role">{message.role === "user" ? "User" : "AI"}</div>
+
       <div className="chat-bubble">
         <div className="event-badge-list">
-          {(message.sequenceNumbers || []).map((number) => (
-            <span key={number} className="event-badge">
-              #{number}
-            </span>
-          ))}
+          {groupId && (
+            <button
+              type="button"
+              className="event-badge clickable"
+              style={{ background: groupColor }}
+              onClick={(event) => {
+                event.stopPropagation();
+                onSelectGroup(groupId);
+              }}
+            >
+              #{groupId}
+            </button>
+          )}
         </div>
+
         <div className="chat-time">{formatTime(message.time)}</div>
         <div className="chat-text">{message.text}</div>
       </div>
@@ -485,6 +753,10 @@ export default function App() {
   const [stepIndex, setStepIndex] = useState(0);
   const [status, setStatus] = useState("loading");
   const [error, setError] = useState("");
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const handleSelectGroup = (groupId) => {
+    setSelectedGroupId((current) => (current === groupId ? null : groupId));
+  };
 
   useEffect(() => {
     discoverDatasets().then((names) => {
@@ -632,6 +904,8 @@ export default function App() {
                       key={cell.id}
                       cell={cell}
                       active={cell.id === currentStep.activeCellId}
+                      selectedGroupId={selectedGroupId}
+                      onSelectGroup={handleSelectGroup}
                     />
                   ))
                 ) : (
@@ -649,6 +923,8 @@ export default function App() {
                       key={message.id}
                       message={message}
                       active={message.id === currentStep.activeMessageId}
+                      selectedGroupId={selectedGroupId}
+                      onSelectGroup={handleSelectGroup}
                     />
                   ))
                 ) : (
