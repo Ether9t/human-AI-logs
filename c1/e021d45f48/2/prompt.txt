@@ -1,0 +1,40 @@
+interpret first question - what does "identify the multiple games mean"
+
+---
+
+from the md cell in notebook
+
+---
+
+using the dtype printed, how  would you group attributes as notion of success
+
+---
+
+great. add a cell calculating two aspect for each game, then use stat method to find outlier for each
+
+---
+
+if we are to use visualization to compare two success metrics, what plot would u mane
+
+---
+
+what if 4 diagrams total
+
+---
+
+code for three diagrams - 1,2,3. for 1,2 add also boxplot on the histogram- making quantiles show in corresponding place in histogram
+
+---
+
+are you defining low reception for its outlier but high revenue for corresponding outlier?
+
+---
+
+few issues:
+- in 2nd cell, you are not using defined outlier function from last cell;
+- in the scatterplot, there are no reception outlier displayed - they are marked with wrong color or not marked as outlier although having 1.0 reception rate - figure out reason
+- double check data use in three diagrams are consistent(using same attributes or variables)
+
+---
+
+[Image #1] no reception outliers are present
