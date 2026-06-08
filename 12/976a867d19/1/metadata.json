@@ -1,0 +1,63 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "12976a867d19",
+  "session_id": "653d5b1f-3f84-4f96-90ce-8ab4e03badae",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-08T03:22:43.1542599Z",
+  "branch": "Steam_Raw",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "notebook.ipynb",
+    "notebook_content_changes.json",
+    "notebook_structure_changes.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "5a8b16652aaa",
+  "token_usage": {
+    "input_tokens": 2310,
+    "cache_creation_tokens": 74855,
+    "cache_read_tokens": 572590,
+    "output_tokens": 14678,
+    "api_call_count": 18
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-08T03:22:43.1314821Z",
+    "agent_lines": 0,
+    "agent_removed": 7,
+    "human_added": 0,
+    "human_modified": 1185,
+    "human_removed": 260448,
+    "total_committed": 1513,
+    "total_lines_changed": 261640,
+    "agent_percentage": 0.0026754318911481425,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 260484,
+      "user_lines_removed": 260448,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 9,
+        "notebook.ipynb": 1,
+        "notebook_content_changes.json": 4,
+        "notebook_structure_changes.json": 6,
+        "old/data/051c1b65-ded5-4291-80c3-948240c4de48/prompt.txt": 1,
+        "old/data/notebook.ipynb": 260062,
+        "old/data/notebook_content_changes.json": 376,
+        "old/data/notebook_structure_changes.json": 25
+      },
+      "user_removed_per_file": {
+        "notebook.ipynb": 260047,
+        "notebook_content_changes.json": 376,
+        "notebook_structure_changes.json": 25
+      }
+    }
+  ]
+}
