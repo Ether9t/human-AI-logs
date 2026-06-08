@@ -1,0 +1,53 @@
+for the question "Propose two different definitions of “success” and compare whether they identify the multiple games.", I consider "the number of selling " is the most important, please give code about analysis. write the code in notebook.ipynb
+
+---
+
+2
+
+---
+
+Proceed with option 1. Install nbconvert/ipykernel into my py312 env and execute the notebook directly. I don't need the IDE kernel.
+
+---
+
+Show me the full absolute path of the notebook.ipynb you just modified
+
+---
+
+How does price relate to player reception? How about this question?
+
+---
+
+add as a new section
+
+---
+
+Why here use source?
+
+---
+
+anyway add the code to the same notebook first, I want to check the figure first
+
+---
+
+How does playtime relate to player reception?  Note, free game and paid game may different?
+
+---
+
+sure. btw can you re-structure the sections so that the questions I gave can be the largest fonts
+
+---
+
+seems like you didn't consider outliners or other things like that when doing the analysis? for example some games have very long avg play time, but that game actually not that famous
+
+---
+
+For question 1, you mentioned reception quality(you analysis this, seems reasonable), but what is "revenue"?
+
+---
+
+the definition of renvenue makes sense but the formulate is wired so I'd like not take this. Is there any other features that can represent that?
+
+---
+
+only keep owners and reception quality, since the question doesn't ask for "good" features. owners is a "bad" one but still explainable
