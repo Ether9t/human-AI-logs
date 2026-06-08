@@ -72,7 +72,7 @@ function logFilePath(notebookUri: vscode.Uri, suffix: string): string | undefine
     if (notebookUri.scheme !== 'file') return undefined;
     const dir = path.dirname(notebookUri.fsPath);
     const base = path.basename(notebookUri.fsPath, path.extname(notebookUri.fsPath));
-    return path.join(dir, `${base}_${suffix}.json`);
+    return path.join(dir, `${base}_${suffix}.jsonl`);
 }
 
 // --------------------------------------------------------------------------
