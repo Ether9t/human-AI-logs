@@ -1,0 +1,75 @@
+there are two buggy code cells in notebook for question 1. remove all code, remove their fallback logic. read the main idea of each cell and rewrite in clean simple code. make good annotation
+
+---
+
+as can be read form output, since ratio has a different distribution from rating count, no rating outlier is detected. maybe we need a metric considering both vote count and vote ratio. what are existing metrics for this type of stat
+
+---
+
+explain wilson's application here:
+- how we use it for rating data?
+- we want high rating, how we use lower interval bound?
+- we want to consider both pos rating count and pos rating ratio - but in formula i only see single var phat - why?
+
+---
+
+sound great - let's replace out simple ratio with this statistic
+
+---
+
+it seems no output detected still for rating - maybe because there is a cluster of high rating? anyway, it seems our outlier def didn't capture well on success games since it directly ignores a large group
+
+---
+
+let's simply use 10%
+
+---
+
+how do you think of this plan? don't write code yet
+
+q2 - use our calculated wilson, for:
+- scatter plot w/ correlation
+- qq plot
+- some regression model
+
+---
+
+for qq plot, i want to plot quantiles of wilson against price to see the trend - does this make sense or not?
+
+---
+
+how to work out a multi regression on price depending on reception? is there methods auto capturing where to make regression and how many regressions to make? that would sound like clustering methods
+
+---
+
+let's do scatterplot w/ corr + lowess +cart. specify your plan
+
+---
+
+they sould be analysed as a special group. temperarily remove them if hinder lowess analysis, but consider them eventually.
+
+write the code
+
+---
+
+read the output and write a md conclusion cell in minimal simple language- like the conclusion in question 1
+
+---
+
+notice not $4 - it is log scaled
+
+---
+
+solve q3 using same process we did in 2 - code cell, execute, then conclusion.
+
+use similar methods. write simple and well annotated code. slove the problem entirely, execute code and write conclusion.
+
+think deeper
+
+---
+
+did u executed the code? i didn't see output
+
+---
+
+rewrite a simplier conclution with cell outputs
