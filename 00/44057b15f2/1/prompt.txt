@@ -1,0 +1,34 @@
+write a plan for solving q1
+
+---
+
+format of answer:
+1-2 code cell for data processing and making visualization
+one simple md cell for a minimal conclusion - answer the question in one short sentence, and 1-2 more short sentences for explaination.
+make sure metric you use capture all relavant information about the type of success. for example, for player rating, pos/eng ratio is important, while pos rating count is as much important. use reasonable methods for attribute aggrigation.
+
+---
+
+add one cell above conclusion cell. remove cluster at low engagement score, then calculate correlation
+
+---
+
+incorperate output of new cell to conclusion - w/o making conclusion longer
+
+---
+
+our analysis is highly related to q3 - write a plan for q3, reusing existing plan
+
+---
+
+remove everyting about q1 in plan - we are planning for q3. make the plan simplier also.
+
+---
+
+looks great, now add requirement:
+- need to run the code cell, read the cell output before writing conclusion.
+- after successfully answering q3, answer q2 use same method since question is highly similar
+
+---
+
+highlight "after writing code, execute the code cell, and read the cell output for conclusion writing"

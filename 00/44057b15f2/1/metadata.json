@@ -1,0 +1,102 @@
+{
+  "cli_version": "0.6.2",
+  "checkpoint_id": "0044057b15f2",
+  "session_id": "ebba812b-7abc-40f3-b3fb-2dbd253dd2cb",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-08T20:22:39.948224Z",
+  "branch": "steam_test2_with_injection",
+  "checkpoints_count": 4,
+  "files_touched": [
+    "experiment/exp-claude.md",
+    "notebook.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "a848c0e0a3aa",
+  "token_usage": {
+    "input_tokens": 60,
+    "cache_creation_tokens": 78304,
+    "cache_read_tokens": 1395674,
+    "output_tokens": 18242,
+    "api_call_count": 38
+  },
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-08T20:22:39.929289Z",
+    "agent_lines": 23,
+    "agent_removed": 0,
+    "human_added": 328,
+    "human_modified": 36,
+    "human_removed": 0,
+    "total_committed": 370,
+    "total_lines_changed": 387,
+    "agent_percentage": 5.943152454780361,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 306,
+      "user_lines_removed": 4,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 25,
+        "experiment/exp-claude.md": 7,
+        "experiment/exp-claude.sh": 27,
+        "notebook.ipynb": 163,
+        "notebook_content_changes.json": 73,
+        "notebook_structure_changes.json": 11
+      },
+      "user_removed_per_file": {
+        "experiment/exp-claude.md": 3,
+        "notebook.ipynb": 1
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 183,
+      "user_lines_removed": 11,
+      "agent_lines_added": 321,
+      "agent_lines_removed": 5,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 25,
+        "notebook.ipynb": 155,
+        "notebook_structure_changes.json": 3
+      },
+      "user_removed_per_file": {
+        "notebook.ipynb": 11
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 72,
+      "user_lines_removed": 4,
+      "agent_lines_added": 473,
+      "agent_lines_removed": 5,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 25,
+        "notebook.ipynb": 26,
+        "notebook_content_changes.json": 6,
+        "notebook_structure_changes.json": 15
+      },
+      "user_removed_per_file": {
+        "notebook.ipynb": 4
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 56,
+      "user_lines_removed": 0,
+      "agent_lines_added": 493,
+      "agent_lines_removed": 5,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 25,
+        "notebook_content_changes.json": 8,
+        "notebook_structure_changes.json": 23
+      }
+    }
+  ]
+}
