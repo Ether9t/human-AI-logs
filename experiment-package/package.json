@@ -1,0 +1,8 @@
+{
+  "name": "exp-claude",
+  "version": "0.1.0",
+  "bin": {
+    "exp-claude": "./bin/exp-claude.js"
+  },
+  "type": "module"
+}

@@ -1,3 +1,13 @@
+# Experiment Claude
+
+1. `npm pack`
+
+2. `npm install -g ./exp-claude-0.1.0.tgz`
+
+If you want to re-pack the file: `npm pack`
+
+If you want to uninstall: `npm uninstall -g exp-claude`
+
 # Visualiation
 
 The visualization component is located in: `reproduce/`
