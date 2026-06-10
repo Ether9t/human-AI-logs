@@ -1,0 +1,1 @@
+for the question "Propose two different definitions of “success” and compare whether they identify the multiple games.", I consider "the number of selling " is the most important, please give code about analysis. write the code in notebook.ipynb
