@@ -1,0 +1,70 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "cc5fe9fe7e6b",
+  "session_id": "0e3f880c-984c-4b46-a057-1fe466332552",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-10T00:58:08.6624522Z",
+  "branch": "Steam_Raw",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "experiment/exp-claude.md",
+    "experiment/exp-claude.ps1",
+    "notebook.ipynb",
+    "notebook_content_changes.json",
+    "notebook_structure_changes.json",
+    "old/data/051c1b65-ded5-4291-80c3-948240c4de48/prompt.txt",
+    "old/data/notebook.ipynb",
+    "old/data/notebook_content_changes.json",
+    "old/data/notebook_structure_changes.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "1deb23fa79e9",
+  "token_usage": {
+    "input_tokens": 2037,
+    "cache_creation_tokens": 34138,
+    "cache_read_tokens": 202883,
+    "output_tokens": 7264,
+    "api_call_count": 8
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-10T00:58:08.6254515Z",
+    "agent_lines": 0,
+    "agent_removed": 1,
+    "human_added": 0,
+    "human_modified": 38,
+    "human_removed": 261966,
+    "total_committed": 0,
+    "total_lines_changed": 262007,
+    "agent_percentage": 0.0003816691920444873,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 30,
+      "user_lines_removed": 262004,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 16,
+        "experiment/exp-claude.ps1": 11,
+        "experiment/project_context.md": 3
+      },
+      "user_removed_per_file": {
+        "experiment/exp-claude.md": 5,
+        "experiment/exp-claude.ps1": 11,
+        "notebook.ipynb": 1185,
+        "notebook_content_changes.json": 68,
+        "notebook_structure_changes.json": 271,
+        "old/data/051c1b65-ded5-4291-80c3-948240c4de48/prompt.txt": 1,
+        "old/data/notebook.ipynb": 260062,
+        "old/data/notebook_content_changes.json": 376,
+        "old/data/notebook_structure_changes.json": 25
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "cc5fe9fe7e6b",
+  "strategy": "manual-commit",
+  "branch": "Steam_Raw",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "experiment/exp-claude.md",
+    "experiment/exp-claude.ps1",
+    "notebook.ipynb",
+    "notebook_content_changes.json",
+    "notebook_structure_changes.json",
+    "old/data/051c1b65-ded5-4291-80c3-948240c4de48/prompt.txt",
+    "old/data/notebook.ipynb",
+    "old/data/notebook_content_changes.json",
+    "old/data/notebook_structure_changes.json"
+  ],
+  "sessions": [
+    {
+      "metadata": "/cc/5fe9fe7e6b/0/metadata.json",
+      "transcript": "/cc/5fe9fe7e6b/0/full.jsonl",
+      "content_hash": "/cc/5fe9fe7e6b/0/content_hash.txt",
+      "prompt": "/cc/5fe9fe7e6b/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 2037,
+    "cache_creation_tokens": 34138,
+    "cache_read_tokens": 202883,
+    "output_tokens": 7264,
+    "api_call_count": 8
+  }
+}
