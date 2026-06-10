@@ -3,7 +3,7 @@
   "checkpoint_id": "cc5fe9fe7e6b",
   "strategy": "manual-commit",
   "branch": "Steam_Raw",
-  "checkpoints_count": 5,
+  "checkpoints_count": 6,
   "files_touched": [
     "README.md",
     "experiment/exp-claude.bat",
@@ -53,13 +53,19 @@
       "transcript": "/cc/5fe9fe7e6b/5/full.jsonl",
       "content_hash": "/cc/5fe9fe7e6b/5/content_hash.txt",
       "prompt": "/cc/5fe9fe7e6b/5/prompt.txt"
+    },
+    {
+      "metadata": "/cc/5fe9fe7e6b/6/metadata.json",
+      "transcript": "/cc/5fe9fe7e6b/6/full.jsonl",
+      "content_hash": "/cc/5fe9fe7e6b/6/content_hash.txt",
+      "prompt": "/cc/5fe9fe7e6b/6/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 11597,
-    "cache_creation_tokens": 401076,
-    "cache_read_tokens": 5019586,
-    "output_tokens": 80764,
-    "api_call_count": 109
+    "input_tokens": 13652,
+    "cache_creation_tokens": 450718,
+    "cache_read_tokens": 5373315,
+    "output_tokens": 88932,
+    "api_call_count": 122
   }
 }
