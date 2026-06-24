@@ -9,20 +9,23 @@ This report provides a rigorous analysis of the performance of two leading LLM f
 A systematic evaluation of the experiment outputs reveals a **profound and persistent gap in the analytical reasoning capabilities of LLM agents**. While the agents generate technically correct, syntax-error-free Python code and execute it successfully, they show a complete deficit in analytical skepticism and framing recognition:
 
 *   **0% Confounding Variable Resolution (Questions 1.1–1.5):** In all 5 confounding variable tasks, **all 4 runs failed**. The models consistently calculated naive statistical correlations and fell directly into Simpson's Paradox or composition shift traps.
-*   **0% Ambiguity Resolution (Questions 2.1–2.3):** Faced with underspecified task definitions (e.g., undefined "success" or "essential" parameters), **all 4 runs failed** to flag ambiguity or ask for clarification, choosing arbitrary default assumptions instead.
+*   **Ambiguity Interpretation and Disagreement (Questions 2.1–2.3):** Faced with underspecified task definitions (e.g., undefined "footprint," "loyalty," or "essential" parameters), models silently committed to different assumptions instead of asking for clarification. This resulted in systematic disagreements in interpretation between the Gemini and Claude families (and even within Claude runs).
 *   **Highly Fragile Preprocessing & Exploration (Questions 3.1–3.4):** While all models correctly handled the time-shifting logic of Q3.1, they failed to recognize data leakage (Q3.2), ignored right-censored data limits (Q3.3), and failed to clean email placeholder strings (Q3.4).
 
+> [!NOTE]
+> Questions in the ambiguity section (Q2.1–Q2.3) are not graded on a Pass/Fail scale due to their underspecified nature. Instead, the matrix lists the definitions chosen for the ambiguous targets, and the last column details the resulting interpretation disagreements.
+
 ### Summary Matrix of Question Outcomes
-| Question | Focus / Trap | gemini35_01 | gemini35_02 | sonnet46_01 | sonnet46_02 | Correct Baseline / Insight |
+| Question | Focus / Trap | gemini35_01 | gemini35_02 | sonnet46_01 | sonnet46_02 | Correct Baseline / Insight / Disagreement Analysis |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Q1.1** | Cart Position Confounder | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Control for order size; peak is at slot 2/3, not slot 1. |
 | **Q1.2** | Aisle Diversity Confounder | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Control for user order volume; correlation reverses from +0.31 to -0.35. |
 | **Q1.3** | Catalog Variety Confounder | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Control for purchase volume; correlation is negative (-0.49 to -0.29). |
 | **Q1.4** | Price Trend Simpson's Paradox | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Segment by Indie status; non-Indie prices rose, decrease is due to composition shift. |
 | **Q1.5** | Price vs. Rating Confounder | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Filter for established games (ratings $\ge$ 1,000); correlation reverses to negative (-0.057). |
-| **Q2.1** | Footprint & Genre Synergy | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Seek clarification on "footprint" and "synergy" definitions. |
-| **Q2.2** | Customer Loyalty & Preferred Dept. | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Seek clarification on the metric defining customer "loyalty". |
-| **Q2.3** | Essential Grocery Anchors | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Seek clarification on the definition of "essential" items. |
+| **Q2.1** | Footprint & Genre Synergy | Owners (lower bound) / Pearson correlation | Owners (lower bound) / Pearson correlation | Game count / Portfolio co-occurrence | Game count / Portfolio co-occurrence | **Disagree**: Gemini uses owner volumes & Pearson correlations of portfolios; Sonnet uses game counts & raw portfolio co-occurrences (biased toward Indie). |
+| **Q2.2** | Customer Loyalty & Preferred Dept. | Prior Order Count | Prior Order Count | Prior Order Count | Order Count × Reorder Rate | **Disagree**: Gemini and Sonnet 1 use raw order count (selecting users at the 99-order database cap); Sonnet 2 uses a composite score. |
+| **Q2.3** | Essential Grocery Anchors | 4 Fresh Departments | 4 Fresh Departments | 5 Departments | 10 Departments | **Disagree**: Gemini uses 4 fresh-food depts; Sonnet 1 adds beverages (5 depts); Sonnet 2 adds pantry/frozen/etc. (10 depts). |
 | **Q3.1** | Day of Week Outgoing Delay |   Pass |   Pass |   Pass |   Pass | Sort chronologically and shift delay column back via `.shift(-1)`. |
 | **Q3.2** | Valve Description Similarity | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Preprocess descriptions to strip "Valve" and game titles to prevent leakage. |
 | **Q3.3** | Delay Distribution Cap | ❌ Fail | ❌ Fail | ❌ Fail | ❌ Fail | Identify 30-day right-censoring cap and report median over biased mean. |
@@ -57,22 +60,32 @@ This issue type assesses the agent's ability to de-bias statistics by identifyin
 
 ---
 
-### Issue Type 2: Unresolved Ambiguity & Lack of Clarification (Q2.1–Q2.3)
+### Issue Type 2: Ambiguity Interpretation and Disagreement (Q2.1–Q2.3)
 
-This issue type assesses the agent's task-framing capability. This behavior is grounded in the **Ambig-DS paper (2026)**, which identified "unflagged misframing": agents encounter ambiguous objectives and silently commit to default/arbitrary assumptions instead of asking for clarification.
+Rather than grading these tasks on a binary Pass/Fail basis, we evaluate how each model run resolved the underspecified definitions of the target terms, cataloging their selected proxy metrics and analyzing whether they led to divergent analytical conclusions.
 
 1.  **Q2.1 (Successful Publishers & Related Genres - Steam):**
-    *   *Ambiguity:* "Market footprint" can mean revenue, rating volume, or game count. "Genre relatedness" can mean co-occurrence, correlation of portfolios, or Jaccard similarity.
-    *   *Agent Behavior:* No model asked for clarification. Gemini defined footprint as total owners and synergy as Pearson correlation of game counts. Sonnet defined footprint as game count and synergy as co-occurrence count. Sonnet's metric was highly biased toward large genres (like Indie).
+    *   *Ambiguous Targets:* "Market footprint" and "genre synergy".
+    *   *Interpretations:*
+        *   **Gemini 3.5 (`01` & `02`):** Defined footprint as estimated total owners (using the numeric lower bound of the database owner ranges) and synergy as the Pearson correlation coefficient of game counts across publisher portfolios.
+        *   **Claude 3.5 Sonnet (`01` & `02`):** Defined footprint as total game count and synergy as raw portfolio co-occurrence count of genre pairs.
+    *   *Disagreement:* **Yes.** The choice of footprint drastically changed the ranking: Gemini found Valve as the dominant footprint due to massive owner numbers, whereas Sonnet ranked Ubisoft, Degica, and Slitherine top due to large product catalogs. For synergy, Gemini's Pearson correlation captured portfolio profile similarity, whereas Sonnet's raw co-occurrence count was heavily biased towards large genres like "Indie".
 2.  **Q2.2 (Loyal Customers & Preferred Department - Instacart):**
-    *   *Ambiguity:* "Loyal" can be defined by order count, item count, or order frequency.
-    *   *Agent Behavior:* No model sought clarification. Gemini and Sonnet 1 defined loyalty by raw order count (yielding users with exactly 99 orders). Sonnet 2 defined it as `order_count * reorder_rate`, yielding a completely different set of VIPs.
+    *   *Ambiguous Target:* Customer "loyalty".
+    *   *Interpretations:*
+        *   **Gemini 3.5 (`01` & `02`) & Claude 3.5 Sonnet (`01`):** Defined loyalty strictly by the raw prior order count, which selected users at the maximum database limit of 99 orders.
+        *   **Claude 3.5 Sonnet (`02`):** Defined loyalty via a composite `order_count * reorder_rate` score to balance frequency with repeat purchase habits.
+    *   *Disagreement:* **Yes.** `sonnet46_02`'s composite index selected a significantly different cohort of VIP users than the other three runs, showing that even within the same model family, interpretation of loyalty is volatile.
 3.  **Q2.3 (Essential Grocery Items & Reorder Rate - Instacart):**
-    *   *Ambiguity:* "Essential" is highly subjective.
-    *   *Agent Behavior:* No model sought clarification. The models committed to arbitrary definitions: Gemini used 4 fresh-food departments, Sonnet 1 used 5 departments (adding beverages), and Sonnet 2 used 10 departments (adding pantry, frozen, canned, etc.).
+    *   *Ambiguous Target:* "Essential" groceries.
+    *   *Interpretations:*
+        *   **Gemini 3.5 (`01` & `02`):** Used a strict subset of 4 departments: Produce (4), Dairy Eggs (16), Bakery (3), and Meat Seafood (12).
+        *   **Claude 3.5 Sonnet (`01`):** Used 5 departments: Produce, Dairy Eggs, Meat Seafood, Bakery, and Beverages.
+        *   **Claude 3.5 Sonnet (`02`):** Used a broad list of 10 departments (Produce, Dairy Eggs, Meat Seafood, Bakery, Pantry, Beverages, Frozen, Canned Goods, Breakfast, and Dry Goods Pasta).
+    *   *Disagreement:* **Yes.** There was a wide variance in what was categorized as essential, ranging from Gemini's focus on daily fresh food to `sonnet46_02`'s focus on almost all consumable grocery lines.
 
 > [!WARNING]
-> **Unflagged Misframing:** When task requirements are ambiguous, models do not ask questions. Instead, they silently default to whatever proxy variable is easiest to compute, returning clean, executable code that produces logically skewed and incorrect results. This makes errors extremely difficult for human stakeholders to detect.
+> **Interpretation Volatility:** When task definitions are ambiguous, LLM agents commit to arbitrary proxy assumptions without flagging the ambiguity. As shown here, this results in divergent metrics and conclusions between runs, making their findings highly sensitive to initial random choices and difficult to verify without checking the code directly.
 
 ---
 
