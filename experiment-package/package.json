@@ -2,7 +2,7 @@
   "name": "exp-claude",
   "version": "0.1.0",
   "bin": {
-    "exp-claude": "./bin/exp-claude.js"
+    "exp-claude": "./bin/exp-claude-2.js"
   },
   "type": "module"
 }
