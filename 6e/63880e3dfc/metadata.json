@@ -1,0 +1,29 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "6e63880e3dfc",
+  "strategy": "manual-commit",
+  "branch": "Steam_Raw",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "data/steam_media_data.csv",
+    "data/steam_requirements_data.csv",
+    "data/steam_support_info.csv",
+    "data/steamspy_tag_data.csv",
+    "notebook.ipynb"
+  ],
+  "sessions": [
+    {
+      "metadata": "/6e/63880e3dfc/0/metadata.json",
+      "transcript": "/6e/63880e3dfc/0/full.jsonl",
+      "content_hash": "/6e/63880e3dfc/0/content_hash.txt",
+      "prompt": "/6e/63880e3dfc/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 5248,
+    "cache_creation_tokens": 273674,
+    "cache_read_tokens": 1651941,
+    "output_tokens": 31850,
+    "api_call_count": 39
+  }
+}

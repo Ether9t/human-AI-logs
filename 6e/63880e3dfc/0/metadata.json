@@ -1,0 +1,126 @@
+{
+  "cli_version": "0.7.5",
+  "checkpoint_id": "6e63880e3dfc",
+  "session_id": "9b7b8d0e-1c85-4e86-b004-b80ad2a5c938",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-25T20:10:43.3131075Z",
+  "branch": "Steam_Raw",
+  "checkpoints_count": 6,
+  "files_touched": [
+    "data/steam_media_data.csv",
+    "data/steam_requirements_data.csv",
+    "data/steam_support_info.csv",
+    "data/steamspy_tag_data.csv",
+    "notebook.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-8[1m]",
+  "turn_id": "08dddc59a77e",
+  "token_usage": {
+    "input_tokens": 5248,
+    "cache_creation_tokens": 273674,
+    "cache_read_tokens": 1651941,
+    "output_tokens": 31850,
+    "api_call_count": 39
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-25T20:10:43.2927518Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 97828,
+    "human_modified": 110883,
+    "human_removed": 0,
+    "total_committed": 97898,
+    "total_lines_changed": 208711,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 48,
+      "user_lines_removed": 312793,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 48
+      },
+      "user_removed_per_file": {
+        "data/steam.csv": 27076,
+        "data/steam_description_data.csv": 174904,
+        "data/steam_media_data.csv": 27333,
+        "data/steam_requirements_data.csv": 27320,
+        "data/steam_support_info.csv": 27137,
+        "data/steamspy_tag_data.csv": 29023
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 223,
+      "user_lines_removed": 0,
+      "agent_lines_added": 361,
+      "agent_lines_removed": 312793,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 56,
+        "question-devide.ipynb": 167
+      }
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 439,
+      "user_lines_removed": 0,
+      "agent_lines_added": 206634,
+      "agent_lines_removed": 312793,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 57,
+        "question-devide1.1.ipynb": 167,
+        "question-devide1.2.ipynb": 215
+      }
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 662,
+      "user_lines_removed": 0,
+      "agent_lines_added": 206675,
+      "agent_lines_removed": 285717,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 59,
+        "question-devide1.1.ipynb": 175,
+        "question-devide1.2.ipynb": 215,
+        "question-devide1.4.ipynb": 213
+      }
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 1008,
+      "user_lines_removed": 0,
+      "agent_lines_added": 206840,
+      "agent_lines_removed": 285717,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 60,
+        "question-devide1.1.ipynb": 175,
+        "question-devide1.2.ipynb": 215,
+        "question-devide1.4.ipynb": 213,
+        "question-devide2.2.ipynb": 345
+      }
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 1266,
+      "user_lines_removed": 0,
+      "agent_lines_added": 206928,
+      "agent_lines_removed": 110813,
+      "user_added_per_file": {
+        ".claude/settings.local.json": 63,
+        "question-devide1.1.ipynb": 175,
+        "question-devide1.2.ipynb": 215,
+        "question-devide1.4.ipynb": 213,
+        "question-devide2.2.ipynb": 345,
+        "question-devide3.2.ipynb": 255
+      }
+    }
+  ]
+}
