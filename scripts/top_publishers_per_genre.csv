@@ -1,0 +1,61 @@
+genre,rank,publisher,est_owners,games
+Action,1,Valve,492000000.0,26
+Action,2,PUBG Corporation,75000000.0,1
+Action,3,Ubisoft,67710000.0,64
+Action,4,Rockstar Games,36860000.0,14
+Action,5,Smartly Dressed Games,35000000.0,1
+Indie,1,Smartly Dressed Games,35000000.0,1
+Indie,2,Devolver Digital,28085000.0,61
+Indie,3,Coffee Stain Publishing,16910000.0,7
+Indie,4,Back To Basics Gaming,16825000.0,53
+Indie,5,Ubisoft,15515000.0,7
+Adventure,1,PUBG Corporation,75000000.0,1
+Adventure,2,Smartly Dressed Games,35000000.0,1
+Adventure,3,Ubisoft,33080000.0,39
+Adventure,4,Rockstar Games,21510000.0,5
+Adventure,5,Square Enix,20390000.0,30
+Free to Play,1,Valve,260750000.0,4
+Free to Play,2,Smartly Dressed Games,35000000.0,1
+Free to Play,3,Digital Extremes,35000000.0,1
+Free to Play,4,Hi-Rez Studios,29850000.0,5
+Free to Play,5,Daybreak Game Company,27500000.0,5
+Strategy,1,Valve,151500000.0,2
+Strategy,2,Paradox Interactive,32780000.0,46
+Strategy,3,SEGA,30910000.0,25
+Strategy,4,2K,17445000.0,25
+Strategy,5,Microsoft Studios,13950000.0,6
+RPG,1,Bethesda Softworks,45050000.0,14
+RPG,2,Trion Worlds,16000000.0,4
+RPG,3,Starbreeze Publishing AB,15035000.0,2
+RPG,4,Freejam,15035000.0,2
+RPG,5,Grinding Gear Games,15000000.0,1
+Casual,1,Smartly Dressed Games,35000000.0,1
+Casual,2,Coffee Stain Publishing,12660000.0,5
+Casual,3,Back To Basics Gaming,10605000.0,29
+Casual,4,Playsaurus,7650000.0,2
+Casual,5,Nexon Korea Corporation,7500000.0,1
+Simulation,1,Paradox Interactive,23660000.0,17
+Simulation,2,Gaijin Entertainment,18650000.0,3
+Simulation,3,Freejam,15000000.0,1
+Simulation,4,Valve,15000000.0,1
+Simulation,5,SCS Software,11950000.0,6
+Massively Multiplayer,1,PUBG Corporation,75000000.0,1
+Massively Multiplayer,2,Daybreak Game Company,27500000.0,5
+Massively Multiplayer,3,Gaijin Entertainment,22000000.0,3
+Massively Multiplayer,4,Trion Worlds,16350000.0,5
+Massively Multiplayer,5,My.com,16210000.0,6
+Early Access,1,NS STUDIO,7500000.0,1
+Early Access,2,Novalink,7150000.0,3
+Early Access,3,The Fun Pimps Entertainment LLC,3500000.0,1
+Early Access,4,VRChat Inc.,3500000.0,1
+Early Access,5,Hi-Rez Studios,3500000.0,1
+Sports,1,"Psyonix, Inc.",7500000.0,1
+Sports,2,Expansive Worlds;Avalanche Studios,7500000.0,1
+Sports,3,2K,3640000.0,10
+Sports,4,Codemasters;Feral Interactive (Linux),3500000.0,1
+Sports,5,Sector3 Studios;RaceRoom Entertainment AG,3500000.0,1
+Racing,1,"Psyonix, Inc.",7500000.0,1
+Racing,2,Ubisoft,6265000.0,14
+Racing,3,Electronic Arts,4050000.0,5
+Racing,4,Codemasters;Feral Interactive (Linux),3500000.0,1
+Racing,5,Sector3 Studios;RaceRoom Entertainment AG,3500000.0,1
