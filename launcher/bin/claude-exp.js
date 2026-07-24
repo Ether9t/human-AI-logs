@@ -19,6 +19,8 @@ const GITHUB_REPOSITORY = "human-AI-logs";
 const GITHUB_BRANCH = "experiment-assets";
 const DEFAULT_CLAUDE_COMMAND = "claude";
 const ALLOWED_TASKS = new Set(["1", "2", "3", "4"]);
+const GOOGLE_FORM_URL =
+  "https://https://docs.google.com/forms/d/e/1FAIpQLSdaCvdUWmtRe63B_qdVQ4mgnF6up7fLhG5evbR4IrcIVPF4oA/viewform";
 
 /*
  * ============================================================================
@@ -246,46 +248,67 @@ function waitForEnter(
  */
 
 function launchClaude(taskDirectory) {
-  const command =
-    process.env.CLAUDE_EXP_COMMAND || DEFAULT_CLAUDE_COMMAND;
+  return new Promise((resolve, reject) => {
+    const command =
+      process.env.CLAUDE_EXP_COMMAND ||
+      DEFAULT_CLAUDE_COMMAND;
 
-  console.log();
-  console.log(
-    style(`Launching ${command}...`, ANSI.green, ANSI.bold)
-  );
-  console.log(
-    style(`Working directory: ${taskDirectory}`, ANSI.gray)
-  );
-  console.log();
-  const child = spawn(command,
-    [], {
-    cwd: taskDirectory,
-    stdio: "inherit",
-    shell: true,
-    env: {
-      ...process.env,
-      ANTHROPIC_MODEL: "sonnet"
-    }
-  });
-
-  child.on("error", (error) => {
-    console.error();
-    console.error(
-      style("Failed to start Claude.", ANSI.red, ANSI.bold)
+    console.log();
+    console.log(
+      style(
+        `Launching ${command}...`,
+        ANSI.green,
+        ANSI.bold
+      )
     );
-    console.error(error.message);
-    process.exit(1);
-  });
 
-  child.on("exit", (code, signal) => {
-    if (signal) {
-      console.error(
-        style(`Claude stopped because of signal: ${signal}`, ANSI.red)
+    console.log(
+      style(
+        `Working directory: ${taskDirectory}`,
+        ANSI.gray
+      )
+    );
+
+    console.log();
+
+    const child = spawn(command, [], {
+      cwd: taskDirectory,
+      stdio: "inherit",
+      shell: true,
+      env: {
+        ...process.env,
+        ANTHROPIC_MODEL: "sonnet"
+      }
+    });
+
+    child.once("error", (error) => {
+      reject(
+        new Error(
+          `Failed to start Claude: ${error.message}`
+        )
       );
-      process.exit(1);
-    }
+    });
 
-    process.exit(code ?? 0);
+    child.once("close", (code, signal) => {
+      console.log();
+      console.log(
+        style(
+          "Claude process has closed.",
+          ANSI.gray
+        )
+      );
+
+      if (signal) {
+        reject(
+          new Error(
+            `Claude was terminated by signal: ${signal}`
+          )
+        );
+        return;
+      }
+
+      resolve(code ?? 0);
+    });
   });
 }
 
@@ -391,6 +414,37 @@ async function downloadNotebook(taskNumber, taskDirectory) {
   );
 }
 
+function openUrl(url) {
+  return new Promise((resolve, reject) => {
+    let command;
+    let args;
+
+    if (process.platform === "win32") {
+      command = "cmd";
+      args = ["/c", "start", "", url];
+    } else if (process.platform === "darwin") {
+      command = "open";
+      args = [url];
+    } else {
+      command = "xdg-open";
+      args = [url];
+    }
+
+    const child = spawn(command, args, {
+      detached: true,
+      stdio: "ignore",
+      shell: false
+    });
+
+    child.on("error", reject);
+
+    child.on("spawn", () => {
+      child.unref();
+      resolve();
+    });
+  });
+}
+
 /*
  * ============================================================================
  * Main
@@ -407,7 +461,38 @@ async function main() {
     await renderHistory(chatMarkdown, taskNumber, taskDirectory);
     await waitForEnter("Press ENTER to continue to Claude...");
 
-    launchClaude(taskDirectory);
+    await launchClaude(taskDirectory);
+
+    console.log();
+    console.log(
+      style(
+        "Claude session completed.",
+        ANSI.green,
+        ANSI.bold
+      )
+    );
+
+    console.log(
+      style(
+        "Opening the response form...",
+        ANSI.cyan
+      )
+    );
+
+    await openUrl(GOOGLE_FORM_URL);
+
+    console.log();
+    console.log(
+      style(
+        "Please complete and submit the current form section before starting the next task.",
+        ANSI.yellow,
+        ANSI.bold
+      )
+    );
+
+    await waitForEnter(
+      "After submitting the form, press ENTER to finish..."
+    );
   } catch (error) {
     console.error();
     console.error(
