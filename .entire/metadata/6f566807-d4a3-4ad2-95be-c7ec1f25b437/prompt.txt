@@ -1,0 +1,13 @@
+Please only use data files under:
+
+`data/steam/`
+
+Do not inspect or use any files outside this folder.
+
+Create your analysis in:
+
+`tasks/q1/analysis.ipynb`
+
+Now complete the following task:
+
+The Steam merchandising team wants to compare pricing across major game genres. For the following genres: Action, Adventure, Casual, Indie, RPG, Strategy, Simulation, and Sports, calculate the mean game price and identify which genre has the highest average price and what is the highest average price.

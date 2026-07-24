@@ -1,1 +1,0 @@
-The secret code word is BANANA.

@@ -1,0 +1,21 @@
+The UX design team wants to optimize the digital shelf layout. To determine if cart addition sequence can guide layout priority, does the order in which items are added to the shopping cart predict their reorder rate? Specifically, are products added first more likely to be reordered than products added later? Use only the prior order history.
+
+---
+
+The customer segmentation team is analyzing user exploration patterns to design personalized promotions. To determine if users with broader shopping tastes are more loyal, do users who shop from a wider variety of unique aisles (high aisle diversity) have a higher reorder rate on average? Calculate the correlation between a user's unique aisle count and their overall reorder rate.
+
+---
+
+A market research group is studying the pricing dynamics of the digital PC games market. To evaluate if entry barriers are falling and games are generally getting cheaper, has the average price of games on Steam decreased over release years (2010 to 2018)? Track the mean price by release year from 2010 to 2018.
+
+---
+
+An investment firm wants to evaluate PC game publishers for acquisition. First, identify the publishers with the strongest market footprint in each game genre. Second, analyze publisher portfolios across different genres to determine which genres exhibit the strongest operational synergies (i.e., genres that are highly related in developer portfolios). Provide the top publishers per genre and a genre synergy matrix.
+
+---
+
+A branding agency is auditing marketing copy styles across developers to detect ghostwriting or studio style replication. Given that Valve has iconic language in its descriptions (e.g., Half-Life 2), can we identify other games developed by Valve using only the similarity of game descriptions?
+
+---
+
+The inventory replenishment team is comparing supply chain cycles for fresh foods versus beverages. To verify turnaround schedules, compare the mean and median delay (in days) between orders for users who purchase from the "produce" department vs. users who purchase from the "alcohol" department.
