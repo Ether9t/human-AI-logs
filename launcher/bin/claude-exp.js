@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const readline = require("node:readline");
 const { spawn } = require("node:child_process");
+const https = require("node:https");
 
 /*
  * ============================================================================
@@ -13,7 +14,10 @@ const { spawn } = require("node:child_process");
  * ============================================================================
  */
 
-const DEFAULT_CLAUDE_COMMAND = "exp-claude";
+const GITHUB_OWNER = "Ether9t";
+const GITHUB_REPOSITORY = "human-AI-logs";
+const GITHUB_BRANCH = "experiment-assets";
+const DEFAULT_CLAUDE_COMMAND = "claude";
 const ALLOWED_TASKS = new Set(["1", "2", "3", "4"]);
 
 /*
@@ -105,40 +109,6 @@ function getTaskNumber() {
 
 /*
  * ============================================================================
- * Validation
- * ============================================================================
- */
-
-function validateTaskFiles(taskDirectory) {
-  if (!fs.existsSync(taskDirectory)) {
-    throw new Error(`Task directory does not exist:\n${taskDirectory}`);
-  }
-
-  const taskStats = fs.statSync(taskDirectory);
-
-  if (!taskStats.isDirectory()) {
-    throw new Error(`Task path is not a directory:\n${taskDirectory}`);
-  }
-
-  const chatPath = path.join(taskDirectory, "chat.md");
-
-  if (!fs.existsSync(chatPath)) {
-    throw new Error(`chat.md was not found:\n${chatPath}`);
-  }
-
-  const chatStats = fs.statSync(chatPath);
-
-  if (!chatStats.isFile()) {
-    throw new Error(`chat.md is not a file:\n${chatPath}`);
-  }
-
-  return {
-    chatPath
-  };
-}
-
-/*
- * ============================================================================
  * Chat parsing
  * ============================================================================
  */
@@ -190,7 +160,11 @@ function renderMessage(message) {
   console.log(message.content.trim());
 }
 
-function renderHistory(markdown, taskNumber, taskDirectory) {
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function renderHistory(markdown, taskNumber, taskDirectory) {
   console.clear();
 
   const width = 72;
@@ -220,9 +194,18 @@ function renderHistory(markdown, taskNumber, taskDirectory) {
   if (messages.length === 0) {
     console.log();
     console.log(markdown.trim());
+
+    console.log();
+    await waitForEnter("Press ENTER to continue...");
   } else {
-    for (const message of messages) {
+    renderMessage(messages[0]);
+
+    console.log();
+    await waitForEnter("Press ENTER to continue...");
+
+    for (const message of messages.slice(1)) {
       renderMessage(message);
+      await sleep(500);
     }
   }
 
@@ -237,7 +220,9 @@ function renderHistory(markdown, taskNumber, taskDirectory) {
  * ============================================================================
  */
 
-function waitForEnter() {
+function waitForEnter(
+  prompt = "Press ENTER to continue..."
+) {
   return new Promise((resolve) => {
     const rl = readline.createInterface({
       input: process.stdin,
@@ -245,11 +230,7 @@ function waitForEnter() {
     });
 
     rl.question(
-      style(
-        "Press ENTER to continue to Claude...",
-        ANSI.yellow,
-        ANSI.bold
-      ),
+      style(prompt, ANSI.yellow, ANSI.bold),
       () => {
         rl.close();
         resolve();
@@ -276,12 +257,14 @@ function launchClaude(taskDirectory) {
     style(`Working directory: ${taskDirectory}`, ANSI.gray)
   );
   console.log();
-  const child = spawn(command, [], {
+  const child = spawn(command,
+    [], {
     cwd: taskDirectory,
     stdio: "inherit",
     shell: true,
     env: {
-      ...process.env
+      ...process.env,
+      ANTHROPIC_MODEL: "sonnet"
     }
   });
 
@@ -308,6 +291,108 @@ function launchClaude(taskDirectory) {
 
 /*
  * ============================================================================
+ * Download
+ * ============================================================================
+ */
+
+function downloadText(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, (response) => {
+        if (response.statusCode !== 200) {
+          reject(
+            new Error(
+              `Request failed (${response.statusCode})\n${url}`
+            )
+          );
+          return;
+        }
+
+        let data = "";
+
+        response.setEncoding("utf8");
+
+        response.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        response.on("end", () => {
+          resolve(data);
+        });
+      })
+      .on("error", reject);
+  });
+}
+
+function downloadBinary(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, (response) => {
+        if (response.statusCode !== 200) {
+          reject(
+            new Error(
+              `Request failed (${response.statusCode})\n${url}`
+            )
+          );
+          return;
+        }
+
+        const chunks = [];
+
+        response.on("data", (chunk) => {
+          chunks.push(chunk);
+        });
+
+        response.on("end", () => {
+          resolve(Buffer.concat(chunks));
+        });
+      })
+      .on("error", reject);
+  });
+}
+
+function getChatUrl(taskNumber) {
+  return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/task%20${taskNumber}/chat.md`;
+}
+
+function getNotebookUrl(taskNumber) {
+  return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/task%20${taskNumber}/notebook.ipynb`;
+}
+
+async function fetchChatMarkdown(taskNumber) {
+  console.log(style("Downloading chat history...", ANSI.gray));
+
+  return await downloadText(getChatUrl(taskNumber));
+}
+
+async function downloadNotebook(taskNumber, taskDirectory) {
+  const notebookPath = path.join(
+    taskDirectory,
+    "notebook.ipynb"
+  );
+
+  if (fs.existsSync(notebookPath)) {
+    console.log(style("Notebook already exists.", ANSI.gray));
+    return;
+  }
+  console.log(style("Downloading notebook...", ANSI.gray));
+
+  fs.mkdirSync(taskDirectory, {
+    recursive: true
+  });
+
+  const notebook = await downloadBinary(
+    getNotebookUrl(taskNumber)
+  );
+
+  fs.writeFileSync(
+    path.join(taskDirectory, "notebook.ipynb"),
+    notebook
+  );
+}
+
+/*
+ * ============================================================================
  * Main
  * ============================================================================
  */
@@ -316,13 +401,12 @@ async function main() {
   try {
     const taskNumber = getTaskNumber();
     const taskDirectory = getTaskDirectory(taskNumber);
-    const { chatPath } = validateTaskFiles(taskDirectory);
+    const chatMarkdown = await fetchChatMarkdown(taskNumber);
 
-    const chatMarkdown = fs.readFileSync(chatPath, "utf8");
+    await downloadNotebook(taskNumber, taskDirectory);
+    await renderHistory(chatMarkdown, taskNumber, taskDirectory);
+    await waitForEnter("Press ENTER to continue to Claude...");
 
-    renderHistory(chatMarkdown, taskNumber, taskDirectory);
-
-    await waitForEnter();
     launchClaude(taskDirectory);
   } catch (error) {
     console.error();

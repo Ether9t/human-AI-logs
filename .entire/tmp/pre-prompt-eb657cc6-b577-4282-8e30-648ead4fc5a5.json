@@ -1,9 +1,0 @@
-{
-  "session_id": "eb657cc6-b577-4282-8e30-648ead4fc5a5",
-  "timestamp": "2026-06-09T22:12:48Z",
-  "untracked_files": [
-    "exp-claude-0.1.0.tgz",
-    "experiment-package/bin/exp-claude.js",
-    "experiment-package/package.json"
-  ]
-}
