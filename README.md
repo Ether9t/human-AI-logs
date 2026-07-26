@@ -1,55 +1,14 @@
-# Experiment Claude
+# Install
 
-1. `npm pack`
+Run `setup.ps1` or `setup.sh`
 
-2. `npm install -g ./exp-claude-0.1.0.tgz`
+# Uninstall
 
-If you want to re-pack the file: `npm pack`
+Run `uninstall.ps1` or `uninstall.sh`
 
-If you want to uninstall: `npm uninstall -g exp-claude`
+# Launcher
 
-# Visualiation
-
-The visualization component is located in: `reproduce/`
-
-This module provides a browser-based interface for replaying sessions.
-
-## Start Local Server
-
-Navigate to the reproduction directory: `cd reproduce`
-
-Start a local web: `npm run dev`
-
-Then open a browser and visit: `http://localhost:5173`
-
-## Collect Data
-
-1. Download and add the plug-in in VSCode
-2. Install Entire.io
-
-    `brew tap entireio/tap`
-
-    `brew install --cask entire`
-
-3. Enable Entire
-
-    `cd <repo>`
-
-    `entire enable --agent claude-code`
-
-4. Run Claude in CLI
-
-    `claude`
-
-## Load a Session
-
-1. Put all data in: `reproduce/data/{dataset_name}/`
-2. Add `{dataset_name}` in: `reproduce/data/index.json`
-
-Data should at least contain: 
-
-1. `full.jsonl`, from entire.io
-2. `notebook_changes.jsonl`, from Notebook-Edit-Tracker
+Run `claude-exp {num}`
 
 # Notebook-Edit-Tracker
 

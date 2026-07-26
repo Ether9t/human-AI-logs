@@ -93,7 +93,7 @@ $TasksDirectory = Join-Path `
 # project-root/installer/vsix/notebook-edit-tracker-0.0.1.vsix
 $VsixPath = Join-Path `
     $InstallerDirectory `
-    "vsix\notebook-edit-tracker-0.0.1.vsix"
+    "notebook-edit-tracker-0.0.1.vsix"
 
 # ============================================================================
 # Header
@@ -116,9 +116,11 @@ Write-Host "  1. Scoop"
 Write-Host "  2. Git"
 Write-Host "  3. Entire CLI"
 Write-Host "  4. Claude Code"
-Write-Host "  5. Anthropic API key"
-Write-Host "  6. Notebook Edit Tracker VS Code extension"
-Write-Host "  7. claude-exp launcher"
+Write-Host "  5. SpecStory VS Code extension"
+Write-Host "  6. SpecStory Lore skill"
+Write-Host "  7. Anthropic API key"
+Write-Host "  8. Notebook Edit Tracker VS Code extension"
+Write-Host "  9. claude-exp launcher"
 
 Write-Host ""
 Read-Host "Press ENTER to begin installation"
@@ -323,6 +325,69 @@ Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
     Write-Success "Claude Code installed."
 
     # ------------------------------------------------------------------------
+    # SpecStory VS Code extension
+    # ------------------------------------------------------------------------
+
+    Write-Step "Installing SpecStory VS Code extension"
+
+    if (-not (Test-Command "code")) {
+        throw @"
+The VS Code command-line command 'code' is unavailable.
+
+Make sure Visual Studio Code is installed and its command-line tool is
+available in PATH, then run setup.ps1 again.
+
+You can test this by opening a new PowerShell window and running:
+
+    code --version
+"@
+    }
+
+    $InstalledExtensions = @(
+        code --list-extensions 2>$null |
+            ForEach-Object {
+                $_.Trim()
+            }
+    )
+
+    if (
+        $InstalledExtensions -contains
+        "SpecStory.specstory-vscode"
+    ) {
+        Write-Success "SpecStory VS Code extension is already installed."
+    }
+    else {
+        code `
+            --install-extension `
+            "SpecStory.specstory-vscode"
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "VS Code failed to install the SpecStory extension."
+        }
+
+        Write-Success "SpecStory VS Code extension installed."
+    }
+
+    # ------------------------------------------------------------------------
+    # SpecStory Lore skill
+    # ------------------------------------------------------------------------
+
+    Write-Step "Installing SpecStory Lore skill"
+
+    npx `
+        --yes `
+        skills `
+        add `
+        specstoryai/getspecstory `
+        --skill lore
+
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to install the SpecStory Lore skill."
+    }
+
+    Write-Success "SpecStory Lore skill installed."
+
+    # ------------------------------------------------------------------------
     # Anthropic API key
     # ------------------------------------------------------------------------
 
@@ -525,6 +590,20 @@ Close PowerShell, open a new PowerShell window, and try:
         )
     }
 
+    $InstalledExtensions = @(
+        code --list-extensions 2>$null |
+            ForEach-Object {
+                $_.Trim()
+            }
+    )
+
+    if (
+        $InstalledExtensions -notcontains
+        "SpecStory.specstory-vscode"
+    ) {
+        throw "The SpecStory VS Code extension is unavailable."
+    }
+
     $SavedApiKey = [Environment]::GetEnvironmentVariable(
         "ANTHROPIC_API_KEY",
         "User"
@@ -556,6 +635,8 @@ Close PowerShell, open a new PowerShell window, and try:
     Write-Host "  - Git"
     Write-Host "  - Entire CLI"
     Write-Host "  - Claude Code"
+    Write-Host "  - SpecStory VS Code extension"
+    Write-Host "  - SpecStory Lore skill"
     Write-Host "  - Experiment Anthropic API key"
     Write-Host "  - Notebook Edit Tracker"
     Write-Host "  - claude-exp launcher"
@@ -571,6 +652,11 @@ Close PowerShell, open a new PowerShell window, and try:
 
     Write-Host (
         "A newly opened terminal will also have access to the saved API key."
+    ) -ForegroundColor DarkGray
+
+    Write-Host (
+        "SpecStory VS Code capture writes supported editor AI conversations " +
+        "to .specstory/history/ inside the opened project."
     ) -ForegroundColor DarkGray
 
     Write-Host ""
