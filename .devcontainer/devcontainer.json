@@ -1,0 +1,13 @@
+{
+  "name": "Human-AI Experiment",
+
+  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+
+  "postCreateCommand": "cd launcher && npm install && npm link && npm install -g @anthropic-ai/claude-code"
+}

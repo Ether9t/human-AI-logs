@@ -59,10 +59,14 @@ function Convert-SecureStringToPlainText {
     )
 
     try {
-        return [Runtime.InteropServices.Marshal]::PtrToStringBSTR($pointer)
+        return [Runtime.InteropServices.Marshal]::PtrToStringBSTR(
+            $pointer
+        )
     }
     finally {
-        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($pointer)
+        [Runtime.InteropServices.Marshal]::ZeroFreeBSTR(
+            $pointer
+        )
     }
 }
 
@@ -90,7 +94,7 @@ $TasksDirectory = Join-Path `
     $ProjectRoot `
     "tasks"
 
-# project-root/installer/vsix/notebook-edit-tracker-0.0.1.vsix
+# project-root/installer/notebook-edit-tracker-0.0.1.vsix
 $VsixPath = Join-Path `
     $InstallerDirectory `
     "notebook-edit-tracker-0.0.1.vsix"
@@ -115,13 +119,10 @@ Write-Host "This installer will configure:" `
 Write-Host "  1. Node.js and npm check"
 Write-Host "  2. Scoop"
 Write-Host "  3. Git"
-Write-Host "  4. Entire CLI"
-Write-Host "  5. Claude Code"
-Write-Host "  6. SpecStory VS Code extension"
-Write-Host "  7. SpecStory Lore skill"
-Write-Host "  8. Anthropic API key"
-Write-Host "  9. Notebook Edit Tracker VS Code extension"
-Write-Host " 10. claude-exp launcher"
+Write-Host "  4. Claude Code"
+Write-Host "  5. Anthropic API key"
+Write-Host "  6. Notebook Edit Tracker VS Code extension"
+Write-Host "  7. claude-exp launcher"
 
 Write-Host ""
 Read-Host "Press ENTER to begin installation"
@@ -131,6 +132,7 @@ Read-Host "Press ENTER to begin installation"
 # ============================================================================
 
 try {
+
     # ------------------------------------------------------------------------
     # Validate project files
     # ------------------------------------------------------------------------
@@ -153,12 +155,13 @@ try {
         throw "VS Code extension not found: $VsixPath"
     }
 
+    # Git does not preserve empty folders, so create tasks/ when needed.
     if (-not (Test-Path $TasksDirectory)) {
         New-Item `
             -ItemType Directory `
             -Path $TasksDirectory `
             -Force |
-        Out-Null
+            Out-Null
     }
 
     Write-Success "Experiment files found."
@@ -222,9 +225,10 @@ Install the current Node.js LTS version, then run this installer again.
     if (-not (Test-Command "scoop")) {
         Invoke-RestMethod `
             -Uri "https://get.scoop.sh" |
-        Invoke-Expression
+            Invoke-Expression
 
         Update-ProcessPath
+
         Write-Success "Scoop installed."
     }
     else {
@@ -247,7 +251,9 @@ Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
 
     if (-not (Test-Command "git")) {
         scoop install git
+
         Update-ProcessPath
+
         Write-Success "Git installed."
     }
     else {
@@ -260,45 +266,6 @@ Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
 
     $GitVersion = git --version
     Write-Host "    $GitVersion"
-
-    # ------------------------------------------------------------------------
-    # Entire CLI
-    # ------------------------------------------------------------------------
-
-    Write-Step "Installing Entire CLI"
-
-    $BucketList = scoop bucket list |
-    Out-String
-
-    if ($BucketList -notmatch "(?m)^entire\s") {
-        scoop bucket add `
-            entire `
-            "https://github.com/entireio/scoop-bucket.git"
-
-        Write-Success "Entire Scoop bucket added."
-    }
-    else {
-        Write-Success "Entire Scoop bucket is already configured."
-    }
-
-    if (-not (Test-Command "entire")) {
-        scoop install entire/cli
-        Update-ProcessPath
-        Write-Success "Entire CLI installed."
-    }
-    else {
-        Write-Success "Entire CLI is already installed."
-    }
-
-    if (-not (Test-Command "entire")) {
-        throw @"
-Entire CLI was installed, but the entire command is unavailable.
-
-Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
-"@
-    }
-
-    entire version
 
     # ------------------------------------------------------------------------
     # Claude Code
@@ -365,69 +332,6 @@ Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
     Write-Success "Claude Code installed."
 
     # ------------------------------------------------------------------------
-    # SpecStory VS Code extension
-    # ------------------------------------------------------------------------
-
-    Write-Step "Installing SpecStory VS Code extension"
-
-    if (-not (Test-Command "code")) {
-        throw @"
-The VS Code command-line command 'code' is unavailable.
-
-Make sure Visual Studio Code is installed and its command-line tool is
-available in PATH, then run setup.ps1 again.
-
-You can test this by opening a new PowerShell window and running:
-
-    code --version
-"@
-    }
-
-    $InstalledExtensions = @(
-        code --list-extensions 2>$null |
-        ForEach-Object {
-            $_.Trim()
-        }
-    )
-
-    if (
-        $InstalledExtensions -contains
-        "SpecStory.specstory-vscode"
-    ) {
-        Write-Success "SpecStory VS Code extension is already installed."
-    }
-    else {
-        code `
-            --install-extension `
-            "SpecStory.specstory-vscode"
-
-        if ($LASTEXITCODE -ne 0) {
-            throw "VS Code failed to install the SpecStory extension."
-        }
-
-        Write-Success "SpecStory VS Code extension installed."
-    }
-
-    # ------------------------------------------------------------------------
-    # SpecStory Lore skill
-    # ------------------------------------------------------------------------
-
-    Write-Step "Installing SpecStory Lore skill"
-
-    npx `
-        --yes `
-        skills `
-        add `
-        specstoryai/getspecstory `
-        --skill lore
-
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to install the SpecStory Lore skill."
-    }
-
-    Write-Success "SpecStory Lore skill installed."
-
-    # ------------------------------------------------------------------------
     # Anthropic API key
     # ------------------------------------------------------------------------
 
@@ -472,17 +376,17 @@ You can test this by opening a new PowerShell window and running:
         "User"
     )
 
-    # Make it available immediately in this PowerShell process.
+    # Make it available immediately in this process.
     $env:ANTHROPIC_API_KEY = $ApiKey
 
-    # Remove the temporary plaintext variable after saving it.
+    # Remove temporary plaintext value.
     $ApiKey = $null
     $SecureApiKey.Dispose()
 
     Write-Success "Anthropic API key configured."
 
     # ------------------------------------------------------------------------
-    # VS Code extension
+    # Notebook Edit Tracker VS Code extension
     # ------------------------------------------------------------------------
 
     Write-Step "Installing Notebook Edit Tracker"
@@ -567,7 +471,6 @@ You can test this by opening a new PowerShell window and running:
         )
     }
 
-    # Refresh current process from Machine + User PATH after persisting it.
     Update-ProcessPath
 
     if (-not (Test-Command "claude-exp")) {
@@ -587,7 +490,7 @@ Close PowerShell, open a new PowerShell window, and run:
     Write-Host "    $((Get-Command claude-exp).Source)"
 
     # ------------------------------------------------------------------------
-    # Optional Git repository initialization
+    # Git repository initialization
     # ------------------------------------------------------------------------
 
     Write-Step "Checking experiment Git repository"
@@ -617,27 +520,6 @@ Close PowerShell, open a new PowerShell window, and run:
     }
 
     # ------------------------------------------------------------------------
-    # Entire initialization
-    # ------------------------------------------------------------------------
-
-    Write-Step "Enabling Entire for the experiment repository"
-
-    Push-Location $ProjectRoot
-
-    try {
-        entire enable
-
-        if ($LASTEXITCODE -ne 0) {
-            throw "Entire could not be enabled in the experiment repository."
-        }
-    }
-    finally {
-        Pop-Location
-    }
-
-    Write-Success "Entire enabled."
-
-    # ------------------------------------------------------------------------
     # Final verification
     # ------------------------------------------------------------------------
 
@@ -648,7 +530,6 @@ Close PowerShell, open a new PowerShell window, and run:
     foreach (
         $Command in @(
             "git",
-            "entire",
             "claude",
             "claude-exp",
             "code"
@@ -664,20 +545,6 @@ Close PowerShell, open a new PowerShell window, and run:
             "The following commands are unavailable: " +
             ($MissingCommands -join ", ")
         )
-    }
-
-    $InstalledExtensions = @(
-        code --list-extensions 2>$null |
-        ForEach-Object {
-            $_.Trim()
-        }
-    )
-
-    if (
-        $InstalledExtensions -notcontains
-        "SpecStory.specstory-vscode"
-    ) {
-        throw "The SpecStory VS Code extension is unavailable."
     }
 
     $SavedApiKey = [Environment]::GetEnvironmentVariable(
@@ -709,14 +576,10 @@ Close PowerShell, open a new PowerShell window, and run:
         -ForegroundColor White
     Write-Host "  - Scoop"
     Write-Host "  - Git"
-    Write-Host "  - Entire CLI"
     Write-Host "  - Claude Code"
-    Write-Host "  - SpecStory VS Code extension"
-    Write-Host "  - SpecStory Lore skill"
     Write-Host "  - Experiment Anthropic API key"
     Write-Host "  - Notebook Edit Tracker"
     Write-Host "  - claude-exp launcher"
-    Write-Host "  - Entire logging for this repository"
 
     Write-Host ""
     Write-Host "You can now start a task with:" `
@@ -728,11 +591,6 @@ Close PowerShell, open a new PowerShell window, and run:
 
     Write-Host (
         "A newly opened terminal will also have access to the saved API key."
-    ) -ForegroundColor DarkGray
-
-    Write-Host (
-        "SpecStory VS Code capture writes supported editor AI conversations " +
-        "to .specstory/history/ inside the opened project."
     ) -ForegroundColor DarkGray
 
     Write-Host ""
