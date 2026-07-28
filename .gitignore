@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-.agent
-.entire
-.specstory
+.agent/
+.entire/
+.specstory/
 skills-lock.json
