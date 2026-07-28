@@ -112,15 +112,16 @@ Write-Host "====================================================" `
 Write-Host ""
 Write-Host "This installer will configure:" `
     -ForegroundColor White
-Write-Host "  1. Scoop"
-Write-Host "  2. Git"
-Write-Host "  3. Entire CLI"
-Write-Host "  4. Claude Code"
-Write-Host "  5. SpecStory VS Code extension"
-Write-Host "  6. SpecStory Lore skill"
-Write-Host "  7. Anthropic API key"
-Write-Host "  8. Notebook Edit Tracker VS Code extension"
-Write-Host "  9. claude-exp launcher"
+Write-Host "  1. Node.js and npm check"
+Write-Host "  2. Scoop"
+Write-Host "  3. Git"
+Write-Host "  4. Entire CLI"
+Write-Host "  5. Claude Code"
+Write-Host "  6. SpecStory VS Code extension"
+Write-Host "  7. SpecStory Lore skill"
+Write-Host "  8. Anthropic API key"
+Write-Host "  9. Notebook Edit Tracker VS Code extension"
+Write-Host " 10. claude-exp launcher"
 
 Write-Host ""
 Read-Host "Press ENTER to begin installation"
@@ -157,7 +158,7 @@ try {
             -ItemType Directory `
             -Path $TasksDirectory `
             -Force |
-            Out-Null
+        Out-Null
     }
 
     Write-Success "Experiment files found."
@@ -221,7 +222,7 @@ Install the current Node.js LTS version, then run this installer again.
     if (-not (Test-Command "scoop")) {
         Invoke-RestMethod `
             -Uri "https://get.scoop.sh" |
-            Invoke-Expression
+        Invoke-Expression
 
         Update-ProcessPath
         Write-Success "Scoop installed."
@@ -267,7 +268,7 @@ Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
     Write-Step "Installing Entire CLI"
 
     $BucketList = scoop bucket list |
-        Out-String
+    Out-String
 
     if ($BucketList -notmatch "(?m)^entire\s") {
         scoop bucket add `
@@ -309,11 +310,50 @@ Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
         --global `
         @anthropic-ai/claude-code
 
+    if ($LASTEXITCODE -ne 0) {
+        throw "Claude Code installation failed."
+    }
+
+    # npm global commands on Windows live in npm's global prefix directory.
+    $NpmGlobalPrefix = (npm prefix -g).Trim()
+
+    if ([string]::IsNullOrWhiteSpace($NpmGlobalPrefix)) {
+        throw "Unable to determine the npm global prefix."
+    }
+
+    $UserPath = [Environment]::GetEnvironmentVariable(
+        "Path",
+        "User"
+    )
+
+    $UserPathEntries = @(
+        $UserPath -split ";" |
+        Where-Object {
+            -not [string]::IsNullOrWhiteSpace($_)
+        }
+    )
+
+    if ($UserPathEntries -notcontains $NpmGlobalPrefix) {
+        $NewUserPath = (
+            @($UserPathEntries + $NpmGlobalPrefix) |
+            Select-Object -Unique
+        ) -join ";"
+
+        [Environment]::SetEnvironmentVariable(
+            "Path",
+            $NewUserPath,
+            "User"
+        )
+    }
+
     Update-ProcessPath
 
     if (-not (Test-Command "claude")) {
         throw @"
 Claude Code was installed, but the claude command is unavailable.
+
+npm global prefix:
+    $NpmGlobalPrefix
 
 Close PowerShell, open a new PowerShell window, and run setup.ps1 again.
 "@
@@ -345,9 +385,9 @@ You can test this by opening a new PowerShell window and running:
 
     $InstalledExtensions = @(
         code --list-extensions 2>$null |
-            ForEach-Object {
-                $_.Trim()
-            }
+        ForEach-Object {
+            $_.Trim()
+        }
     )
 
     if (
@@ -496,19 +536,55 @@ You can test this by opening a new PowerShell window and running:
         Pop-Location
     }
 
+    $NpmGlobalPrefix = (npm prefix -g).Trim()
+
+    if ([string]::IsNullOrWhiteSpace($NpmGlobalPrefix)) {
+        throw "Unable to determine the npm global prefix."
+    }
+
+    $UserPath = [Environment]::GetEnvironmentVariable(
+        "Path",
+        "User"
+    )
+
+    $UserPathEntries = @(
+        $UserPath -split ";" |
+        Where-Object {
+            -not [string]::IsNullOrWhiteSpace($_)
+        }
+    )
+
+    if ($UserPathEntries -notcontains $NpmGlobalPrefix) {
+        $NewUserPath = (
+            @($UserPathEntries + $NpmGlobalPrefix) |
+            Select-Object -Unique
+        ) -join ";"
+
+        [Environment]::SetEnvironmentVariable(
+            "Path",
+            $NewUserPath,
+            "User"
+        )
+    }
+
+    # Refresh current process from Machine + User PATH after persisting it.
     Update-ProcessPath
 
     if (-not (Test-Command "claude-exp")) {
         throw @"
-The launcher was installed, but the claude-exp command is unavailable.
+The launcher was linked, but the claude-exp command is unavailable.
 
-Close PowerShell, open a new PowerShell window, and try:
+npm global prefix:
+    $NpmGlobalPrefix
+
+Close PowerShell, open a new PowerShell window, and run:
 
     claude-exp 1
 "@
     }
 
     Write-Success "claude-exp launcher installed."
+    Write-Host "    $((Get-Command claude-exp).Source)"
 
     # ------------------------------------------------------------------------
     # Optional Git repository initialization
@@ -592,9 +668,9 @@ Close PowerShell, open a new PowerShell window, and try:
 
     $InstalledExtensions = @(
         code --list-extensions 2>$null |
-            ForEach-Object {
-                $_.Trim()
-            }
+        ForEach-Object {
+            $_.Trim()
+        }
     )
 
     if (

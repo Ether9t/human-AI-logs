@@ -179,11 +179,17 @@ write_success "Experiment files found."
 # ============================================================================
 
 write_step "Installing Homebrew"
+if [[ -n "${POSIXLY_CORRECT+x}" ]]; then
+    write_warning "POSIXLY_CORRECT is set; unsetting it for Homebrew."
+    unset POSIXLY_CORRECT
+fi
 
 refresh_brew_path
 
 if ! command_exists brew; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    env -u POSIXLY_CORRECT \
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
     SETUP_INSTALLED_HOMEBREW=1
     refresh_brew_path
 fi
@@ -442,14 +448,31 @@ npm install
 npm link
 popd >/dev/null
 
-# npm global binaries are normally already on PATH, but refresh common locations.
-export PATH="$(npm prefix -g)/bin:$PATH"
+NPM_GLOBAL_BIN="$(npm prefix -g)/bin"
+
+export PATH="$NPM_GLOBAL_BIN:$PATH"
+
+RC_FILE="$(shell_rc_file)"
+touch "$RC_FILE"
+
+PATH_BLOCK_START="# >>> human-ai-experiment npm PATH >>>"
+PATH_BLOCK_END="# <<< human-ai-experiment npm PATH <<<"
+
+if ! grep -Fq "$PATH_BLOCK_START" "$RC_FILE"; then
+    {
+        printf "\n%s\n" "$PATH_BLOCK_START"
+        printf 'export PATH="%s:$PATH"\n' "$NPM_GLOBAL_BIN"
+        printf "%s\n" "$PATH_BLOCK_END"
+    } >> "$RC_FILE"
+fi
 
 if ! command_exists claude-exp; then
     write_warning "claude-exp was linked, but it is not visible on the current PATH."
-    write_warning "Open a new Terminal and run: claude-exp 1"
+    write_warning "Open a new Terminal or reload your shell configuration:"
+    printf "    source %s\n" "$RC_FILE"
 else
     write_success "claude-exp launcher installed."
+    printf "    %s\n" "$(command -v claude-exp)"
 fi
 
 # ============================================================================
@@ -492,7 +515,7 @@ write_step "Verifying installation"
 
 MISSING=()
 
-for cmd in git npm node entire claude specstory; do
+for cmd in git npm node entire claude specstory claude-exp; do
     if ! command_exists "$cmd"; then
         MISSING+=("$cmd")
     fi
@@ -549,5 +572,5 @@ printf "\nIMPORTANT: if the current launcher still starts 'claude' directly, cla
 printf "will not automatically route through SpecStory until the launcher code is updated\n"
 printf "to invoke 'specstory run claude'.\n"
 
-printf "\nA newly opened Terminal will inherit the saved ANTHROPIC_API_KEY.\n"
+printf "\nA newly opened Terminal will inherit the saved ANTHROPIC_API_KEY and npm PATH.\n"
 printf "Restart VS Code once after first installation so newly installed extensions load.\n\n"

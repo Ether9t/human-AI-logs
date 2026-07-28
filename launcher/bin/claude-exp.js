@@ -20,7 +20,7 @@ const GITHUB_BRANCH = "experiment-assets";
 const DEFAULT_CLAUDE_COMMAND = "claude";
 const ALLOWED_TASKS = new Set(["1", "2", "3", "4"]);
 const GOOGLE_FORM_URL =
-  "https://https://docs.google.com/forms/d/e/1FAIpQLSdaCvdUWmtRe63B_qdVQ4mgnF6up7fLhG5evbR4IrcIVPF4oA/viewform";
+  "https://docs.google.com/forms/d/e/1FAIpQLSdaCvdUWmtRe63B_qdVQ4mgnF6up7fLhG5evbR4IrcIVPF4oA/viewform";
 
 /*
  * ============================================================================
@@ -277,7 +277,10 @@ function launchClaude(taskDirectory) {
       shell: true,
       env: {
         ...process.env,
-        ANTHROPIC_MODEL: "sonnet"
+
+        ANTHROPIC_MODEL: "anthropic.claude-sonnet-5",
+
+        CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS: "1"
       }
     });
 
@@ -418,15 +421,14 @@ function openUrl(url) {
   return new Promise((resolve, reject) => {
     let command;
     let args;
-
     if (process.platform === "win32") {
       command = "cmd";
-      args = ["/c", "start", "", url];
+      args = ["/c", "start", "", "chrome", url];
     } else if (process.platform === "darwin") {
       command = "open";
-      args = [url];
+      args = ["-a", "Google Chrome", url];
     } else {
-      command = "xdg-open";
+      command = "google-chrome";
       args = [url];
     }
 
