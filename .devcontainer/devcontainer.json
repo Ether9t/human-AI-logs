@@ -11,8 +11,8 @@
 
   "containerEnv": {
     "CLAUDE_CODE_USE_BEDROCK": "1",
-    "AWS_REGION": "us-east-1"
+    "AWS_REGION": "YOUR_REGION"
   },
 
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && cd launcher && npm install && npm link"
+  "postCreateCommand": "pip install -r requirements.txt && npm install -g @anthropic-ai/claude-code && cd launcher && npm install && npm link"
 }

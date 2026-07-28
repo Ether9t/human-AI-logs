@@ -3,7 +3,9 @@
 "use strict";
 
 const fs = require("node:fs");
+const fsp = require("node:fs/promises");
 const path = require("node:path");
+const os = require("node:os");
 const readline = require("node:readline");
 const { spawn } = require("node:child_process");
 const https = require("node:https");
@@ -151,15 +153,27 @@ function renderMessage(message) {
   console.log();
 
   if (message.role === "user") {
-    console.log(style("USER", ANSI.blue, ANSI.bold));
+    console.log(
+      style(
+        `❯ ${message.content.trim()}`,
+        ANSI.bold
+      )
+    );
   } else {
-    console.log(style("Agent", ANSI.green, ANSI.bold));
+    const lines = message.content.trim().split("\n");
+
+    console.log(
+      `${style("●", ANSI.bold)} ${lines[0]}`
+    );
+
+    if (lines.length > 1) {
+      console.log();
+
+      for (const line of lines.slice(1)) {
+        console.log(`  ${line}`);
+      }
+    }
   }
-
-  printHorizontalLine();
-
-  console.log();
-  console.log(message.content.trim());
 }
 
 function sleep(ms) {
@@ -239,6 +253,120 @@ function waitForEnter(
       }
     );
   });
+}
+
+async function getClaudeSessionFiles(taskDirectory) {
+  const claudeProjectsRoot = path.join(
+    os.homedir(),
+    ".claude",
+    "projects"
+  );
+
+  const projectSlug = taskDirectory.replace(
+    /[^a-zA-Z0-9]/g,
+    "-"
+  );
+
+  const sourceDirectory = path.join(
+    claudeProjectsRoot,
+    projectSlug
+  );
+
+  try {
+    const entries = await fsp.readdir(
+      sourceDirectory,
+      {
+        withFileTypes: true
+      }
+    );
+
+    return {
+      sourceDirectory,
+      files: new Set(
+        entries
+          .filter(
+            entry =>
+              entry.isFile() &&
+              entry.name.endsWith(".jsonl")
+          )
+          .map(entry => entry.name)
+      )
+    };
+  } catch {
+    return {
+      sourceDirectory,
+      files: new Set()
+    };
+  }
+}
+
+async function saveNewClaudeLogs(
+  taskNumber,
+  taskDirectory,
+  filesBefore
+) {
+  const {
+    sourceDirectory,
+    files: filesAfter
+  } = await getClaudeSessionFiles(
+    taskDirectory
+  );
+
+  const newFiles = [
+    ...filesAfter
+  ].filter(
+    fileName =>
+      !filesBefore.has(fileName)
+  );
+
+  if (newFiles.length === 0) {
+    console.log();
+    console.log(
+      style(
+        `No new Claude session file found for task ${taskNumber}.`,
+        ANSI.yellow
+      )
+    );
+    return;
+  }
+
+  const logsDirectory = path.join(
+    PROJECT_ROOT,
+    "logs",
+    `task-${taskNumber}`
+  );
+
+  await fsp.mkdir(
+    logsDirectory,
+    {
+      recursive: true
+    }
+  );
+
+  for (const fileName of newFiles) {
+    const sourcePath = path.join(
+      sourceDirectory,
+      fileName
+    );
+
+    const destinationPath = path.join(
+      logsDirectory,
+      fileName
+    );
+
+    await fsp.copyFile(
+      sourcePath,
+      destinationPath
+    );
+  }
+
+  console.log();
+  console.log(
+    style(
+      `Saved ${newFiles.length} new Claude session file(s) to logs/task-${taskNumber}/`,
+      ANSI.green
+    )
+  );
 }
 
 /*
@@ -462,8 +590,21 @@ async function main() {
     await downloadNotebook(taskNumber, taskDirectory);
     await renderHistory(chatMarkdown, taskNumber, taskDirectory);
     await waitForEnter("Press ENTER to continue to Claude...");
+    const {
+      files: claudeFilesBefore
+    } = await getClaudeSessionFiles(
+      taskDirectory
+    );
 
-    await launchClaude(taskDirectory);
+    await launchClaude(
+      taskDirectory
+    );
+
+    await saveNewClaudeLogs(
+      taskNumber,
+      taskDirectory,
+      claudeFilesBefore
+    );
 
     console.log();
     console.log(
@@ -474,16 +615,19 @@ async function main() {
       )
     );
 
+    console.log();
     console.log(
       style(
-        "Opening the response form...",
-        ANSI.cyan
+        "Please complete the response form:",
+        ANSI.cyan,
+        ANSI.bold
       )
     );
 
-    await openUrl(GOOGLE_FORM_URL);
-
     console.log();
+    console.log(GOOGLE_FORM_URL);
+    console.log();
+
     console.log(
       style(
         "Please complete and submit the current form section before starting the next task.",
