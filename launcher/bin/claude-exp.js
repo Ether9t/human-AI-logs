@@ -1536,11 +1536,41 @@ function runLiveChat(
 ) {
     return new Promise(
         (resolve, reject) => {
-            const state =
-                createRendererState();
+            function handleSigint() {
+                if (userRequestedExit) {
+                    return;
+                }
 
-            const spinner =
-                createSpinner();
+                userRequestedExit =
+                    true;
+
+                spinner.stop();
+
+                console.log();
+                console.log(
+                    style(
+                        "Ending session...",
+                        ANSI.gray
+                    )
+                );
+
+                inputReader.close();
+
+                if (
+                    !child.stdin.destroyed
+                ) {
+                    child.stdin.end();
+                }
+            }
+
+            process.on(
+                "SIGINT",
+                handleSigint
+            );
+            let userRequestedExit = false;
+            const state = createRendererState();
+
+            const spinner = createSpinner();
             const outputReader =
                 readline.createInterface({
                     input: child.stdout
@@ -1747,6 +1777,10 @@ function runLiveChat(
                             normalized === "/exit" ||
                             normalized === "/quit"
                         ) {
+                            userRequestedExit =
+                                true;
+
+                            spinner.stop();
                             inputReader.close();
                             child.stdin.end();
                             return;
@@ -1816,15 +1850,28 @@ function runLiveChat(
 
             child.once(
                 "close",
-                code => {
+                (code, signal) => {
                     spinner.stop();
+
                     clearInterval(
                         permissionTimer
                     );
+
+                    process.removeListener(
+                        "SIGINT",
+                        handleSigint
+                    );
+
                     inputReader.close();
                     outputReader.close();
 
+                    /*
+                     * If the participant intentionally
+                     * ended the session using exit or
+                     * Ctrl+C, treat it as a normal end.
+                     */
                     if (
+                        !userRequestedExit &&
                         code !== 0 &&
                         code !== null
                     ) {
