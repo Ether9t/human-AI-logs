@@ -11,7 +11,7 @@
 
   "containerEnv": {
     "CLAUDE_CODE_USE_BEDROCK": "1",
-    "AWS_REGION": "YOUR_REGION"
+    "AWS_REGION": "us-east-1"
   },
 
   "postCreateCommand": "bash .devcontainer/setup.sh"
