@@ -27,3 +27,7 @@ dist-ssr
 .entire/
 .specstory/
 skills-lock.json
+
+logs/
+.claude-exp-permission/
+backup/

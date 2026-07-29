@@ -2,13 +2,11 @@
 
 "use strict";
 
-const fs = require("node:fs");
-const fsp = require("node:fs/promises");
-const path = require("node:path");
-const os = require("node:os");
-const readline = require("node:readline");
 const { spawn } = require("node:child_process");
+const readline = require("node:readline");
+const path = require("node:path");
 const https = require("node:https");
+const fs = require("node:fs");
 
 /*
  * ============================================================================
@@ -19,560 +17,2009 @@ const https = require("node:https");
 const GITHUB_OWNER = "Ether9t";
 const GITHUB_REPOSITORY = "human-AI-logs";
 const GITHUB_BRANCH = "experiment-assets";
-const DEFAULT_CLAUDE_COMMAND = "claude";
-const ALLOWED_TASKS = new Set(["1", "2", "3", "4"]);
 const GOOGLE_FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSdaCvdUWmtRe63B_qdVQ4mgnF6up7fLhG5evbR4IrcIVPF4oA/viewform";
+    "https://docs.google.com/forms/d/e/1FAIpQLSdaCvdUWmtRe63B_qdVQ4mgnF6up7fLhG5evbR4IrcIVPF4oA/viewform";
+
+const MODEL =
+    "us.anthropic.claude-sonnet-5";
+
+const ALLOWED_TASKS =
+    new Set(["1", "2", "3", "4"]);
+
+const PROJECT_ROOT =
+    path.resolve(
+        __dirname,
+        "..",
+        ".."
+    );
+
+const TASKS_ROOT =
+    path.join(PROJECT_ROOT, "tasks");
+const LOGS_ROOT =
+    path.join(
+        PROJECT_ROOT,
+        "logs"
+    );
+
+const fsp =
+    require("node:fs/promises");
+
+const PERMISSION_DIRECTORY =
+    path.join(
+        PROJECT_ROOT,
+        ".claude-exp-permission"
+    );
+
+const PERMISSION_REQUEST_PATH =
+    path.join(
+        PERMISSION_DIRECTORY,
+        "request.json"
+    );
+
+const PERMISSION_RESPONSE_PATH =
+    path.join(
+        PERMISSION_DIRECTORY,
+        "response.json"
+    );
+
+const PERMISSION_SERVER_PATH =
+    path.resolve(
+        __dirname,
+        "..",
+        "permission-server.js"
+    );
+
+const MCP_CONFIG_PATH =
+    path.join(
+        PERMISSION_DIRECTORY,
+        "mcp.json"
+    );
+
+function getClaudeConfigDirectory() {
+    /*
+     * Respect CLAUDE_CONFIG_DIR if we
+     * explicitly set one in Codespaces.
+     */
+    if (
+        process.env.CLAUDE_CONFIG_DIR
+    ) {
+        return path.resolve(
+            process.env.CLAUDE_CONFIG_DIR
+        );
+    }
+
+    /*
+     * Default Claude Code config directory.
+     */
+    const homeDirectory =
+        process.env.HOME ||
+        process.env.USERPROFILE;
+
+    if (!homeDirectory) {
+        return null;
+    }
+
+    return path.join(
+        homeDirectory,
+        ".claude"
+    );
+}
+
+async function findFileRecursive(
+    directory,
+    targetFileName
+) {
+    let entries;
+
+    try {
+        entries =
+            await fsp.readdir(
+                directory,
+                {
+                    withFileTypes: true
+                }
+            );
+    } catch {
+        return null;
+    }
+
+    for (const entry of entries) {
+        const fullPath =
+            path.join(
+                directory,
+                entry.name
+            );
+
+        if (
+            entry.isFile() &&
+            entry.name === targetFileName
+        ) {
+            return fullPath;
+        }
+
+        if (
+            entry.isDirectory()
+        ) {
+            const result =
+                await findFileRecursive(
+                    fullPath,
+                    targetFileName
+                );
+
+            if (result) {
+                return result;
+            }
+        }
+    }
+
+    return null;
+}
+
+async function saveSessionLog(
+    sessionId,
+    taskNumber
+) {
+    if (!sessionId) {
+        throw new Error(
+            "Claude session ID was not captured."
+        );
+    }
+
+    const claudeConfigDirectory =
+        getClaudeConfigDirectory();
+
+    if (!claudeConfigDirectory) {
+        throw new Error(
+            "Unable to locate Claude config directory."
+        );
+    }
+
+    const projectsDirectory =
+        path.join(
+            claudeConfigDirectory,
+            "projects"
+        );
+
+    const fileName =
+        `${sessionId}.jsonl`;
+
+    /*
+     * Claude may need a moment to flush
+     * the final session data after exit.
+     */
+    let sourcePath = null;
+
+    for (
+        let attempt = 0;
+        attempt < 20;
+        attempt++
+    ) {
+        sourcePath =
+            await findFileRecursive(
+                projectsDirectory,
+                fileName
+            );
+
+        if (sourcePath) {
+            break;
+        }
+
+        await sleep(100);
+    }
+
+    if (!sourcePath) {
+        throw new Error(
+            `Could not find Claude session log: ${fileName}`
+        );
+    }
+
+    const taskLogDirectory =
+        path.join(
+            LOGS_ROOT,
+            `task ${taskNumber}`
+        );
+
+    await fsp.mkdir(
+        taskLogDirectory,
+        {
+            recursive: true
+        }
+    );
+
+    const destinationPath =
+        path.join(
+            taskLogDirectory,
+            fileName
+        );
+
+    await fsp.copyFile(
+        sourcePath,
+        destinationPath
+    );
+
+    return destinationPath;
+}
 
 /*
  * ============================================================================
- * ANSI terminal formatting
+ * ANSI
  * ============================================================================
  */
 
 const ANSI = {
-  reset: "\x1b[0m",
-  bold: "\x1b[1m",
-  dim: "\x1b[2m",
-  cyan: "\x1b[36m",
-  blue: "\x1b[34m",
-  green: "\x1b[32m",
-  yellow: "\x1b[33m",
-  red: "\x1b[31m",
-  gray: "\x1b[90m"
+    reset: "\x1b[0m",
+    bold: "\x1b[1m",
+    dim: "\x1b[2m",
+    gray: "\x1b[90m",
+    red: "\x1b[31m",
+    yellow: "\x1b[33m",
+    bgGray: "\x1b[48;5;238m",
+    white: "\x1b[37m"
 };
 
 function style(text, ...codes) {
-  return `${codes.join("")}${text}${ANSI.reset}`;
+    return (
+        `${codes.join("")}${text}${ANSI.reset}`
+    );
 }
 
 /*
  * ============================================================================
- * Paths
+ * Task
  * ============================================================================
  */
-
-/**
- * claude-exp-launcher/
- * ├─ bin/
- * │  └─ claude-exp.js
- * └─ tasks/
- */
-const PROJECT_ROOT = path.resolve(__dirname, "..", "..");
-
-function getTaskDirectory(taskNumber) {
-  return path.join(PROJECT_ROOT, "tasks", `task ${taskNumber}`);
-}
-
-/*
- * ============================================================================
- * Argument handling
- * ============================================================================
- */
-
-function printUsage() {
-  console.log(`
-${style("Usage", ANSI.bold)}
-
-  claude-exp <task-number>
-
-${style("Examples", ANSI.bold)}
-
-  claude-exp 1
-  claude-exp 2
-  claude-exp 3
-  claude-exp 4
-`);
-}
 
 function getTaskNumber() {
-  const taskNumber = process.argv[2];
+    const taskNumber =
+        process.argv[2] || "1";
 
-  if (!taskNumber) {
-    console.error(
-      style("Error: A task number is required.", ANSI.red, ANSI.bold)
-    );
-    printUsage();
-    process.exit(1);
-  }
-
-  if (!ALLOWED_TASKS.has(taskNumber)) {
-    console.error(
-      style(
-        `Error: Task "${taskNumber}" is not available.`,
-        ANSI.red,
-        ANSI.bold
-      )
-    );
-    printUsage();
-    process.exit(1);
-  }
-
-  return taskNumber;
-}
-
-/*
- * ============================================================================
- * Chat parsing
- * ============================================================================
- */
-
-function parseChatMarkdown(markdown) {
-  const rolePattern =
-    /<!--\s*role\s*:\s*(user|assistant)\s*-->\s*([\s\S]*?)(?=<!--\s*role\s*:\s*(?:user|assistant)\s*-->|$)/gi;
-
-  const messages = [];
-  let match;
-
-  while ((match = rolePattern.exec(markdown)) !== null) {
-    const role = match[1].toLowerCase();
-    const content = match[2].trim();
-
-    if (content) {
-      messages.push({
-        role,
-        content
-      });
-    }
-  }
-
-  return messages;
-}
-
-/*
- * ============================================================================
- * Chat rendering
- * ============================================================================
- */
-
-function printHorizontalLine(character = "─", width = 72) {
-  console.log(style(character.repeat(width), ANSI.gray));
-}
-
-function renderMessage(message) {
-  console.log();
-
-  if (message.role === "user") {
-    console.log(
-      style(
-        `❯ ${message.content.trim()}`,
-        ANSI.bold
-      )
-    );
-  } else {
-    const lines = message.content.trim().split("\n");
-
-    console.log(
-      `${style("●", ANSI.bold)} ${lines[0]}`
-    );
-
-    if (lines.length > 1) {
-      console.log();
-
-      for (const line of lines.slice(1)) {
-        console.log(`  ${line}`);
-      }
-    }
-  }
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function renderHistory(markdown, taskNumber, taskDirectory) {
-  console.clear();
-
-  const width = 72;
-
-  console.log(style("═".repeat(width), ANSI.cyan));
-  console.log(
-    style(
-      "PREVIOUS AGENT SESSION".padStart(
-        Math.floor((width + "PREVIOUS AGENT SESSION".length) / 2)
-      ),
-      ANSI.cyan,
-      ANSI.bold
-    )
-  );
-  console.log(style("═".repeat(width), ANSI.cyan));
-
-  console.log();
-  console.log(
-    `${style("Task:", ANSI.bold)} ${taskNumber}`
-  );
-  console.log(
-    `${style("Workspace:", ANSI.bold)} ${taskDirectory}`
-  );
-
-  const messages = parseChatMarkdown(markdown);
-
-  if (messages.length === 0) {
-    console.log();
-    console.log(markdown.trim());
-
-    console.log();
-    await waitForEnter("Press ENTER to continue...");
-  } else {
-    renderMessage(messages[0]);
-
-    console.log();
-    await waitForEnter("Press ENTER to continue...");
-
-    for (const message of messages.slice(1)) {
-      renderMessage(message);
-      await sleep(500);
-    }
-  }
-
-  console.log();
-  console.log(style("═".repeat(width), ANSI.cyan));
-  console.log();
-}
-
-/*
- * ============================================================================
- * User input
- * ============================================================================
- */
-
-function waitForEnter(
-  prompt = "Press ENTER to continue..."
-) {
-  return new Promise((resolve) => {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-
-    rl.question(
-      style(prompt, ANSI.yellow, ANSI.bold),
-      () => {
-        rl.close();
-        resolve();
-      }
-    );
-  });
-}
-
-async function getClaudeSessionFiles(taskDirectory) {
-  const claudeProjectsRoot = path.join(
-    os.homedir(),
-    ".claude",
-    "projects"
-  );
-
-  const projectSlug = taskDirectory.replace(
-    /[^a-zA-Z0-9]/g,
-    "-"
-  );
-
-  const sourceDirectory = path.join(
-    claudeProjectsRoot,
-    projectSlug
-  );
-
-  try {
-    const entries = await fsp.readdir(
-      sourceDirectory,
-      {
-        withFileTypes: true
-      }
-    );
-
-    return {
-      sourceDirectory,
-      files: new Set(
-        entries
-          .filter(
-            entry =>
-              entry.isFile() &&
-              entry.name.endsWith(".jsonl")
-          )
-          .map(entry => entry.name)
-      )
-    };
-  } catch {
-    return {
-      sourceDirectory,
-      files: new Set()
-    };
-  }
-}
-
-async function saveNewClaudeLogs(
-  taskNumber,
-  taskDirectory,
-  filesBefore
-) {
-  const {
-    sourceDirectory,
-    files: filesAfter
-  } = await getClaudeSessionFiles(
-    taskDirectory
-  );
-
-  const newFiles = [
-    ...filesAfter
-  ].filter(
-    fileName =>
-      !filesBefore.has(fileName)
-  );
-
-  if (newFiles.length === 0) {
-    console.log();
-    console.log(
-      style(
-        `No new Claude session file found for task ${taskNumber}.`,
-        ANSI.yellow
-      )
-    );
-    return;
-  }
-
-  const logsDirectory = path.join(
-    PROJECT_ROOT,
-    "logs",
-    `task-${taskNumber}`
-  );
-
-  await fsp.mkdir(
-    logsDirectory,
-    {
-      recursive: true
-    }
-  );
-
-  for (const fileName of newFiles) {
-    const sourcePath = path.join(
-      sourceDirectory,
-      fileName
-    );
-
-    const destinationPath = path.join(
-      logsDirectory,
-      fileName
-    );
-
-    await fsp.copyFile(
-      sourcePath,
-      destinationPath
-    );
-  }
-
-  console.log();
-  console.log(
-    style(
-      `Saved ${newFiles.length} new Claude session file(s) to logs/task-${taskNumber}/`,
-      ANSI.green
-    )
-  );
-}
-
-/*
- * ============================================================================
- * Claude launcher
- * ============================================================================
- */
-
-function launchClaude(taskDirectory) {
-  return new Promise((resolve, reject) => {
-    const command =
-      process.env.CLAUDE_EXP_COMMAND ||
-      DEFAULT_CLAUDE_COMMAND;
-
-    console.log();
-    console.log(
-      style(
-        `Launching ${command}...`,
-        ANSI.green,
-        ANSI.bold
-      )
-    );
-
-    console.log(
-      style(
-        `Working directory: ${taskDirectory}`,
-        ANSI.gray
-      )
-    );
-
-    console.log();
-
-    const child = spawn(command, [], {
-      cwd: taskDirectory,
-      stdio: "inherit",
-      shell: true,
-      env: {
-        ...process.env,
-
-        ANTHROPIC_MODEL: "anthropic.claude-sonnet-5",
-
-        CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS: "1"
-      }
-    });
-
-    child.once("error", (error) => {
-      reject(
-        new Error(
-          `Failed to start Claude: ${error.message}`
-        )
-      );
-    });
-
-    child.once("close", (code, signal) => {
-      console.log();
-      console.log(
-        style(
-          "Claude process has closed.",
-          ANSI.gray
-        )
-      );
-
-      if (signal) {
-        reject(
-          new Error(
-            `Claude was terminated by signal: ${signal}`
-          )
+    if (!ALLOWED_TASKS.has(taskNumber)) {
+        console.error(
+            `Task ${taskNumber} is not available.`
         );
-        return;
-      }
 
-      resolve(code ?? 0);
-    });
-  });
+        process.exit(1);
+    }
+
+    return taskNumber;
+}
+
+function getTaskDirectory(taskNumber) {
+    return path.join(
+        TASKS_ROOT,
+        `task ${taskNumber}`
+    );
 }
 
 /*
  * ============================================================================
- * Download
+ * Download chat.md
  * ============================================================================
  */
 
 function downloadText(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, (response) => {
-        if (response.statusCode !== 200) {
-          reject(
-            new Error(
-              `Request failed (${response.statusCode})\n${url}`
-            )
-          );
-          return;
+    return new Promise(
+        (resolve, reject) => {
+            https
+                .get(url, response => {
+                    if (
+                        response.statusCode !== 200
+                    ) {
+                        reject(
+                            new Error(
+                                `Request failed (${response.statusCode})\n${url}`
+                            )
+                        );
+
+                        return;
+                    }
+
+                    let data = "";
+
+                    response.setEncoding("utf8");
+
+                    response.on(
+                        "data",
+                        chunk => {
+                            data += chunk;
+                        }
+                    );
+
+                    response.on(
+                        "end",
+                        () => {
+                            resolve(data);
+                        }
+                    );
+                })
+                .on("error", reject);
         }
-
-        let data = "";
-
-        response.setEncoding("utf8");
-
-        response.on("data", (chunk) => {
-          data += chunk;
-        });
-
-        response.on("end", () => {
-          resolve(data);
-        });
-      })
-      .on("error", reject);
-  });
-}
-
-function downloadBinary(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, (response) => {
-        if (response.statusCode !== 200) {
-          reject(
-            new Error(
-              `Request failed (${response.statusCode})\n${url}`
-            )
-          );
-          return;
-        }
-
-        const chunks = [];
-
-        response.on("data", (chunk) => {
-          chunks.push(chunk);
-        });
-
-        response.on("end", () => {
-          resolve(Buffer.concat(chunks));
-        });
-      })
-      .on("error", reject);
-  });
+    );
 }
 
 function getChatUrl(taskNumber) {
-  return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/task%20${taskNumber}/chat.md`;
+    return (
+        `https://raw.githubusercontent.com/` +
+        `${GITHUB_OWNER}/` +
+        `${GITHUB_REPOSITORY}/` +
+        `${GITHUB_BRANCH}/` +
+        `task%20${taskNumber}/chat.md`
+    );
 }
 
 function getNotebookUrl(taskNumber) {
-  return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY}/${GITHUB_BRANCH}/task%20${taskNumber}/notebook.ipynb`;
+    return (
+        `https://raw.githubusercontent.com/` +
+        `${GITHUB_OWNER}/` +
+        `${GITHUB_REPOSITORY}/` +
+        `${GITHUB_BRANCH}/` +
+        `task%20${taskNumber}/notebook.ipynb`
+    );
 }
 
-async function fetchChatMarkdown(taskNumber) {
-  console.log(style("Downloading chat history...", ANSI.gray));
+function downloadBinary(url) {
+    return new Promise(
+        (resolve, reject) => {
+            https
+                .get(url, response => {
+                    if (
+                        response.statusCode !== 200
+                    ) {
+                        reject(
+                            new Error(
+                                `Request failed (${response.statusCode})\n${url}`
+                            )
+                        );
 
-  return await downloadText(getChatUrl(taskNumber));
+                        return;
+                    }
+
+                    const chunks = [];
+
+                    response.on(
+                        "data",
+                        chunk => {
+                            chunks.push(chunk);
+                        }
+                    );
+
+                    response.on(
+                        "end",
+                        () => {
+                            resolve(
+                                Buffer.concat(
+                                    chunks
+                                )
+                            );
+                        }
+                    );
+                })
+                .on(
+                    "error",
+                    reject
+                );
+        }
+    );
 }
 
-async function downloadNotebook(taskNumber, taskDirectory) {
-  const notebookPath = path.join(
-    taskDirectory,
-    "notebook.ipynb"
-  );
+async function downloadNotebook(
+    taskNumber,
+    taskDirectory
+) {
+    const notebookPath =
+        path.join(
+            taskDirectory,
+            "notebook.ipynb"
+        );
 
-  if (fs.existsSync(notebookPath)) {
-    console.log(style("Notebook already exists.", ANSI.gray));
-    return;
-  }
-  console.log(style("Downloading notebook...", ANSI.gray));
+    if (
+        fs.existsSync(
+            notebookPath
+        )
+    ) {
+        return;
+    }
 
-  fs.mkdirSync(taskDirectory, {
-    recursive: true
-  });
+    await fsp.mkdir(
+        taskDirectory,
+        {
+            recursive: true
+        }
+    );
 
-  const notebook = await downloadBinary(
-    getNotebookUrl(taskNumber)
-  );
+    const notebook =
+        await downloadBinary(
+            getNotebookUrl(
+                taskNumber
+            )
+        );
 
-  fs.writeFileSync(
-    path.join(taskDirectory, "notebook.ipynb"),
-    notebook
-  );
+    await fsp.writeFile(
+        notebookPath,
+        notebook
+    );
+}
+
+function openNotebook(
+    taskDirectory
+) {
+    const notebookPath =
+        path.resolve(
+            taskDirectory,
+            "notebook.ipynb"
+        );
+
+    return new Promise(resolve => {
+        let command;
+        let args;
+
+        if (
+            process.platform === "win32"
+        ) {
+            command =
+                path.join(
+                    process.env.LOCALAPPDATA,
+                    "Programs",
+                    "Microsoft VS Code",
+                    "Code.exe"
+                );
+
+            args = [
+                "--reuse-window",
+                notebookPath
+            ];
+        } else {
+            /*
+             * Codespaces / Linux
+             */
+            command = "code";
+
+            args = [
+                "--reuse-window",
+                notebookPath
+            ];
+        }
+
+        const child =
+            spawn(
+                command,
+                args,
+                {
+                    detached: true,
+                    stdio: "ignore",
+
+                    /*
+                     * Important:
+                     * don't use shell here.
+                     */
+                    shell: false
+                }
+            );
+
+        child.once(
+            "error",
+            () => {
+                resolve(false);
+            }
+        );
+
+        child.once(
+            "spawn",
+            () => {
+                child.unref();
+                resolve(true);
+            }
+        );
+    });
+}
+
+async function fetchChatMarkdown(
+    taskNumber
+) {
+    return downloadText(
+        getChatUrl(taskNumber)
+    );
+}
+
+/*
+ * ============================================================================
+ * Parse prepared chat
+ * ============================================================================
+ */
+
+function parseChatMarkdown(markdown) {
+    const rolePattern =
+        /<!--\s*role\s*:\s*(user|assistant)\s*-->\s*([\s\S]*?)(?=<!--\s*role\s*:\s*(?:user|assistant)\s*-->|$)/gi;
+
+    const messages = [];
+
+    let match;
+
+    while (
+        (match =
+            rolePattern.exec(markdown)) !==
+        null
+    ) {
+        const role =
+            match[1].toLowerCase();
+
+        const content =
+            match[2].trim();
+
+        if (!content) {
+            continue;
+        }
+
+        messages.push({
+            role,
+            content
+        });
+    }
+
+    return messages;
+}
+
+/*
+ * ============================================================================
+ * Shared renderer
+ * ============================================================================
+ */
+
+function printUser(text) {
+    console.log();
+
+    const lines = text.split("\n");
+
+    for (let i = 0; i < lines.length; i++) {
+        const prefix =
+            i === 0
+                ? "❯ "
+                : "  ";
+
+        console.log(
+            style(
+                `${prefix}${lines[i]}`,
+                ANSI.bgGray,
+                ANSI.white
+            )
+        );
+    }
+}
+
+function printAssistantText(text) {
+    const lines =
+        text.trim().split("\n");
+
+    if (lines.length === 0) {
+        return;
+    }
+
+    console.log();
+
+    process.stdout.write(
+        `${style("●", ANSI.bold)} `
+    );
+
+    process.stdout.write(
+        lines[0]
+    );
+
+    for (
+        const line of lines.slice(1)
+    ) {
+        process.stdout.write(
+            `\n  ${line}`
+        );
+    }
+
+    process.stdout.write("\n");
+}
+
+function printToolCall(
+    toolName,
+    input
+) {
+    console.log();
+
+    let detail = "";
+
+    /*
+     * Bash
+     */
+    if (toolName === "Bash") {
+        detail =
+            input?.description ||
+            input?.command ||
+            "";
+    }
+
+    /*
+     * Read
+     */
+    else if (toolName === "Read") {
+        const filePath =
+            input?.file_path ||
+            input?.path ||
+            "";
+
+        detail =
+            filePath
+                ? path.basename(filePath)
+                : "";
+    }
+
+    /*
+     * Edit
+     */
+    else if (
+        toolName === "Edit" ||
+        toolName === "Write"
+    ) {
+        const filePath =
+            input?.file_path ||
+            "";
+
+        detail =
+            filePath
+                ? path.basename(filePath)
+                : "";
+    }
+
+    /*
+     * NotebookEdit
+     */
+    else if (
+        toolName === "NotebookEdit"
+    ) {
+        const filePath =
+            input?.notebook_path ||
+            input?.file_path ||
+            "";
+
+        detail =
+            filePath
+                ? path.basename(filePath)
+                : "";
+    }
+
+    /*
+     * Glob / Grep
+     */
+    else if (
+        toolName === "Glob" ||
+        toolName === "Grep"
+    ) {
+        detail =
+            input?.pattern ||
+            "";
+    }
+
+    if (detail) {
+        console.log(
+            `${style("●", ANSI.bold)} ` +
+            `${toolName}(${detail})`
+        );
+    } else {
+        console.log(
+            `${style("●", ANSI.bold)} ` +
+            toolName
+        );
+    }
+}
+
+function printToolResult(
+    content,
+    isError = false
+) {
+    if (
+        content === undefined ||
+        content === null ||
+        content === ""
+    ) {
+        return;
+    }
+
+    let text;
+
+    if (
+        typeof content === "string"
+    ) {
+        text = content;
+    } else {
+        text =
+            JSON.stringify(
+                content,
+                null,
+                2
+            );
+    }
+
+    /*
+     * Avoid dumping huge tool output.
+     */
+    const maxLength = 1000;
+
+    if (
+        text.length > maxLength
+    ) {
+        text =
+            text.slice(
+                0,
+                maxLength
+            ) +
+            "\n…";
+    }
+
+    console.log();
+
+    const prefix =
+        isError
+            ? style(
+                "  ⎿ Error:",
+                ANSI.red
+            )
+            : style(
+                "  ⎿",
+                ANSI.gray
+            );
+
+    const lines =
+        text.split("\n");
+
+    console.log(
+        `${prefix} ${lines[0]}`
+    );
+
+    for (
+        const line of lines.slice(1)
+    ) {
+        console.log(
+            `    ${line}`
+        );
+    }
+}
+
+/*
+ * ============================================================================
+ * Prepared history
+ * ============================================================================
+ */
+
+function waitForEnter(
+    prompt =
+        "Press ENTER to continue..."
+) {
+    return new Promise(resolve => {
+        const rl =
+            readline.createInterface({
+                input: process.stdin,
+                output: process.stdout
+            });
+
+        rl.question(
+            style(
+                prompt,
+                ANSI.dim
+            ),
+            () => {
+                rl.close();
+                resolve();
+            }
+        );
+    });
+}
+
+function createSpinner() {
+    const frames = [
+        "✶",
+        "✸",
+        "✹",
+        "✺",
+        "✹",
+        "✷"
+    ];
+
+    let index = 0;
+    let timer = null;
+    let active = false;
+
+    function render() {
+        process.stdout.write(
+            `\r${style(
+                frames[index],
+                ANSI.gray
+            )} ${style(
+                "Working…",
+                ANSI.gray
+            )}`
+        );
+
+        index =
+            (index + 1) %
+            frames.length;
+    }
+
+    return {
+        start() {
+            if (active) {
+                return;
+            }
+
+            active = true;
+            index = 0;
+
+            process.stdout.write("\n");
+
+            render();
+
+            timer =
+                setInterval(
+                    render,
+                    120
+                );
+        },
+
+        stop() {
+            if (!active) {
+                return;
+            }
+
+            active = false;
+
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+
+            /*
+             * Erase spinner line.
+             */
+            process.stdout.write(
+                "\r\x1b[2K"
+            );
+        }
+    };
+}
+
+function sleep(ms) {
+    return new Promise(
+        resolve =>
+            setTimeout(resolve, ms)
+    );
+}
+
+async function renderPreparedHistory(
+    markdown
+) {
+    const messages =
+        parseChatMarkdown(markdown);
+
+    if (messages.length === 0) {
+        return;
+    }
+
+    /*
+     * User message first.
+     */
+    const firstMessage =
+        messages[0];
+
+    if (
+        firstMessage.role === "user"
+    ) {
+        printUser(
+            firstMessage.content
+        );
+
+        console.log();
+
+        await waitForEnter(
+            "Press ENTER to send..."
+        );
+    }
+
+    /*
+     * Prepared assistant messages.
+     */
+    for (
+        const message of
+        messages.slice(1)
+    ) {
+        if (
+            message.role ===
+            "assistant"
+        ) {
+            printAssistantText(
+                message.content
+            );
+        } else {
+            printUser(
+                message.content
+            );
+        }
+
+        await sleep(400);
+    }
+}
+
+/*
+ * ============================================================================
+ * Claude process
+ * ============================================================================
+ */
+
+function validateBedrockEnvironment() {
+    if (
+        !process.env.AWS_BEARER_TOKEN_BEDROCK
+    ) {
+        throw new Error(
+            "AWS_BEARER_TOKEN_BEDROCK is not set."
+        );
+    }
+
+    if (
+        !process.env.AWS_REGION
+    ) {
+        throw new Error(
+            "AWS_REGION is not set."
+        );
+    }
+}
+
+function getClaudeExecutable() {
+    if (
+        process.platform === "win32"
+    ) {
+        return path.join(
+            process.env.APPDATA,
+            "npm",
+            "node_modules",
+            "@anthropic-ai",
+            "claude-code",
+            "bin",
+            "claude.exe"
+        );
+    }
+
+    return "claude";
+}
+
+function createClaudeProcess(
+    taskDirectory
+) {
+    const args = [
+        "-p",
+        "",
+
+        "--input-format",
+        "stream-json",
+
+        "--output-format",
+        "stream-json",
+
+        "--include-partial-messages",
+
+        "--verbose",
+
+        "--model",
+        MODEL,
+
+        "--mcp-config",
+        MCP_CONFIG_PATH,
+
+        "--permission-prompt-tool",
+        "mcp__experiment_permission__approval_prompt"
+    ];
+
+    const command =
+        getClaudeExecutable();
+
+    return spawn(
+        command,
+        args,
+        {
+            cwd: taskDirectory,
+
+            stdio: [
+                "pipe",
+                "pipe",
+                "pipe"
+            ],
+
+            env: {
+                ...process.env,
+
+                CLAUDE_CODE_USE_BEDROCK:
+                    "1",
+
+                CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS:
+                    "1",
+
+                /*
+                 * Prevent accidental direct
+                 * Anthropic API authentication.
+                 */
+                ANTHROPIC_API_KEY:
+                    ""
+            }
+        }
+    );
+}
+
+/*
+ * ============================================================================
+ * Send live user message
+ * ============================================================================
+ */
+
+function sendUserMessage(
+    child,
+    text
+) {
+    const message = {
+        type: "user",
+
+        message: {
+            role: "user",
+
+            content: [
+                {
+                    type: "text",
+                    text
+                }
+            ]
+        }
+    };
+
+    child.stdin.write(
+        JSON.stringify(message) +
+        "\n"
+    );
+}
+
+/*
+ * ============================================================================
+ * Live Claude renderer
+ * ============================================================================
+ */
+
+function createRendererState() {
+    return {
+        turnFinished: false,
+        streamingText: false,
+
+        renderedTools:
+            new Set(),
+
+        toolById:
+            new Map(),
+
+        lineOpen: false,
+
+        sessionId: null,
+
+        initialized: false
+    };
+}
+
+function finishOpenLine(state) {
+    if (state.lineOpen) {
+        process.stdout.write(
+            "\n"
+        );
+
+        state.lineOpen = false;
+    }
+}
+
+function handleStreamEvent(
+    event,
+    state,
+    spinner
+) {
+    const apiEvent =
+        event.event;
+
+    if (!apiEvent) {
+        return;
+    }
+
+    /*
+     * Start assistant text.
+     */
+    if (
+        apiEvent.type ===
+        "content_block_start" &&
+        apiEvent.content_block?.type ===
+        "text"
+    ) {
+        spinner.stop();
+
+        finishOpenLine(state);
+
+        process.stdout.write(
+            `\n${style("●", ANSI.bold)} `
+        );
+
+        state.streamingText =
+            true;
+
+        state.lineOpen =
+            true;
+
+        return;
+    }
+
+    /*
+     * Stream assistant text.
+     */
+    if (
+        apiEvent.type ===
+        "content_block_delta" &&
+        apiEvent.delta?.type ===
+        "text_delta"
+    ) {
+        if (
+            !state.streamingText
+        ) {
+            finishOpenLine(state);
+
+            process.stdout.write(
+                `\n${style("●", ANSI.bold)} `
+            );
+
+            state.streamingText =
+                true;
+
+            state.lineOpen =
+                true;
+        }
+
+        process.stdout.write(
+            apiEvent.delta.text
+        );
+
+        return;
+    }
+
+    /*
+     * Do NOT render tool_use here.
+     *
+     * At content_block_start, its input
+     * is usually still {}.
+     *
+     * We wait for the full assistant
+     * message instead.
+     */
+
+    /*
+     * Thinking events are deliberately
+     * ignored in Renderer v1.
+     */
+}
+
+/*
+ * ============================================================================
+ * Full assistant event
+ * ============================================================================
+ */
+
+function handleAssistantEvent(
+    event,
+    state,
+    spinner
+) {
+    const content =
+        event.message?.content;
+
+    if (!Array.isArray(content)) {
+        return;
+    }
+
+    for (const block of content) {
+        if (block.type !== "tool_use") {
+            continue;
+        }
+
+        state.toolById.set(
+            block.id,
+            {
+                name: block.name,
+                input: block.input || {}
+            }
+        );
+
+        if (
+            state.renderedTools.has(
+                block.id
+            )
+        ) {
+            continue;
+        }
+        spinner.stop();
+        finishOpenLine(state);
+
+        state.streamingText = false;
+        if (
+            block.name !==
+            "AskUserQuestion"
+        ) {
+            printToolCall(
+                block.name,
+                block.input || {}
+            );
+        }
+
+        state.renderedTools.add(
+            block.id
+        );
+    }
+}
+
+/*
+ * ============================================================================
+ * Tool result event
+ * ============================================================================
+ */
+
+function handleUserEvent(
+    event,
+    state,
+    spinner
+) {
+    const content =
+        event.message?.content;
+
+    if (!Array.isArray(content)) {
+        return;
+    }
+
+    for (const block of content) {
+        if (
+            block.type !==
+            "tool_result"
+        ) {
+            continue;
+        }
+
+        finishOpenLine(state);
+        state.streamingText = false;
+
+        const tool =
+            state.toolById.get(
+                block.tool_use_id
+            );
+
+        /*
+         * Don't dump the full notebook
+         * content for Read.
+         */
+        if (
+            tool?.name === "Read" &&
+            !block.is_error
+        ) {
+            console.log();
+            console.log(
+                style(
+                    "  ⎿ Read 1 file",
+                    ANSI.gray
+                )
+            );
+
+            spinner.start();
+
+            continue;
+        }
+
+        printToolResult(
+            block.content,
+            Boolean(
+                block.is_error
+            )
+        );
+        spinner.start();
+    }
+}
+
+function handleClaudeEvent(
+    event,
+    state,
+    spinner
+) {
+    if (
+        event.type === "system"
+    ) {
+        if (
+            event.subtype === "init"
+        ) {
+            state.initialized =
+                true;
+
+            if (
+                event.session_id
+            ) {
+                state.sessionId =
+                    event.session_id;
+            }
+        }
+
+        return;
+    }
+
+    if (
+        event.type ===
+        "stream_event"
+    ) {
+        handleStreamEvent(
+            event,
+            state,
+            spinner
+        );
+
+        return;
+    }
+
+    if (
+        event.type ===
+        "assistant"
+    ) {
+        handleAssistantEvent(
+            event,
+            state,
+            spinner
+        );
+
+        return;
+    }
+
+    if (
+        event.type === "user"
+    ) {
+        handleUserEvent(
+            event,
+            state,
+            spinner
+        );
+
+        return;
+    }
+
+    if (
+        event.type === "result"
+    ) {
+        spinner.stop();
+
+        finishOpenLine(state);
+
+        state.streamingText =
+            false;
+
+        state.turnFinished =
+            true;
+    }
+}
+
+function askClaudeQuestion(
+    request,
+    inputReader
+) {
+    return new Promise(resolve => {
+        const questions =
+            request.input?.questions;
+
+        if (
+            !Array.isArray(questions) ||
+            questions.length === 0
+        ) {
+            resolve({
+                behavior: "deny"
+            });
+
+            return;
+        }
+
+        /*
+         * First version:
+         * support one single-select question.
+         */
+        const question =
+            questions[0];
+
+        const options =
+            Array.isArray(
+                question.options
+            )
+                ? question.options
+                : [];
+
+        console.log();
+
+        if (
+            question.header
+        ) {
+            console.log(
+                `${style("●", ANSI.bold)} ` +
+                question.header
+            );
+
+            console.log();
+        }
+
+        console.log(
+            `  ${question.question}`
+        );
+
+        console.log();
+
+        options.forEach(
+            (option, index) => {
+                console.log(
+                    `  ${index + 1}. ${option.label}`
+                );
+
+                if (
+                    option.description
+                ) {
+                    console.log(
+                        style(
+                            `     ${option.description}`,
+                            ANSI.gray
+                        )
+                    );
+                }
+
+                console.log();
+            }
+        );
+
+        inputReader.question(
+            "❯ ",
+            answer => {
+                const index =
+                    Number(
+                        answer.trim()
+                    ) - 1;
+
+                if (
+                    !Number.isInteger(index) ||
+                    index < 0 ||
+                    index >= options.length
+                ) {
+                    console.log(
+                        style(
+                            "Please select a valid option.",
+                            ANSI.yellow
+                        )
+                    );
+
+                    /*
+                     * Ask the same question again.
+                     */
+                    resolve(
+                        askClaudeQuestion(
+                            request,
+                            inputReader
+                        )
+                    );
+
+                    return;
+                }
+
+                const selected =
+                    options[index].label;
+
+                resolve({
+                    behavior: "allow",
+
+                    updatedInput: {
+                        ...request.input,
+
+                        answers: {
+                            [question.question]:
+                                selected
+                        }
+                    }
+                });
+            }
+        );
+    });
+}
+
+/*
+ * ============================================================================
+ * Live chat loop
+ * ============================================================================
+ */
+
+function runLiveChat(
+    child
+) {
+    return new Promise(
+        (resolve, reject) => {
+            const state =
+                createRendererState();
+
+            const spinner =
+                createSpinner();
+            const outputReader =
+                readline.createInterface({
+                    input: child.stdout
+                });
+
+            const inputReader =
+                readline.createInterface({
+                    input: process.stdin,
+                    output: process.stdout
+                });
+            let permissionActive = false;
+            let lastPermissionId = null;
+            async function askPermission(
+                request
+            ) {
+                /*
+                 * ------------------------------------------------------------
+                 * AskUserQuestion
+                 * ------------------------------------------------------------
+                 */
+                spinner.stop();
+                if (
+                    request.toolName ===
+                    "AskUserQuestion"
+                ) {
+                    return await askClaudeQuestion(
+                        request,
+                        inputReader
+                    );
+                }
+
+                /*
+                 * ------------------------------------------------------------
+                 * Normal tool permission
+                 * ------------------------------------------------------------
+                 */
+
+                return await new Promise(resolve => {
+                    console.log();
+
+                    console.log(
+                        "  This action requires approval."
+                    );
+
+                    console.log();
+                    console.log(
+                        "  1. Yes"
+                    );
+                    console.log(
+                        "  2. No"
+                    );
+                    console.log();
+
+                    inputReader.question(
+                        "❯ ",
+                        answer => {
+                            const choice =
+                                answer
+                                    .trim()
+                                    .toLowerCase();
+
+                            resolve({
+                                behavior:
+                                    choice === "1" ||
+                                        choice === "yes" ||
+                                        choice === "y"
+                                        ? "allow"
+                                        : "deny"
+                            });
+                        }
+                    );
+                });
+            }
+            const permissionTimer =
+                setInterval(
+                    async () => {
+                        if (
+                            permissionActive
+                        ) {
+                            return;
+                        }
+
+                        const request =
+                            await getPendingPermission();
+
+                        if (!request) {
+                            return;
+                        }
+
+                        if (
+                            request.id ===
+                            lastPermissionId
+                        ) {
+                            return;
+                        }
+
+                        lastPermissionId =
+                            request.id;
+
+                        permissionActive =
+                            true;
+
+                        try {
+                            const decision =
+                                await askPermission(
+                                    request
+                                );
+
+                            await writePermissionDecision(
+                                request,
+                                decision
+                            );
+                        } finally {
+                            permissionActive =
+                                false;
+                        }
+                    },
+                    100
+                );
+
+            /*
+             * Claude stderr
+             */
+            child.stderr.on(
+                "data",
+                data => {
+                    const text =
+                        data
+                            .toString()
+                            .trim();
+
+                    if (text) {
+                        console.error(
+                            style(
+                                text,
+                                ANSI.red
+                            )
+                        );
+                    }
+                }
+            );
+
+            /*
+             * Claude JSON events
+             */
+            outputReader.on(
+                "line",
+                line => {
+                    if (!line.trim()) {
+                        return;
+                    }
+
+                    try {
+                        const event =
+                            JSON.parse(line);
+                        handleClaudeEvent(
+                            event,
+                            state,
+                            spinner
+                        );
+                    } catch {
+                        console.error(
+                            "\n[Non-JSON Claude output]"
+                        );
+
+                        console.error(
+                            line
+                        );
+                    }
+                }
+            );
+
+            /*
+             * Ask participant.
+             */
+            function ask() {
+                inputReader.question(
+                    style(
+                        "\n❯ ",
+                        ANSI.bgGray,
+                        ANSI.white
+                    ),
+                    answer => {
+                        const text =
+                            answer.trim();
+                        process.stdout.write(
+                            "\x1b[1A\x1b[2K\r"
+                        );
+
+                        console.log(
+                            style(
+                                `❯ ${text}`,
+                                ANSI.bgGray,
+                                ANSI.white
+                            )
+                        );
+
+                        const normalized =
+                            text.toLowerCase();
+
+                        if (
+                            normalized === "exit" ||
+                            normalized === "quit" ||
+                            normalized === "/exit" ||
+                            normalized === "/quit"
+                        ) {
+                            inputReader.close();
+                            child.stdin.end();
+                            return;
+                        }
+
+                        if (!text) {
+                            ask();
+                            return;
+                        }
+
+                        state.turnFinished =
+                            false;
+
+                        state.streamingText =
+                            false;
+
+                        state.lineOpen =
+                            false;
+
+                        sendUserMessage(
+                            child,
+                            text
+                        );
+                        spinner.start();
+
+                        waitForTurn();
+                    }
+                );
+            }
+
+            /*
+             * Wait until result event.
+             */
+            function waitForTurn() {
+                const timer =
+                    setInterval(
+                        () => {
+                            if (
+                                !state.turnFinished
+                            ) {
+                                return;
+                            }
+
+                            clearInterval(
+                                timer
+                            );
+
+                            ask();
+                        },
+                        50
+                    );
+            }
+
+            child.once(
+                "error",
+                error => {
+                    spinner.stop();
+                    clearInterval(
+                        permissionTimer
+                    );
+
+                    inputReader.close();
+
+                    reject(error);
+                }
+            );
+
+            child.once(
+                "close",
+                code => {
+                    spinner.stop();
+                    clearInterval(
+                        permissionTimer
+                    );
+                    inputReader.close();
+                    outputReader.close();
+
+                    if (
+                        code !== 0 &&
+                        code !== null
+                    ) {
+                        reject(
+                            new Error(
+                                `Claude exited with code ${code}.`
+                            )
+                        );
+
+                        return;
+                    }
+
+                    resolve({
+                        sessionId:
+                            state.sessionId
+                    });
+                }
+            );
+
+            /*
+             * History is already on screen.
+             *
+             * The first live prompt appears
+             * directly underneath it.
+             */
+            ask();
+        }
+    );
+}
+
+async function preparePermissionBridge() {
+    await fsp.mkdir(
+        PERMISSION_DIRECTORY,
+        {
+            recursive: true
+        }
+    );
+
+    for (
+        const filePath of [
+            PERMISSION_REQUEST_PATH,
+            PERMISSION_RESPONSE_PATH
+        ]
+    ) {
+        try {
+            await fsp.unlink(filePath);
+        } catch (error) {
+            if (
+                error.code !== "ENOENT"
+            ) {
+                throw error;
+            }
+        }
+    }
+
+    const config = {
+        mcpServers: {
+            experiment_permission: {
+                command:
+                    process.execPath,
+
+                args: [
+                    PERMISSION_SERVER_PATH
+                ],
+
+                env: {
+                    CLAUDE_EXP_PERMISSION_DIR:
+                        PERMISSION_DIRECTORY
+                }
+            }
+        }
+    };
+
+    await fsp.writeFile(
+        MCP_CONFIG_PATH,
+        JSON.stringify(
+            config,
+            null,
+            2
+        ),
+        "utf8"
+    );
+}
+
+async function getPendingPermission() {
+    if (
+        !fs.existsSync(
+            PERMISSION_REQUEST_PATH
+        )
+    ) {
+        return null;
+    }
+
+    try {
+        return JSON.parse(
+            await fsp.readFile(
+                PERMISSION_REQUEST_PATH,
+                "utf8"
+            )
+        );
+    } catch {
+        return null;
+    }
+}
+
+async function writePermissionDecision(
+    request,
+    decision
+) {
+    await fsp.writeFile(
+        PERMISSION_RESPONSE_PATH,
+
+        JSON.stringify(
+            {
+                id: request.id,
+                ...decision
+            },
+            null,
+            2
+        ),
+
+        "utf8"
+    );
 }
 
 function openUrl(url) {
-  return new Promise((resolve, reject) => {
-    let command;
-    let args;
-    if (process.platform === "win32") {
-      command = "cmd";
-      args = ["/c", "start", "", "chrome", url];
-    } else if (process.platform === "darwin") {
-      command = "open";
-      args = ["-a", "Google Chrome", url];
-    } else {
-      command = "google-chrome";
-      args = [url];
-    }
+    return new Promise(resolve => {
+        let command;
+        let args;
 
-    const child = spawn(command, args, {
-      detached: true,
-      stdio: "ignore",
-      shell: false
+        if (
+            process.platform === "win32"
+        ) {
+            command =
+                process.env.ComSpec ||
+                "cmd.exe";
+
+            args = [
+                "/d",
+                "/s",
+                "/c",
+                `start "" "${url}"`
+            ];
+        } else if (
+            process.platform === "darwin"
+        ) {
+            command = "open";
+            args = [url];
+        } else {
+            /*
+             * Codespaces / remote Linux:
+             * don't assume a GUI browser exists.
+             */
+            console.log();
+            console.log(
+                "Please open the response form:"
+            );
+            console.log(url);
+
+            resolve(false);
+            return;
+        }
+
+        const child =
+            spawn(
+                command,
+                args,
+                {
+                    detached: true,
+                    stdio: "ignore",
+                    shell: false
+                }
+            );
+
+        child.once(
+            "error",
+            () => {
+                console.log();
+                console.log(
+                    "Please open the response form:"
+                );
+                console.log(url);
+
+                resolve(false);
+            }
+        );
+
+        child.once(
+            "spawn",
+            () => {
+                child.unref();
+                resolve(true);
+            }
+        );
     });
-
-    child.on("error", reject);
-
-    child.on("spawn", () => {
-      child.unref();
-      resolve();
-    });
-  });
 }
 
 /*
@@ -582,72 +2029,86 @@ function openUrl(url) {
  */
 
 async function main() {
-  try {
-    const taskNumber = getTaskNumber();
-    const taskDirectory = getTaskDirectory(taskNumber);
-    const chatMarkdown = await fetchChatMarkdown(taskNumber);
+    try {
+        const taskNumber =
+            getTaskNumber();
 
-    await downloadNotebook(taskNumber, taskDirectory);
-    await renderHistory(chatMarkdown, taskNumber, taskDirectory);
-    await waitForEnter("Press ENTER to continue to Claude...");
-    const {
-      files: claudeFilesBefore
-    } = await getClaudeSessionFiles(
-      taskDirectory
-    );
+        const taskDirectory =
+            getTaskDirectory(
+                taskNumber
+            );
 
-    await launchClaude(
-      taskDirectory
-    );
+        /*
+         * Download prepared conversation.
+         */
+        const chatMarkdown =
+            await fetchChatMarkdown(
+                taskNumber
+            );
 
-    await saveNewClaudeLogs(
-      taskNumber,
-      taskDirectory,
-      claudeFilesBefore
-    );
+        /*
+         * One terminal.
+         * One renderer.
+         */
+        console.clear();
 
-    console.log();
-    console.log(
-      style(
-        "Claude session completed.",
-        ANSI.green,
-        ANSI.bold
-      )
-    );
+        /*
+         * Prepared history.
+         */
+        await renderPreparedHistory(
+            chatMarkdown
+        );
+        await preparePermissionBridge();
 
-    console.log();
-    console.log(
-      style(
-        "Please complete the response form:",
-        ANSI.cyan,
-        ANSI.bold
-      )
-    );
+        await downloadNotebook(
+            taskNumber,
+            taskDirectory
+        );
+        await openNotebook(
+            taskDirectory
+        );
+        /*
+         * Start Claude backend.
+         */
+        validateBedrockEnvironment();
+        const child =
+            createClaudeProcess(
+                taskDirectory
+            );
+        const session =
+            await runLiveChat(
+                child
+            );
 
-    console.log();
-    console.log(GOOGLE_FORM_URL);
-    console.log();
+        await saveSessionLog(
+            session.sessionId,
+            taskNumber
+        );
 
-    console.log(
-      style(
-        "Please complete and submit the current form section before starting the next task.",
-        ANSI.yellow,
-        ANSI.bold
-      )
-    );
+        await openUrl(
+            GOOGLE_FORM_URL
+        );
 
-    await waitForEnter(
-      "After submitting the form, press ENTER to finish..."
-    );
-  } catch (error) {
-    console.error();
-    console.error(
-      style("Unable to launch experiment task.", ANSI.red, ANSI.bold)
-    );
-    console.error(error.message);
-    console.error();
-    process.exit(1);
-  }
+        console.log();
+
+        console.log(
+            style(
+                "Please complete and submit the current form section before starting the next task.",
+                ANSI.yellow,
+                ANSI.bold
+            )
+        );
+    } catch (error) {
+        console.error();
+        console.error(
+            style(
+                error.message,
+                ANSI.red
+            )
+        );
+
+        process.exit(1);
+    }
 }
 
 main();

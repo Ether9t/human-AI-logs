@@ -14,5 +14,5 @@
     "AWS_REGION": "YOUR_REGION"
   },
 
-  "postCreateCommand": "pip install -r requirements.txt && npm install -g @anthropic-ai/claude-code && cd launcher && npm install && npm link"
+  "postCreateCommand": "bash .devcontainer/setup.sh"
 }
