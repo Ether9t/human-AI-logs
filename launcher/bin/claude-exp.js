@@ -1838,8 +1838,14 @@ function runLiveChat(
                 "error",
                 error => {
                     spinner.stop();
+
                     clearInterval(
                         permissionTimer
+                    );
+
+                    process.removeListener(
+                        "SIGINT",
+                        handleSigint
                     );
 
                     inputReader.close();
