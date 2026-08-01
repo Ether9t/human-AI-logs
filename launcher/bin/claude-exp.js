@@ -343,6 +343,7 @@ function getChatUrl(taskNumber) {
         `${GITHUB_OWNER}/` +
         `${GITHUB_REPOSITORY}/` +
         `${GITHUB_BRANCH}/` +
+        `shopping/` +
         `task%20${taskNumber}/chat.md`
     );
 }
@@ -353,6 +354,7 @@ function getNotebookUrl(taskNumber) {
         `${GITHUB_OWNER}/` +
         `${GITHUB_REPOSITORY}/` +
         `${GITHUB_BRANCH}/` +
+        `shopping/` +
         `task%20${taskNumber}/notebook.ipynb`
     );
 }

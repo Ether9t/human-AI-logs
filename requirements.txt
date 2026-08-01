@@ -5,3 +5,4 @@ scipy
 ipython
 jupyter
 ipykernel
+kagglehub>=0.3.13
