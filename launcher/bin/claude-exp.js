@@ -354,6 +354,7 @@ function getNotebookUrl(taskNumber) {
         `${GITHUB_OWNER}/` +
         `${GITHUB_REPOSITORY}/` +
         `${GITHUB_BRANCH}/` +
+        `steam/` + 
         `task%20${taskNumber}/notebook.ipynb`
     );
 }
