@@ -6,35 +6,16 @@ Please write the complete analysis in `notebook.ipynb`.
 
 <!-- role:assistant -->
 
-I'll inspect the Instacart data structure and identify the files needed to connect users, purchased products, departments, and ordering intervals.
+I'll inspect the Instacart data and identify the order, product, department, and user information needed for the comparison.
 
 <!-- role:assistant -->
 
-The analysis requires three files:
-
-* `orders.csv`, which provides each user's ordering history and `days_since_prior_order`;
-* `order_products__prior.csv`, which records the products purchased in each prior order;
-* `products.csv` and `departments.csv`, which identify Produce and Alcohol purchases.
-
-I'll use these files to identify Produce and Alcohol shoppers and compare their purchasing cycles.
+Before calculating the result, I'll clarify how "typical purchasing cycle" should be measured. For this notebook, I'll use a customer-level definition by first summarizing each shopper's ordering intervals.
 
 <!-- role:assistant -->
 
-Before calculating the purchasing cycles, I should clarify what "typical purchasing cycle" means in this business context because multiple operational definitions are reasonable.
-
-For this notebook, I'll define purchasing cycle at the **customer level** by first summarizing each shopper's ordering intervals and then comparing the typical shopper between the two departments.
+I'll calculate the typical customer-level cycle for Produce and Alcohol shoppers and compare which group has the shorter cycle.
 
 <!-- role:assistant -->
 
-I'll calculate the customer-level purchasing cycle for Produce and Alcohol shoppers, compare the two groups, and identify which group has the shorter typical purchasing cycle under the selected operational definition.
-
-<!-- role:assistant -->
-
-The notebook now contains:
-
-* loading and validation of the required Instacart files;
-* identification of Produce and Alcohol shoppers;
-* the selected customer-level definition of purchasing cycle;
-* calculation of the typical purchasing cycle for each shopper group;
-* comparison of the two departments;
-* and the final purchasing-cycle summary under the chosen operational definition.
+The notebook now contains the customer-level purchasing-cycle calculation, group comparison, visualization, and final result.
