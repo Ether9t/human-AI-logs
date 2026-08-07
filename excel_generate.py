@@ -1,8 +1,8 @@
 import json
 import re
 from pathlib import Path
-
 import pandas as pd
+from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
 
 
 ROOT = Path(__file__).resolve().parent
@@ -18,6 +18,13 @@ COLUMNS = [
     "DurationMs",
     "Files",
 ]
+
+
+def clean_excel_value(value):
+    if isinstance(value, str):
+        return ILLEGAL_CHARACTERS_RE.sub("", value)
+
+    return value
 
 
 def text(value):
@@ -189,18 +196,29 @@ def parse_record(record):
 
 def folder_dataframe(folder):
     rows = []
+
     for path in sorted(folder.glob("*.jsonl")):
         for record in read_jsonl(path):
             rows.extend(parse_record(record))
 
-    dataframe = pd.DataFrame(rows, columns=COLUMNS)
+    dataframe = pd.DataFrame(
+        rows,
+        columns=COLUMNS,
+    )
 
     if not dataframe.empty:
         dataframe = (
             dataframe
             .drop_duplicates()
-            .sort_values("Time", na_position="last")
+            .sort_values(
+                "Time",
+                na_position="last",
+            )
             .reset_index(drop=True)
+        )
+
+        dataframe = dataframe.map(
+            clean_excel_value
         )
 
     return dataframe
