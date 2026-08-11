@@ -8,16 +8,24 @@ Render the card in `notebook.ipynb` using `IPython.display.HTML()`.
 
 <!-- role:assistant -->
 
-I'll inspect the Steam dataset and confirm the publisher, genre, price, and rating fields needed for the Valve profile.
+I'll inspect the Steam dataset and confirm the publisher, genre, price, and player-rating fields needed for the Valve profile.
 
 <!-- role:assistant -->
 
-I'll identify Valve games, calculate the requested publisher statistics, determine the dominant genre, and find the Valve game with the highest positive-rating percentage.
+The required fields are available. I'll identify Valve games from the publisher labels and calculate the requested pricing and portfolio statistics.
 
 <!-- role:assistant -->
 
-I'll generate the Publisher Profile directly from the computed statistics so the pricing, portfolio, and player-reception statements reflect the dataset results.
+I'll separate multi-genre assignments to determine Valve's dominant genre and calculate each rated game's positive-rating percentage to identify the featured title.
 
 <!-- role:assistant -->
 
-The notebook now contains the Valve statistics and a presentation-ready HTML information card with the computed Publisher Profile and featured game.
+Next, I'll use the computed price statistics, genre distribution, and player-reception result to generate the Publisher Profile rather than relying on a fixed description.
+
+<!-- role:assistant -->
+
+I'll render the statistics, featured game, and generated profile as a presentation-ready HTML card in the notebook.
+
+<!-- role:assistant -->
+
+The notebook now contains the Valve data preparation, computed publisher statistics, featured-game selection, result-based Publisher Profile, and final HTML information card.
