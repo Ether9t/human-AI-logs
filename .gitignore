@@ -31,3 +31,5 @@ skills-lock.json
 logs/
 .claude-exp-permission/
 backup/
+
+/data/
