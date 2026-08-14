@@ -23,8 +23,18 @@ const GOOGLE_FORM_URL =
 const MODEL =
     "us.anthropic.claude-sonnet-5";
 
+const ALLOWED_CONDITIONS =
+    new Set([
+        "A1", "A2",
+        "B1", "B2",
+        "C1", "C2",
+        "D1", "D2"
+    ]);
+
 const ALLOWED_TASKS =
-    new Set(["1", "2", "3", "4"]);
+    new Set([
+        "1", "2", "3", "4"
+    ]);
 
 const PROJECT_ROOT =
     path.resolve(
@@ -74,6 +84,64 @@ const MCP_CONFIG_PATH =
         PERMISSION_DIRECTORY,
         "mcp.json"
     );
+
+const CONDITION_MAP = {
+    A1: [
+        { assetFolder: "steam1", taskType: 1 },
+        { assetFolder: "steam2", taskType: 2 },
+        { assetFolder: "shopping1", taskType: 3 },
+        { assetFolder: "shopping2", taskType: 4 }
+    ],
+
+    A2: [
+        { assetFolder: "steam2", taskType: 1 },
+        { assetFolder: "steam1", taskType: 2 },
+        { assetFolder: "shopping2", taskType: 3 },
+        { assetFolder: "shopping1", taskType: 4 }
+    ],
+
+    B1: [
+        { assetFolder: "shopping1", taskType: 1 },
+        { assetFolder: "shopping2", taskType: 2 },
+        { assetFolder: "steam1", taskType: 3 },
+        { assetFolder: "steam2", taskType: 4 }
+    ],
+
+    B2: [
+        { assetFolder: "shopping2", taskType: 1 },
+        { assetFolder: "shopping1", taskType: 2 },
+        { assetFolder: "steam2", taskType: 3 },
+        { assetFolder: "steam1", taskType: 4 }
+    ],
+
+    C1: [
+        { assetFolder: "steam1", taskType: 3 },
+        { assetFolder: "steam2", taskType: 4 },
+        { assetFolder: "shopping1", taskType: 1 },
+        { assetFolder: "shopping2", taskType: 2 }
+    ],
+
+    C2: [
+        { assetFolder: "steam2", taskType: 3 },
+        { assetFolder: "steam1", taskType: 4 },
+        { assetFolder: "shopping2", taskType: 1 },
+        { assetFolder: "shopping1", taskType: 2 }
+    ],
+
+    D1: [
+        { assetFolder: "shopping1", taskType: 3 },
+        { assetFolder: "shopping2", taskType: 4 },
+        { assetFolder: "steam1", taskType: 1 },
+        { assetFolder: "steam2", taskType: 2 }
+    ],
+
+    D2: [
+        { assetFolder: "shopping2", taskType: 3 },
+        { assetFolder: "shopping1", taskType: 4 },
+        { assetFolder: "steam2", taskType: 1 },
+        { assetFolder: "steam1", taskType: 2 }
+    ]
+};
 
 function getClaudeConfigDirectory() {
     /*
@@ -157,11 +225,18 @@ async function findFileRecursive(
 
 async function saveSessionLog(
     sessionId,
-    taskNumber
+    condition,
+    position
 ) {
     if (!sessionId) {
         throw new Error(
             "Claude session ID was not captured."
+        );
+    }
+
+    if (!condition) {
+        throw new Error(
+            "Experiment condition was not provided."
         );
     }
 
@@ -213,10 +288,19 @@ async function saveSessionLog(
         );
     }
 
+    /*
+     * Example:
+     *
+     * logs/
+     * └── A1/
+     *     └── task 1/
+     *         └── <session-id>.jsonl
+     */
     const taskLogDirectory =
         path.join(
             LOGS_ROOT,
-            `task ${taskNumber}`
+            condition,
+            `task ${position}`
         );
 
     await fsp.mkdir(
@@ -269,25 +353,65 @@ function style(text, ...codes) {
  * ============================================================================
  */
 
-function getTaskNumber() {
-    const taskNumber =
-        process.argv[2] || "1";
+function getCondition() {
+    const condition =
+        (process.argv[2] || "")
+            .toUpperCase();
 
-    if (!ALLOWED_TASKS.has(taskNumber)) {
+    if (
+        !ALLOWED_CONDITIONS.has(
+            condition
+        )
+    ) {
         console.error(
-            `Task ${taskNumber} is not available.`
+            `Condition ${condition || "(missing)"} is not available.`
+        );
+
+        console.error(
+            "Usage: claude-exp <condition> <position>"
+        );
+
+        console.error(
+            "Example: claude-exp A1 1"
         );
 
         process.exit(1);
     }
 
-    return taskNumber;
+    return condition;
 }
 
-function getTaskDirectory(taskNumber) {
+function getPosition() {
+    const position =
+        process.argv[3] || "";
+
+    if (
+        !ALLOWED_TASKS.has(
+            position
+        )
+    ) {
+        console.error(
+            `Task position ${position || "(missing)"} is not available.`
+        );
+
+        console.error(
+            "Usage: claude-exp <condition> <position>"
+        );
+
+        console.error(
+            "Example: claude-exp A1 1"
+        );
+
+        process.exit(1);
+    }
+
+    return position;
+}
+
+function getTaskDirectory(position) {
     return path.join(
         TASKS_ROOT,
-        `task ${taskNumber}`
+        `task ${position}`
     );
 }
 
@@ -337,25 +461,41 @@ function downloadText(url) {
     );
 }
 
-function getChatUrl(taskNumber) {
+function getInstructionUrl() {
     return (
         `https://raw.githubusercontent.com/` +
         `${GITHUB_OWNER}/` +
         `${GITHUB_REPOSITORY}/` +
         `${GITHUB_BRANCH}/` +
-        `steam/` + 
-        `task%20${taskNumber}/chat.md`
+        `instruction.md`
     );
 }
 
-function getNotebookUrl(taskNumber) {
+function getChatUrl(
+    assetFolder,
+    taskType
+) {
     return (
         `https://raw.githubusercontent.com/` +
         `${GITHUB_OWNER}/` +
         `${GITHUB_REPOSITORY}/` +
         `${GITHUB_BRANCH}/` +
-        `steam/` + 
-        `task%20${taskNumber}/notebook.ipynb`
+        `${assetFolder}/` +
+        `task%20${taskType}/chat.md`
+    );
+}
+
+function getNotebookUrl(
+    assetFolder,
+    taskType
+) {
+    return (
+        `https://raw.githubusercontent.com/` +
+        `${GITHUB_OWNER}/` +
+        `${GITHUB_REPOSITORY}/` +
+        `${GITHUB_BRANCH}/` +
+        `${assetFolder}/` +
+        `task%20${taskType}/notebook.ipynb`
     );
 }
 
@@ -405,7 +545,8 @@ function downloadBinary(url) {
 }
 
 async function downloadNotebook(
-    taskNumber,
+    assetFolder,
+    taskType,
     taskDirectory
 ) {
     const notebookPath =
@@ -413,14 +554,6 @@ async function downloadNotebook(
             taskDirectory,
             "notebook.ipynb"
         );
-
-    if (
-        fs.existsSync(
-            notebookPath
-        )
-    ) {
-        return;
-    }
 
     await fsp.mkdir(
         taskDirectory,
@@ -432,7 +565,8 @@ async function downloadNotebook(
     const notebook =
         await downloadBinary(
             getNotebookUrl(
-                taskNumber
+                assetFolder,
+                taskType
             )
         );
 
@@ -471,11 +605,7 @@ function openNotebook(
                 notebookPath
             ];
         } else {
-            /*
-             * Codespaces / Linux
-             */
             command = "code";
-
             args = [
                 "--reuse-window",
                 notebookPath
@@ -489,11 +619,6 @@ function openNotebook(
                 {
                     detached: true,
                     stdio: "ignore",
-
-                    /*
-                     * Important:
-                     * don't use shell here.
-                     */
                     shell: false
                 }
             );
@@ -515,11 +640,36 @@ function openNotebook(
     });
 }
 
+async function writeTaskClaudeInstructions(
+    taskDirectory
+) {
+    const claudeMdPath =
+        path.join(
+            taskDirectory,
+            "CLAUDE.md"
+        );
+
+    const content =
+        await downloadText(
+            getInstructionUrl()
+        );
+
+    await fsp.writeFile(
+        claudeMdPath,
+        content.trim() + "\n",
+        "utf8"
+    );
+}
+
 async function fetchChatMarkdown(
-    taskNumber
+    assetFolder,
+    taskType
 ) {
     return downloadText(
-        getChatUrl(taskNumber)
+        getChatUrl(
+            assetFolder,
+            taskType
+        )
     );
 }
 
@@ -1030,17 +1180,10 @@ function createClaudeProcess(
 
             env: {
                 ...process.env,
-
                 CLAUDE_CODE_USE_BEDROCK:
                     "1",
-
                 CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS:
                     "1",
-
-                /*
-                 * Prevent accidental direct
-                 * Anthropic API authentication.
-                 */
                 ANTHROPIC_API_KEY:
                     ""
             }
@@ -1089,17 +1232,12 @@ function createRendererState() {
     return {
         turnFinished: false,
         streamingText: false,
-
         renderedTools:
             new Set(),
-
         toolById:
             new Map(),
-
         lineOpen: false,
-
         sessionId: null,
-
         initialized: false
     };
 }
@@ -1183,21 +1321,6 @@ function handleStreamEvent(
 
         return;
     }
-
-    /*
-     * Do NOT render tool_use here.
-     *
-     * At content_block_start, its input
-     * is usually still {}.
-     *
-     * We wait for the full assistant
-     * message instead.
-     */
-
-    /*
-     * Thinking events are deliberately
-     * ignored in Renderer v1.
-     */
 }
 
 /*
@@ -1292,10 +1415,6 @@ function handleUserEvent(
                 block.tool_use_id
             );
 
-        /*
-         * Don't dump the full notebook
-         * content for Read.
-         */
         if (
             tool?.name === "Read" &&
             !block.is_error
@@ -1534,7 +1653,8 @@ function askClaudeQuestion(
  */
 
 function runLiveChat(
-    child
+    child,
+    liveLogger
 ) {
     return new Promise(
         (resolve, reject) => {
@@ -1728,6 +1848,11 @@ function runLiveChat(
                     try {
                         const event =
                             JSON.parse(line);
+                        liveLogger.append({
+                            source: "claude",
+                            event
+                        });
+
                         handleClaudeEvent(
                             event,
                             state,
@@ -1802,10 +1927,17 @@ function runLiveChat(
                         state.lineOpen =
                             false;
 
+                        liveLogger.append({
+                            source: "participant",
+                            type: "user_message",
+                            text
+                        });
+
                         sendUserMessage(
                             child,
                             text
                         );
+
                         spinner.start();
 
                         waitForTurn();
@@ -1841,6 +1973,13 @@ function runLiveChat(
                 error => {
                     spinner.stop();
 
+                    liveLogger.append({
+                        source: "launcher",
+                        type: "process_error",
+                        message: error.message,
+                        timestamp: new Date().toISOString()
+                    });
+
                     clearInterval(
                         permissionTimer
                     );
@@ -1860,6 +1999,14 @@ function runLiveChat(
                 "close",
                 (code, signal) => {
                     spinner.stop();
+                    liveLogger.append({
+                        source: "launcher",
+                        type: "process_close",
+                        code,
+                        signal,
+                        userRequestedExit,
+                        timestamp: new Date().toISOString()
+                    });
 
                     clearInterval(
                         permissionTimer
@@ -1872,12 +2019,6 @@ function runLiveChat(
 
                     inputReader.close();
                     outputReader.close();
-
-                    /*
-                     * If the participant intentionally
-                     * ended the session using exit or
-                     * Ctrl+C, treat it as a normal end.
-                     */
                     if (
                         !userRequestedExit &&
                         code !== 0 &&
@@ -1898,13 +2039,6 @@ function runLiveChat(
                     });
                 }
             );
-
-            /*
-             * History is already on screen.
-             *
-             * The first live prompt appears
-             * directly underneath it.
-             */
             ask();
         }
     );
@@ -2077,6 +2211,59 @@ function openUrl(url) {
     });
 }
 
+function createLiveSessionLogger(
+    condition,
+    position
+) {
+    const directory =
+        path.join(
+            LOGS_ROOT,
+            condition,
+            `task ${position}`
+        );
+
+    fs.mkdirSync(
+        directory,
+        {
+            recursive: true
+        }
+    );
+
+    const timestamp =
+        new Date()
+            .toISOString()
+            .replace(
+                /[:.]/g,
+                "-"
+            );
+
+    const filePath =
+        path.join(
+            directory,
+            `live-${timestamp}.jsonl`
+        );
+
+    function append(entry) {
+        try {
+            fs.appendFileSync(
+                filePath,
+                JSON.stringify(entry) +
+                "\n",
+                "utf8"
+            );
+        } catch (error) {
+            console.error(
+                `Failed to save live log: ${error.message}`
+            );
+        }
+    }
+
+    return {
+        filePath,
+        append
+    };
+}
+
 /*
  * ============================================================================
  * Main
@@ -2085,59 +2272,95 @@ function openUrl(url) {
 
 async function main() {
     try {
-        const taskNumber =
-            getTaskNumber();
+        const condition =
+            getCondition();
+
+        const position =
+            getPosition();
+
+        /*
+         * position here means
+         * participant position 1–4.
+         */
+        const assignment =
+            CONDITION_MAP[
+            condition
+            ][
+            Number(position) - 1
+            ];
+
+        if (!assignment) {
+            throw new Error(
+                `No assignment found for ${condition}, position ${position}.`
+            );
+        }
+
+        const assetFolder =
+            assignment.assetFolder;
+
+        const taskType =
+            assignment.taskType;
 
         const taskDirectory =
             getTaskDirectory(
-                taskNumber
+                position
             );
 
         /*
-         * Download prepared conversation.
+         * Download the correct prepared
+         * conversation for this condition.
          */
         const chatMarkdown =
             await fetchChatMarkdown(
-                taskNumber
+                assetFolder,
+                taskType
             );
 
-        /*
-         * One terminal.
-         * One renderer.
-         */
         console.clear();
 
-        /*
-         * Prepared history.
-         */
         await renderPreparedHistory(
             chatMarkdown
         );
+
         await preparePermissionBridge();
 
         await downloadNotebook(
-            taskNumber,
+            assetFolder,
+            taskType,
             taskDirectory
         );
+
+        await writeTaskClaudeInstructions(
+            taskDirectory
+        );
+
         await openNotebook(
             taskDirectory
         );
-        /*
-         * Start Claude backend.
-         */
+
         validateBedrockEnvironment();
+
+        const liveLogger =
+            createLiveSessionLogger(
+                condition,
+                position
+            );
+
         const child =
             createClaudeProcess(
                 taskDirectory
             );
+
         const session =
             await runLiveChat(
-                child
+                child,
+                liveLogger
             );
 
         await saveSessionLog(
             session.sessionId,
-            taskNumber
+            condition,
+            position
         );
 
         await openUrl(
@@ -2155,6 +2378,7 @@ async function main() {
         );
     } catch (error) {
         console.error();
+
         console.error(
             style(
                 error.message,
