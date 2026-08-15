@@ -1,29 +1,31 @@
 <!-- role:user -->
 
-Our supply chain director believes that Produce should receive the next catalog expansion budget because it has the broadest product assortment.
+Slack message from Alex (Marketing):
 
-Using the Instacart product catalog, prepare an HTML decision memo in `notebook.ipynb` reporting the key catalog statistics, Produce's rank, the top five departments, and a recommendation.
+"Hey! We need a produce category strategy card for next week's meeting.
 
-<!-- role:assistant -->
+Please compare Organic vs. Conventional produce overall. Include parallel cards for category staples (Title in bold, Product ID in grey below).
 
-I'll inspect the Instacart product, department, and aisle data needed for the catalog comparison.
+Also, marketing is planning a berry promotion campaign — compare Organic vs. Ordinary Strawberries with a short interpretation note.
 
-<!-- role:assistant -->
-
-The required catalog fields are available. I'll calculate the number of departments and aisles, the average number of products per aisle, and each department's product count.
+Render the final HTML card in notebook.ipynb."
 
 <!-- role:assistant -->
 
-I'll rank the departments by product count, identify Produce's position, and compare it with the five departments that have the largest assortments.
+I'll inspect the Instacart dataset files and confirm the tables needed for the produce analysis.
 
 <!-- role:assistant -->
 
-I'll use the computed catalog statistics and department ranking to evaluate whether the director's rationale is supported by the data.
+I'll calculate aggregate Organic vs. Conventional metrics and conventional staple baseline numbers.
 
 <!-- role:assistant -->
 
-I'll render the catalog summary, Produce's rank, top-five comparison, and recommendation as a presentation-ready HTML decision memo.
+I'll compare Organic vs. Ordinary Strawberries (orders & reorder rates) for the berry campaign.
 
 <!-- role:assistant -->
 
-The notebook now contains the catalog statistics, department ranking, Produce comparison, recommendation, and final HTML decision memo.
+I'll identify the organic staple anchor item for the strategy card.
+
+<!-- role:assistant -->
+
+I'll render the parallel staple cards, strawberry comparison, and strategic recommendation as an HTML strategy card in notebook.ipynb.
