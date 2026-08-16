@@ -1,18 +1,20 @@
 {
-  "name": "Human-AI Experiment",
+    "name": "Human-AI Experiment",
 
-  "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
+    "image": "mcr.microsoft.com/devcontainers/python:3.12-bookworm",
 
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "22"
-    }
-  },
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "22"
+        }
+    },
 
-  "containerEnv": {
-    "CLAUDE_CODE_USE_BEDROCK": "1",
-    "AWS_REGION": "us-east-1"
-  },
+    "containerEnv": {
+        "CLAUDE_CODE_USE_BEDROCK": "1",
+        "AWS_REGION": "us-east-1"
+    },
 
-  "postCreateCommand": "bash .devcontainer/setup.sh"
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+
+    "postAttachCommand": "bash .devcontainer/install-extension.sh"
 }
