@@ -2,26 +2,36 @@
 
 set -euo pipefail
 
-echo "Setting up experiment environment..."
+echo "=== [1/6] Starting setup ==="
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DATA_DIR="${REPO_ROOT}/data/shop"
 
+echo "=== [2/6] Installing system dependencies ==="
+
 sudo apt-get update
 sudo apt-get install -y jq
 
+echo "=== [3/6] Installing Claude Code ==="
+
 npm install -g @anthropic-ai/claude-code
+
+echo "=== [4/6] Installing launcher ==="
 
 cd "${REPO_ROOT}/launcher"
 npm install
 npm link
 
+echo "=== [5/6] Installing Python dependencies ==="
+
 cd "${REPO_ROOT}"
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
-echo "Checking Kaggle dataset..."
+echo "=== [6/6] Checking Kaggle dataset ==="
 
-if [ ! -d "${DATA_DIR}" ] || [ -z "$(find "${DATA_DIR}" -mindepth 1 -maxdepth 1 -print -quit)" ]; then
+if [ ! -d "${DATA_DIR}" ] || \
+   [ -z "$(find "${DATA_DIR}" -mindepth 1 -maxdepth 1 -print -quit)" ]; then
+
     mkdir -p "${DATA_DIR}"
 
     python <<PYTHON
@@ -36,17 +46,19 @@ path = kagglehub.dataset_download(
 
 print(f"Dataset downloaded to: {path}")
 PYTHON
+
 else
     echo "Dataset already exists at ${DATA_DIR}; skipping download."
 fi
 
-echo "Installing experiment logger extension..."
+echo "=== Installing experiment logger extension ==="
 
 code --install-extension \
     "${REPO_ROOT}/extensions/experiment-logger.vsix" \
     --force
 
-echo "Checking installed extensions..."
+echo "=== Checking installed extensions ==="
+
 code --list-extensions
 
-echo "Experiment environment ready."
+echo "=== Experiment environment ready ==="
