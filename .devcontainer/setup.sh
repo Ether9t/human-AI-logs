@@ -40,4 +40,13 @@ else
     echo "Dataset already exists at ${DATA_DIR}; skipping download."
 fi
 
+echo "Installing experiment logger extension..."
+
+code --install-extension \
+    "${REPO_ROOT}/extensions/experiment-logger.vsix" \
+    --force
+
+echo "Checking installed extensions..."
+code --list-extensions
+
 echo "Experiment environment ready."
