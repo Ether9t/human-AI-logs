@@ -17,8 +17,6 @@ const fs = require("node:fs");
 const GITHUB_OWNER = "Ether9t";
 const GITHUB_REPOSITORY = "human-AI-logs";
 const GITHUB_BRANCH = "experiment-assets";
-const GOOGLE_FORM_URL =
-    "https://docs.google.com/forms/d/e/1FAIpQLSdaCvdUWmtRe63B_qdVQ4mgnF6up7fLhG5evbR4IrcIVPF4oA/viewform";
 
 const MODEL =
     "us.anthropic.claude-sonnet-5";
@@ -2363,19 +2361,11 @@ async function main() {
             position
         );
 
-        await openUrl(
-            GOOGLE_FORM_URL
-        );
+        // await openUrl(
+        //     GOOGLE_FORM_URL
+        // );
 
         console.log();
-
-        console.log(
-            style(
-                "Please complete and submit the current form section before starting the next task.",
-                ANSI.yellow,
-                ANSI.bold
-            )
-        );
     } catch (error) {
         console.error();
 
