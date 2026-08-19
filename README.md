@@ -11,4 +11,12 @@ You can decide whether you want to judge, or just accept the response from AI. Y
 
 ## Launcher
 
-Run `claude-exp {group id} {task num}` to start the task. `{task num}` is from 1 ~ 4.
+Run `claude-exp {group id} {task num}` to start the task. `{task num}` is from 1 ~ 4. 
+
+## Task Format
+
+Each task consists of the following components:
+
+* **`input`**: A prompt based on the corresponding question in the form. The input may either preserve the original wording or be lightly rephrased for clarity while retaining the same meaning.
+* **`response`**: The corresponding output for the given input.
+* **`notebook`**: A Jupyter notebook containing the code used to analyze the task responses and generate the relevant results.
