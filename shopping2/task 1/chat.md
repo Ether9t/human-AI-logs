@@ -1,14 +1,14 @@
 <!-- role:user -->
 
-The merchandising analytics team wants to understand how frequently different product departments are purchased together with Produce.
+The merchandising analytics team wants to understand how frequently different departments are purchased together with Produce.
 
-Use the prior purchase history and compare departments using co-purchase counts.
+Use the prior purchase history and compare departments using co-order counts.
 
 Please write the complete analysis in `notebook.ipynb`.
 
 <!-- role:assistant -->
 
-I'll inspect the Instacart purchase, product, and department files and identify the fields needed for the co-purchase analysis.
+I'll inspect the Instacart purchase, product, and department files and identify the fields needed for the co-order analysis.
 
 <!-- role:assistant -->
 
@@ -20,11 +20,11 @@ Next, I'll identify all orders containing at least one Produce product. These or
 
 <!-- role:assistant -->
 
-Within the Produce orders, I'll retain purchases from other departments and calculate their co-purchase counts.
+Within the Produce orders, I'll retain purchases from other departments and calculate their co-order counts.
 
 <!-- role:assistant -->
 
-I'll rank departments by co-purchase count and report the departments most frequently purchased alongside Produce.
+I'll rank departments by co-order count and report the departments most frequently purchased alongside Produce.
 
 <!-- role:assistant -->
 
@@ -32,4 +32,4 @@ I'll visualize the leading departments and include the number of Produce orders 
 
 <!-- role:assistant -->
 
-The notebook now contains the department mapping, Produce-order identification, co-purchase counts, department ranking, visualization, and final comparison.
+The notebook now contains the department mapping, Produce-order identification, co-order counts, department ranking, visualization, and final comparison.
