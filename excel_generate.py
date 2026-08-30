@@ -154,6 +154,16 @@ def tool_result_text(content):
     return text(content)
 
 
+def is_skill_meta_prompt(record):
+    return (
+        record.get("isMeta") is True
+        and record.get("turnCompanion") is True
+        and bool(
+            record.get("sourceToolUseID")
+        )
+    )
+
+
 def parse_session_record(record):
     rows = []
 
@@ -181,7 +191,30 @@ def parse_session_record(record):
             content
         )
 
-        if normal_text and role == "user":
+        is_synthetic = (
+            record.get("isSynthetic")
+            is True
+        )
+
+        is_skill_meta = (
+            is_skill_meta_prompt(
+                record
+            )
+        )
+
+        if normal_text and (
+            is_synthetic
+            or is_skill_meta
+        ):
+            rows.append([
+                timestamp,
+                "Assistant",
+                "Skill",
+                "",
+                normal_text,
+            ])
+
+        elif normal_text and role == "user":
             rows.append([
                 timestamp,
                 "User",
